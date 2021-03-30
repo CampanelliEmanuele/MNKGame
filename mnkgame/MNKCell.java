@@ -28,20 +28,10 @@ package mnkgame;
  * @see MNKBoard MNKBoard
  */
 public class MNKCell {
-	/**
-   * Cell row index
-   */
-	public final int  i;
-	/**
-   * Cell column index
-   */
-	public final int  j;
-	/**
-   * Cell state
-   */
-	public final MNKCellState state;
+	public final int  i;				// Riga della cella
+	public final int  j;				// Colonna della cella
+	public final MNKCellState state;	// Stato della cella (player1, player2 or bot)
 	
-
 	/**
    * Allocates a cell 
 	 * 
@@ -49,7 +39,7 @@ public class MNKCell {
    * @param j cell column index
    * @param state cell state 
    */
-	public MNKCell(int i, int j, MNKCellState state) {
+	public MNKCell(int i, int j, MNKCellState state) {	// Inserisce la cella nella tabella con tanto di stato (player or bot)
 		this.i     = i;
 		this.j     = j;
 		this.state = state;
@@ -70,9 +60,9 @@ public class MNKCell {
 
 	@Override
 	public boolean equals(Object o) {
-		if(o == null)            return false;
+		if(o == null)            return false;		// Controllo per mancata assunzione di input non corretti
 		if(o == this)            return true; 	
-		if(!(o instanceof MNKCell)) return false;
+		if(!(o instanceof MNKCell)) return false;	// Controllo per mancata assunzione di input non corretti
 
 		MNKCell c = (MNKCell) o;
 
@@ -80,12 +70,12 @@ public class MNKCell {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode() {					// Ritorna l'has della cella, che rappresenta la posizone della cella nella tabella Hash !!!
 		return this.toString().hashCode();
 	}
 
 	@Override
-	public String toString() {
+	public String toString() {				// Ritorna i dati della cella
 		return "[" + this.i + "," + this.j + "] -> " + this.state;
 	}
 }

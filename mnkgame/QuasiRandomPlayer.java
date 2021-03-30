@@ -49,8 +49,7 @@ public class QuasiRandomPlayer implements MNKPlayer {
 		myWin    = first ? MNKGameState.WINP1 : MNKGameState.WINP2; 
 		yourWin  = first ? MNKGameState.WINP2 : MNKGameState.WINP1;
 		System.out.println(first);
-		if (first == true)
-		{
+		if (first == true) {
 			System.out.println("Muove il pc");
 		}
 		else {
