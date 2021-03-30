@@ -2,40 +2,30 @@ package mnkgame;
 
 public class TreeNode {
 
-    private TreeNode fogliaSx;
-    private TreeNode fogliaDx;
-    private MNKBoard B;
-    
-    public TreeNode (TreeNode in_fogliaSx, TreeNode in_fogliaDx, MNKBoard in_B) {
-      this.fogliaSx = in_fogliaSx;
-      this.fogliaDx = in_fogliaDx;
-      this.B = in_B;
-    }
-    public TreeNode() {
-    }
-  
-    public TreeNode getFogliaDx () {
-      return this.fogliaDx;
-    }
-  
-    public TreeNode getFogliaSx () {
-      return this.fogliaSx;
-    }
-  
-    public void setFogliaSx (TreeNode in_fogliaSx) {
-      this.fogliaSx = in_fogliaSx; 
-    }
-  
-    public void setFogliaDx (TreeNode in_fogliaDx) {
-      this.fogliaDx = in_fogliaDx;
-    }
-  
-    public MNKBoard getMNKBoard () {
-      return this.B;
-    }
-  
-    public void setMNKBoard (MNKBoard in_MNKBoard) {
-      this.B = in_MNKBoard;
-    }
-    
+  private MNKBoard B;           // L'informazione rappresentata dal nodo
+  private TreeNode padre;       // Collegamento con il padre
+  private boolean leaf;
+
+  public TreeNode (MNKBoard in_B, Treenode in_padre, boolean in_leaf){
+    this.B = in_B;
+    this.padre = in_padre;
+    this.leaf = in_leaf;
   }
+  
+  public TreeNode (){   // Crea l'elemento ed inizializza gli elementi a null
+    this.padre = null;
+  }
+
+  public MNKBoard getMNKBoard () { return this.B; }
+  
+  public void setMNKBoard (MNKBoard in_MNKBoard) { this.B = in_MNKBoard; }
+
+  public TreeNode getPadre () { return this.padre; }
+  
+  public void setPadre (TreeNode in_padre) { this.padre = in_padre; }
+
+  public boolean getLeaf () { return this.leaf; }
+
+  public void setLeaf (boolean in_leaf) { this.leaf = in_leaf; }
+
+}
