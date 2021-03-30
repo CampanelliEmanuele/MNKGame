@@ -1,4 +1,4 @@
-package mnkgame
+package mnkgame;
 
 public class TreeNode {
 
