@@ -1,3 +1,5 @@
+package mnkgame
+
 public class TreeNode {
 
     private TreeNode fogliaSx;
