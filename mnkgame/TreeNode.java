@@ -6,7 +6,7 @@ public class TreeNode {
   private TreeNode padre;       // Collegamento con il padre
   private boolean leaf;
 
-  public TreeNode (MNKBoard in_B, Treenode in_padre, boolean in_leaf){
+  public TreeNode (MNKBoard in_B, TreeNode in_padre, boolean in_leaf){
     this.B = in_B;
     this.padre = in_padre;
     this.leaf = in_leaf;
