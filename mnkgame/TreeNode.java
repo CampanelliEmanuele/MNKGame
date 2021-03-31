@@ -4,7 +4,6 @@ public class TreeNode {
 
   private MNKBoard B;           // L'informazione rappresentata dal nodo
   private TreeNode padre;       // Collegamento con il padre
-  private boolean leaf;
 
   public TreeNode (MNKBoard in_B, TreeNode in_padre, boolean in_leaf){
     this.B = in_B;
@@ -29,14 +28,6 @@ public class TreeNode {
   
   public void setPadre (TreeNode in_padre) {
     this.padre = in_padre;
-  }
-
-  public boolean getLeaf () {
-    return this.leaf;
-  }
-
-  public void setLeaf (boolean in_leaf) {
-    this.leaf = in_leaf;
   }
 
 }
