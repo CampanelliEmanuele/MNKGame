@@ -10,7 +10,8 @@ public class TreeNode {
     this.padre = in_padre;
   }
   
-  public TreeNode (){   // Crea l'elemento ed inizializza gli elementi a null
+  public TreeNode (MNKBoard in_B){   // Crea l'elemento ed inizializza gli elementi a null
+    this.B = in_B;
     this.padre = null;
   }
 
