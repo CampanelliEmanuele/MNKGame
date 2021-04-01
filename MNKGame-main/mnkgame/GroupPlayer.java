@@ -9,12 +9,12 @@ public class GroupPlayer implements MNKPlayer{
 	private MNKGameState myWin;
 
 	private MNKGameState yourWin;
-
+	private int TIMEOUT;
 	private Random rand;
 
 	public GroupPlayer(){}
 
-	public void initPlayer(int M, int N, int K, boolean first){
+	public void initPlayer(int M, int N, int K, boolean first, int timeout_in_sec){
 	
 		rand = new Random(System.currentTimeMillis());
 		B = new MNKBoard(M,N,K);
@@ -24,6 +24,7 @@ public class GroupPlayer implements MNKPlayer{
 		
 		//Vittoria dell'avversario
 		yourWin = first ? MNKGameState.WINP2 : MNKGameState.WINP1;	
+		TIMEOUT = timeout_in_sec;
 	}
 
 	/*
