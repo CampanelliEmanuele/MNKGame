@@ -12,6 +12,28 @@ public class Main {
         }
     }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Pezzo di codice da mettere nel "main", prima di richiamare la funzione sottostante vaiAlleFoglie
+    if (nodoInQuestione.getPrimoFiglio() != null)
+        vaiAlleFoglie (nodoInQuestione.getPrimoFiglio());
+    else
+        assegnaValoreABFoglia (nodoInQuestione);
+
+    public static void vaiAlleFoglie (TreeNode in_padre) {    // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
+        while (in_padre != null){
+        if (in_padre.getPrimoFiglio() == null)  // Se è una foglia
+            assegnaValoreABFoglia (in_padre);
+        else {                                  // Altrimenti, se non è una foglia
+            vaiAlleFoglie (in_padre.getPrimoFiglio());  // Si applica la funzione nei sotto-alberi
+            //assegnaValoreABFoglia(in_padre);    // APPUNTO PER IL FUTURO SVILUPPO DELL'ALGORITMO ALPHA BETA, CANCELLARE QUESTA RIGA UNA VOLTA IMPLEMENTATO L'ALGORIMTO
+        }
+        in_padre = in_padre.getNext();
+        }
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public static void main(String[] args) {
 
         MNKBoard bp = new MNKBoard(3, 3, 3);

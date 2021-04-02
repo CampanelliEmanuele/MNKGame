@@ -1,0 +1,6 @@
+- Sviluppare l'algoritmo per l'assegnamento dei valori Alpha e Beta
+- Sviluppare l'algoritmo AlphaBeta pruning
+- Studiare come vengono costruiti gli array FC e MC
+
+
+
