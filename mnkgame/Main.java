@@ -4,6 +4,8 @@ public class Main {
 
     // Per memorizzare i sottoalberi verrà utilizzata una struttura dati dinamica omogena lineare
 
+    // 1
+    // Funzione che si occupa della creazione dell'albero
     public static void creaSottoAlbero (TreeNode in_alberoPadre, MNKBoard in_boardPadre, MNKCell[] FC) {
         for (int k = 0; k < FC.length; k++) {               // Crea un nuovo sotto-albero per ogni cella libera (rappresentazione di ogni possible mossa)
         MNKBoard tmpBoard = in_boardPadre;                // Creazione della nuova board
@@ -14,6 +16,8 @@ public class Main {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // 2
+    // Funzione che va alle foglie dell'albero (e ne assegna il valore tramite un'altra funzione) + il relativo codice di invocazione
     // Pezzo di codice da mettere nel "main", prima di richiamare la funzione sottostante vaiAlleFoglie
     if (nodoInQuestione.getPrimoFiglio() != null)
         vaiAlleFoglie (nodoInQuestione.getPrimoFiglio());
@@ -23,7 +27,7 @@ public class Main {
     public static void vaiAlleFoglie (TreeNode in_padre) {    // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
         while (in_padre != null){
         if (in_padre.getPrimoFiglio() == null)  // Se è una foglia
-            assegnaValoreABFoglia (in_padre);
+             (in_padre);
         else {                                  // Altrimenti, se non è una foglia
             vaiAlleFoglie (in_padre.getPrimoFiglio());  // Si applica la funzione nei sotto-alberi
             //assegnaValoreABFoglia(in_padre);    // APPUNTO PER IL FUTURO SVILUPPO DELL'ALGORITMO ALPHA BETA, CANCELLARE QUESTA RIGA UNA VOLTA IMPLEMENTATO L'ALGORIMTO
@@ -32,6 +36,73 @@ public class Main {
         }
     }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // 3
+    // Funzione che decreta il valore alpha e beta del nodo;MC: LinkedList; FC: HashSet
+    public static void assegnaValoreABFoglia (TreeNode in_foglia) {
+
+      MNKCell[] FC = in_foglia.getBoard().getFreeCells();
+      MNKCell[] MC = in_foglia.getBoard().getMarkedCells();
+      MNKCellState[][] tabellaGioco = in_foglia.getBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
+
+      int righe = MNKBoard.M;     // RIGHE
+      int colonne = MNKBoard.N;   // COLONNE
+      int k = MNKBoard.K;         // SERIE
+
+      if (k > righe && k <= colonne) {            // Vittoria possibile solo in orizzontale
+        for (int i = 0; i < righe; i++) {
+          for (int j = 0; j < colonne; j++) {
+            cella(i, j);
+          }
+        }
+
+
+        
+      } else if (k > colonne && k <= righe) {     // Vittoria possibile solo in verticale
+
+        //controllo solo lungo la stessa colonna
+        for (int i = 0; i < righe; i++) {
+          for (int j = 0; j < colonne; j++) {
+            cella(i, j);
+          }
+        }
+
+
+
+      
+      } else if (k <= righe && k <= colonne) {    // Vittoria possibile in diagonale, verticale ed orizzontale
+        MNKCell lastMarkedCell = MC[MC.length - 1];   // Con il -1 si accede all'ultimo elemento
+        
+        // Controllo orizzontale
+        for (int i = 0; i < righe; i++) {
+          for (int j = 0; j < colonne; j++) {
+            MNKCell set = createSet (in_figlio, k, i, j);
+            
+          }
+        }
+
+        // Controllo verticale
+        
+        // Controllo diagonale
+      } else {
+        System.out.println ("Errore con il valore k. Funzione: assegnaValoreABFoglia");
+      }
+      
+    }
+
+    public static MNKCell[] createSet (MNKBoard in_board, int in_k, int in_riga, int in_colonna) {
+      MNKCell[] set = new MNKCell[k];
+      int x = 0;
+      for (int tmp = in_colonna; tmp < in_k + in_colonna; tmp++) {
+        MNKCell[0] = in_board[in_riga][tmp];
+        x++;
+      }
+      return set;
+    }
+
+
+    
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void main(String[] args) {
