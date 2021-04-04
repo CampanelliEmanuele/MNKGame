@@ -42,9 +42,9 @@ public class Main {
     // Funzione che decreta il valore alpha e beta del nodo;MC: LinkedList; FC: HashSet
     public static void assegnaValoreABFoglia (TreeNode in_foglia) {
 
-      MNKCell[] FC = in_foglia.getBoard().getFreeCells();
-      MNKCell[] MC = in_foglia.getBoard().getMarkedCells();
-      MNKCellState[][] tabellaGioco = in_foglia.getBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
+      MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
+      MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();
+      MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 
       int righe = MNKBoard.M;     // RIGHE
       int colonne = MNKBoard.N;   // COLONNE
