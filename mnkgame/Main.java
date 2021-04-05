@@ -43,65 +43,142 @@ public class Main {
     public static void assegnaValoreABFoglia (TreeNode in_foglia) {
 
       MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
-      MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();
+      MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();      // Nelle posizioni 0,2,4,... vi sono le mosse del P!, nelle posizioni 1,3,5,... vi sono le mosse del P2
       MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 
       int righe = in_foglia.getMNKBoard().M;     // RIGHE
       int colonne = in_foglia.getMNKBoard().N;   // COLONNE
       int k = in_foglia.getMNKBoard().K;         // SERIE
 
+      MNKCellState simbolPlayer = P2;
+      if (this.first) simbolPlayer = P1;
+      
+      int alpha = 0;
+      int beta = 0;
+
+      if (simbolPlayer == P1) {
+        for (int pos = 0; pos < MC.length; pos += 2) {
+          int rigaEl = MC[pos].i;
+          int colonneEl = MC[pos].j;
+          for (int c = 0; c < colonne; c++) {     // Controllo della riga (da sx verso dx)
+            if (tabellaGioco[rigaEl][c].state == simbolPlayer) beta += 2;
+            if (tabellaGioco[rigaEl][c].state == FREE) beta += 1;
+            if (tabellaGioco[rigaEl][c].state != simbolPlayer && tabellaGioco[rigaEl][c].state != FREE) { beta = 0; break; }
+          }
+        }
+        for (int i = 1; i < MC.length; i += 2) {
+          // Si prende la cella marcata che ci interessa e si crea il set tramite essa
+          
+        } 
+
+      } else { //simbolPlayer == P2
+        for (int i = 1; i < MC.length; i += 2) {
+          // Si prende la cella marcata che ci interessa e si crea il set tramite essa
+        
+        }
+        for (int i = 0; i < MC.length; i += 2) {
+        // Si prende la cella marcata che ci interessa e si crea il set tramite essa
+          for (int wet = 0; wet < k; wet++) {
+
+
+          }
+        }
+      }
+
+      
+      
+
+      /*
       if (k > righe && k <= colonne) {            // Vittoria possibile solo in orizzontale
         for (int i = 0; i < righe; i++) {
-          for (int j = 0; j < colonne; j++) {
+          for (int j = 0; j <= colonne - k; j++) {
             //cella(i, j);
+            createSet(0, ...);
           }
         }
 
-
-        
       } else if (k > colonne && k <= righe) {     // Vittoria possibile solo in verticale
-        for (int i = 0; i < righe; i++) {
-          for (int j = 0; j < colonne; j++) {
-            cella(i, j);
+        for (int i = 0; i < colonne; i++) {
+          for (int j = 0; j <= righe - k; j++) {
+            //cella(i, j);
+            createSet (1, ...);
           }
         }
       
       } else if (k <= righe && k <= colonne) {        // Vittoria possibile in diagonale, verticale ed orizzontale
         MNKCell lastMarkedCell = MC[MC.length - 1];   // Con il -1 si accede all'ultimo elemento
         
-        // Controllo orizzontale
-        for (int i = 0; i < righe; i++) {
-          for (int j = 0; j < colonne; j++) {
-            MNKCell set = createSet (in_figlio, k, i, j);
-            
+        for (int i = 0; i <= righe - k ; i++) {
+          for (int j = 0; j <= colonne - k; j++) {
+            createSet (-1, ...);
           }
         }
 
-        // Controllo verticale
-        
-        // Controllo diagonale
       } else {
         System.out.println ("Errore con il valore k. Funzione: assegnaValoreABFoglia");
       }
+      */
       
     }
 
-    public static MNKCell[] createSet (MNKBoard in_board, int in_k, int in_riga, int in_colonna) {
-      
+    public static MNKCell[] createSet (int in_setDirection, MNKBoard in_board, MNKCellState in_simbol2, int in_k, int in_riga, int in_colonna) {    // s2 è il simbolo avversario
+      // in_setDirection = 1  --> set VERTICALE
+      // in_setDirection = 0  --> set ORIZZONTALE
+      // in_setDirection = -1 --> set DIAGONALE
+
       int righe = in_board.M;     // RIGHE
       int colonne = in_board.N;   // COLONNE
       int k = in_board.K;         // SERIE
+      int x = 0;                  // Indice dell'array ritornato
+
+      boolean noEnemySimbol = false;
 
       MNKCell[] set = new MNKCell[in_k];
-      int x = 0;
-      for (int tmp = in_colonna; tmp < in_k + in_colonna; tmp++) {
-        set[x] = in_board.B[in_riga][tmp];  // tmp rappresenta la colonna
-        set[x] = MNKCell (in_board.M, in_board.N, in_board.state);
-        set[x] = MNKCell (in_riga, in_colonna + x, in_board.cellState(in_riga, in_colonna + x).state);
-        set[x] = MNKCell (in_riga, in_colonna + x, in_board.state);
-        x++;
-      }
-      return set;
+
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+      // Usare le istruzioni throw per il controllo del valore in_setDirection
+
+      switch (in_setDirection) {
+        case 1: //VERTICALE
+          for (int tmp = in_riga; tmp < in_k + in_riga; tmp++) {
+            MNKCellState tmpMNKCellState = in_board.cellState(in_riga + x, in_colonna);
+            if (tmpMNKCellState == in_simbol2.P2) {
+              noEnemySimbol = true;
+              break;
+            }
+            set[x] = MNKCell (in_riga + x, in_colonna, tmpCellState);
+            x++;
+          }
+        break;
+
+        case 0: //ORIZZONTALE
+          for (int tmp = in_colonna; tmp < in_k + in_colonna; tmp++) {
+            MNKCellState tmpMNKCellState = in_board.cellState(in_riga, in_colonna + x);
+            if (tmpMNKCellState == in_simbol2.P2) {
+              noEnemySimbol = true;
+              break;
+            }
+            set[x] = MNKCell (in_riga, in_colonna + x, tmpCellState);
+            x++;
+          }
+        break;
+
+        case -1: //DIAGONALE
+          for (int tmp = in_colonna; tmp < in_k + in_colonna; tmp++) {
+            
+          } 
+        break;
+
+      } 
+
+      if (noEnemySimbol) return null;
+      else return set;
     }
 
 
