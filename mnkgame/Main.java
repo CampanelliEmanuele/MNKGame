@@ -27,7 +27,7 @@ public class Main {
     public static void vaiAlleFoglie (TreeNode in_padre) {    // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
         while (in_padre != null){
         if (in_padre.getPrimoFiglio() == null)  // Se è una foglia
-             (in_padre);
+          assegnaValoreABFoglia (in_padre);
         else {                                  // Altrimenti, se non è una foglia
             vaiAlleFoglie (in_padre.getPrimoFiglio());  // Si applica la funzione nei sotto-alberi
             //assegnaValoreABFoglia(in_padre);    // APPUNTO PER IL FUTURO SVILUPPO DELL'ALGORITMO ALPHA BETA, CANCELLARE QUESTA RIGA UNA VOLTA IMPLEMENTATO L'ALGORIMTO
@@ -46,32 +46,27 @@ public class Main {
       MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();
       MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 
-      int righe = MNKBoard.M;     // RIGHE
-      int colonne = MNKBoard.N;   // COLONNE
-      int k = MNKBoard.K;         // SERIE
+      int righe = in_foglia.getMNKBoard().M;     // RIGHE
+      int colonne = in_foglia.getMNKBoard().N;   // COLONNE
+      int k = in_foglia.getMNKBoard().K;         // SERIE
 
       if (k > righe && k <= colonne) {            // Vittoria possibile solo in orizzontale
         for (int i = 0; i < righe; i++) {
           for (int j = 0; j < colonne; j++) {
-            cella(i, j);
+            //cella(i, j);
           }
         }
 
 
         
       } else if (k > colonne && k <= righe) {     // Vittoria possibile solo in verticale
-
-        //controllo solo lungo la stessa colonna
         for (int i = 0; i < righe; i++) {
           for (int j = 0; j < colonne; j++) {
             cella(i, j);
           }
         }
-
-
-
       
-      } else if (k <= righe && k <= colonne) {    // Vittoria possibile in diagonale, verticale ed orizzontale
+      } else if (k <= righe && k <= colonne) {        // Vittoria possibile in diagonale, verticale ed orizzontale
         MNKCell lastMarkedCell = MC[MC.length - 1];   // Con il -1 si accede all'ultimo elemento
         
         // Controllo orizzontale
@@ -92,10 +87,18 @@ public class Main {
     }
 
     public static MNKCell[] createSet (MNKBoard in_board, int in_k, int in_riga, int in_colonna) {
-      MNKCell[] set = new MNKCell[k];
+      
+      int righe = in_board.M;     // RIGHE
+      int colonne = in_board.N;   // COLONNE
+      int k = in_board.K;         // SERIE
+
+      MNKCell[] set = new MNKCell[in_k];
       int x = 0;
       for (int tmp = in_colonna; tmp < in_k + in_colonna; tmp++) {
-        MNKCell[0] = in_board[in_riga][tmp];
+        set[x] = in_board.B[in_riga][tmp];  // tmp rappresenta la colonna
+        set[x] = MNKCell (in_board.M, in_board.N, in_board.state);
+        set[x] = MNKCell (in_riga, in_colonna + x, in_board.cellState(in_riga, in_colonna + x).state);
+        set[x] = MNKCell (in_riga, in_colonna + x, in_board.state);
         x++;
       }
       return set;
