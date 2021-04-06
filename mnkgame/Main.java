@@ -56,37 +56,48 @@ public class Main {
       int alpha = 0;
       int beta = 0;
 
-      if (playerState == P1) {
-        for (int pos = 0; pos < MC.length; pos += 2) {
-          int rigaEl = MC[pos].i;
-          int colonneEl = MC[pos].j;
-          for (int c = 0; c < colonne; c++) {     // Controllo della riga (da sx verso dx)
-            if (tabellaGioco[rigaEl][c].state == playerState) beta += 2;
-            if (tabellaGioco[rigaEl][c].state == FREE) beta += 1;
-            if (tabellaGioco[rigaEl][c].state != playerState && tabellaGioco[rigaEl][c].state != FREE) { beta = 0; break; }
+      boolean noEnemy = true;
+      
+      for (int pos = 0; pos < MC.length; pos += 2) {
+        int rigaEl = MC[pos].i;
+        int colonneEl = MC[pos].j;
+
+        // Controllo riga in orizzontale
+        for (int c = 0; c < colonne; c++) {     // Controllo della riga (da sx verso dx) 
+          if (tabellaGioco[rigaEl][c].state == playerState) beta += 2;
+          if (tabellaGioco[rigaEl][c].state == FREE) beta += 1;
+          if (tabellaGioco[rigaEl][c].state != playerState && tabellaGioco[rigaEl][c].state != FREE) {
+            beta--;
+            noEnemy = false;
           }
+          if (noEnemy) beta++;
         }
-        for (int i = 1; i < MC.length; i += 2) {
-          // Si prende la cella marcata che ci interessa e si crea il set tramite essa
-
-        }
-
-      } else { //playerState == P2
-        for (int i = 1; i < MC.length; i += 2) {
-          // Si prende la cella marcata che ci interessa e si crea il set tramite essa
-
-        }
-        for (int i = 0; i < MC.length; i += 2) {
-        // Si prende la cella marcata che ci interessa e si crea il set tramite essa
-          for (int wet = 0; wet < k; wet++) {
-
-
+        noEnemy = true;
+        
+        //Controllo riga verticale
+        for (int r = 0; r < righe; r++) {     // Controllo della colonna (dall'alto verso il basso) 
+          if (tabellaGioco[r][colonneEl].state == playerState) beta += 2;
+          if (tabellaGioco[r][colonneEl].state == FREE) beta += 1;
+          if (tabellaGioco[r][colonneEl].state != playerState && tabellaGioco[r][colonneEl].state != FREE) {
+            beta--;
+            noEnemy = false;
           }
+          if (noEnemy) beta++;
+        }
+        noEnemy = true;
+
+        // Controllo diagonale
+        
+      }
+      for (int pos = 1; i < MC.length; pos += 2) {
+        int rigaEl = MC[pos].i;
+        int colonneEl = MC[pos].j;
+        for (int c = 0; c < colonne; c++) {     // Controllo della riga (da sx verso dx)
+          if (tabellaGioco[rigaEl][c].state != playerState && tabellaGioco[rigaEl][c].state != FREE) alpha = + 1;
+          if (tabellaGioco[rigaEl][c].state == FREE) alpha += 1;
+          if (tabellaGioco[rigaEl][c].state == playerState) alpha--;
         }
       }
-
-
-
 
       /*
       if (k > righe && k <= colonne) {            // Vittoria possibile solo in orizzontale
