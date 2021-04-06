@@ -8,8 +8,8 @@ public class Main {
     // Funzione che si occupa della creazione dell'albero
     public static void creaSottoAlbero (TreeNode in_alberoPadre, MNKBoard in_boardPadre, MNKCell[] FC) {
         for (int k = 0; k < FC.length; k++) {               // Crea un nuovo sotto-albero per ogni cella libera (rappresentazione di ogni possible mossa)
-        MNKBoard tmpBoard = in_boardPadre;                // Creazione della nuova board
-        tmpBoard.markCell (FC[k].i, FC[k].j);             // Marcamento della board appena creata
+        MNKBoard tmpBoard = in_boardPadre;                  // Creazione della nuova board
+        tmpBoard.markCell (FC[k].i, FC[k].j);               // Marcamento della board appena creata
         TreeNode nuovoSottoAlbero = new TreeNode (tmpBoard, in_alberoPadre);    // Creazione del sottoalbero con la nuova board
         }
     }
@@ -25,7 +25,7 @@ public class Main {
         assegnaValoreABFoglia (nodoInQuestione);
 
     public static void vaiAlleFoglie (TreeNode in_padre) {    // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
-        while (in_padre != null){
+      while (in_padre != null){
         if (in_padre.getPrimoFiglio() == null)  // Se è una foglia
           assegnaValoreABFoglia (in_padre);
         else {                                  // Altrimenti, se non è una foglia
@@ -33,7 +33,7 @@ public class Main {
             //assegnaValoreABFoglia(in_padre);    // APPUNTO PER IL FUTURO SVILUPPO DELL'ALGORITMO ALPHA BETA, CANCELLARE QUESTA RIGA UNA VOLTA IMPLEMENTATO L'ALGORIMTO
         }
         in_padre = in_padre.getNext();
-        }
+      }
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,31 +50,31 @@ public class Main {
       int colonne = in_foglia.getMNKBoard().N;   // COLONNE
       int k = in_foglia.getMNKBoard().K;         // SERIE
 
-      MNKCellState simbolPlayer = P2;
-      if (this.first) simbolPlayer = P1;
-      
+      MNKCellState playerState = P2;
+      if (this.first) playerState = P1;
+
       int alpha = 0;
       int beta = 0;
 
-      if (simbolPlayer == P1) {
+      if (playerState == P1) {
         for (int pos = 0; pos < MC.length; pos += 2) {
           int rigaEl = MC[pos].i;
           int colonneEl = MC[pos].j;
           for (int c = 0; c < colonne; c++) {     // Controllo della riga (da sx verso dx)
-            if (tabellaGioco[rigaEl][c].state == simbolPlayer) beta += 2;
+            if (tabellaGioco[rigaEl][c].state == playerState) beta += 2;
             if (tabellaGioco[rigaEl][c].state == FREE) beta += 1;
-            if (tabellaGioco[rigaEl][c].state != simbolPlayer && tabellaGioco[rigaEl][c].state != FREE) { beta = 0; break; }
+            if (tabellaGioco[rigaEl][c].state != playerState && tabellaGioco[rigaEl][c].state != FREE) { beta = 0; break; }
           }
         }
         for (int i = 1; i < MC.length; i += 2) {
           // Si prende la cella marcata che ci interessa e si crea il set tramite essa
-          
-        } 
 
-      } else { //simbolPlayer == P2
+        }
+
+      } else { //playerState == P2
         for (int i = 1; i < MC.length; i += 2) {
           // Si prende la cella marcata che ci interessa e si crea il set tramite essa
-        
+
         }
         for (int i = 0; i < MC.length; i += 2) {
         // Si prende la cella marcata che ci interessa e si crea il set tramite essa
@@ -85,8 +85,8 @@ public class Main {
         }
       }
 
-      
-      
+
+
 
       /*
       if (k > righe && k <= colonne) {            // Vittoria possibile solo in orizzontale
@@ -104,10 +104,10 @@ public class Main {
             createSet (1, ...);
           }
         }
-      
+
       } else if (k <= righe && k <= colonne) {        // Vittoria possibile in diagonale, verticale ed orizzontale
         MNKCell lastMarkedCell = MC[MC.length - 1];   // Con il -1 si accede all'ultimo elemento
-        
+
         for (int i = 0; i <= righe - k ; i++) {
           for (int j = 0; j <= colonne - k; j++) {
             createSet (-1, ...);
@@ -118,7 +118,7 @@ public class Main {
         System.out.println ("Errore con il valore k. Funzione: assegnaValoreABFoglia");
       }
       */
-      
+
     }
 
     public static MNKCell[] createSet (int in_setDirection, MNKBoard in_board, MNKCellState in_simbol2, int in_k, int in_riga, int in_colonna) {    // s2 è il simbolo avversario
@@ -171,18 +171,18 @@ public class Main {
 
         case -1: //DIAGONALE
           for (int tmp = in_colonna; tmp < in_k + in_colonna; tmp++) {
-            
-          } 
+
+          }
         break;
 
-      } 
+      }
 
       if (noEnemySimbol) return null;
       else return set;
     }
 
 
-    
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void main(String[] args) {
