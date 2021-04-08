@@ -41,159 +41,217 @@ public class Main {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // 3
+
+    // Da spostare a liveli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)
+    public static int preWinLimit = -1 /* parteIntera (il n% di K) VALORE DA DECRETARE*/;   // Limite per decretare quando uno strike si può reputare una situazione prossima alla vittoria
+
+    // 3.1
+
+    public static void editVar (boolean in_noEnemy, int in_beta, int in_localWinSituations, int in_maxStrike, int in_k) {
+        if (in_noEnemy) in_beta++;
+        // Se non vi sono registrate situazioni prossime alla vittoria ma solo strike sufficiente lunghi si incrementa in_beta
+        if (in_localWinSituations == 0 && in_maxStrike >= (int)(in_k / 4)) in_beta += in_maxStrike / 4;
+        in_noEnemy = true;
+        in_maxStrike = 0;
+        strike = 0;
+        in_localWinSituations = 0;
+    }
+
     // Funzione che decreta il valore alpha e beta del nodo;MC: LinkedList; FC: HashSet
     public static void assegnaValoreABFoglia (TreeNode in_foglia) {
 
-      MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
-      MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();      // Nelle posizioni 0,2,4,... vi sono le mosse del P!, nelle posizioni 1,3,5,... vi sono le mosse del P2
-      MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
+        MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
+        MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();      // Nelle posizioni 0,2,4,... vi sono le mosse del P!, nelle posizioni 1,3,5,... vi sono le mosse del P2
+        MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 
-      int M_righe = in_foglia.getMNKBoard().M;   int i_righe   = M_righe - 1;      // RIGHE
-      int N_colonne = in_foglia.getMNKBoard().N; int j_colonne = N_colonne - 1;    // COLONNE
-      int k = in_foglia.getMNKBoard().K;                                           // SERIE
+        int M_righe = in_foglia.getMNKBoard().M;   int i_righe   = M_righe - 1;      // RIGHE
+        int N_colonne = in_foglia.getMNKBoard().N; int j_colonne = N_colonne - 1;    // COLONNE
+        int k = in_foglia.getMNKBoard().K;                                           // SERIE
 
-      MNKCellState playerState = P2;
-      if (this.first) playerState = P1;
+        MNKCellState playerState = P2;
+        if (this.first) playerState = P1;
 
-      int alpha = 0;
-      int beta = 0;
+        int alpha = 0;
+        int beta = 0;
 
-      boolean noEnemy = true;
+        boolean noEnemy = true;
 
-      int strike = 0;                 // Tiene conto del numero di simboli (identici) consecutivi (in determinate condizioni si resetta) 
-      int maxStrike = 0;              // Massimo valore di strike registrato nell'analisi della riga/colonna/diagonale in analisi
-      int localWinSituations = 0;     // Tiene conto del numero di situazioni vicine alla vittoria nella riga/colonna/diagonale in analisi
-      int globalWinSituations = 0;    // Tiene conto del numero di situazione vicine alla vittoria nella tabella di gioco in questione
-      
-      // Da spostare a liveli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)
-      public static int preWinLimit = -1 /* parteIntera (il n% di K) VALORE DA DECRETARE*/;   // Limite per decretare quando uno strike si può reputare una situazione prossima alla vittoria 
-      
-      // Controllo dei nostri simboli
-      for (int pos = 0; pos < MC.length; pos += 2) {
-          int i_MC = MC[pos].i;   // Coordinata i (riga) della cella in analisi
-          int j_MC = MC[pos].j;   // Coordinata j (colonna) della cella in analisi
-
-
-          // Controllo riga in orizzontale
-          for (int c = 0; c < j_colonne; c++) {     // Controllo della i-esima righe (da sx verso dx) 
-              if (tabellaGioco[i_MC][c].state == playerState) {
-                  beta += 2;
-                  strike++;
-                  if (strike > maxStrike) maxStrike = strike;
-              }
-              if (tabellaGioco[i_MC][c].state == FREE) {
-                  beta += 1;
-                  if (strike > 0 && strike >= preWinLimit) {
-                      localWinSituations++;
-                      globalWinSituations++;
-                      strike = 0;
-                  }
-              }
-              if (tabellaGioco[i_MC][c].state != playerState && tabellaGioco[i_MC][c].state != FREE) {
-                  beta--;
-                  strike = 0;
-                  noEnemy = false;
-              }
-              /*
-              if (tabellaGioco[i_MC][c].state == playerState) beta += 2;
-              if (tabellaGioco[i_MC][c].state == FREE) beta += 1;
-              if (tabellaGioco[i_MC][c].state != playerState && tabellaGioco[i_MC][c].state != FREE) {
-                  beta--;
-                  noEnemy = false;
-              }
-              if (noEnemy) beta++;
-              */
-          }
-
-          // Questi controlli posson essere inseriti in una funzione a parte
-          if (noEnemy) beta++;
-          if (localWinSituations == 0 && maxStrike >= (int)(k / 4)) {      // Se non vi sono registrate situazioni prossime alla vittoria ma solo strike sufficiente lunghi si incrementa beta
-              beta += maxStrike / 4;
-          }
-          noEnemy = true;
-          maxStrike = 0;
-          strike = 0;
-          localWinSituations = 0;
-          
-          
+        int strike = 0;                 // Tiene conto del numero di simboli (identici) consecutivi (in determinate condizioni si resetta)
+        int maxStrike = 0;              // Massimo valore di strike registrato nell'analisi della riga/colonna/diagonale in analisi
+        int localWinSituations = 0;     // Tiene conto del numero di situazioni vicine alla vittoria nella riga/colonna/diagonale in analisi
+        int globalWinSituations = 0;    // Tiene conto del numero di situazione vicine alla vittoria nella tabella di gioco in questione
 
 
 
-          // Controllo riga in verticale
-          for (int r = 0; r < i_righe; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso) 
-              if (tabellaGioco[r][j_MC].state == playerState) beta += 2;
-              if (tabellaGioco[r][j_MC].state == FREE) beta += 1;
-              if (tabellaGioco[r][j_MC].state != playerState && tabellaGioco[r][j_MC].state != FREE) {
-                  beta--;
-                  noEnemy = false;
-              }
-              if (noEnemy) beta++;
-          }
-          noEnemy = true;
+        // Controllo dei nostri simboli
+        for (int pos = 0; pos < MC.length; pos += 2) {
+            int i_MC = MC[pos].i;   // Coordinata i (riga) della cella in analisi
+            int j_MC = MC[pos].j;   // Coordinata j (colonna) della cella in analisi
 
 
 
-          // Controllo diagonale
-          if (M_righe < k && N_colonne < k) {
-              System.out.println("Controllo diagonale eseguito.");
-              // Scorrimento verso in alto a sx
-              for (int tmp = 1; i_righe - tmp >= 0 && j_colonne - tmp >= 0; tmp++) {
-                  if (tabellaGioco[i_righe - tmp][j_colonne - tmp].state == playerState) beta += 2;
-                  if (tabellaGioco[i_righe - tmp][j_colonne - tmp].state == FREE) beta += 1;
-                  if (tabellaGioco[i_righe - tmp][j_colonne - tmp].state != playerState && tabellaGioco[i_righe - tmp][j_colonne - tmp].state != FREE) {
-                      beta--;
-                      noEnemy = false;
-                  }
-                  if (noEnemy) beta++;
-              }
-              noEnemy = true;
-              
+            // Controllo riga in orizzontale
+            for (int c = 0; c < j_colonne; c++) {     // Controllo della i-esima righe (da sx verso dx)
+                if (tabellaGioco[i_MC][c].state == playerState) {
+                    beta += 2;
+                    strike++;
+                    if (strike > maxStrike) maxStrike = strike;
+                }
+                if (tabellaGioco[i_MC][c].state == FREE) {
+                    beta += 1;
+                    if (strike > 0 && strike >= preWinLimit) {
+                        localWinSituations++;
+                        globalWinSituations++;
+                        strike = 0;
+                    }
+                }
+                if (tabellaGioco[i_MC][c].state != playerState && tabellaGioco[i_MC][c].state != FREE) {
+                    beta--;
+                    strike = 0;
+                    noEnemy = false;
+                }
+                /*
+                if (tabellaGioco[i_MC][c].state == playerState) beta += 2;
+                if (tabellaGioco[i_MC][c].state == FREE) beta += 1;
+                if (tabellaGioco[i_MC][c].state != playerState && tabellaGioco[i_MC][c].state != FREE) {
+                    beta--;
+                    noEnemy = false;
+                }
+                if (noEnemy) beta++;
+                */
+            }
 
-              // Discesa fino in basso a dx
-              for (int tmp = 1; i_righe + tmp < M_righe && j_righe + tmp < N_righe; tmp++) {
-                  if (tabellaGioco[i_righe + tmp][j_colonne + tmp].state == playerState) beta += 2;
-                  if (tabellaGioco[i_righe + tmp][j_colonne + tmp].state == FREE) beta += 1;
-                  if (tabellaGioco[i_righe + tmp][j_colonne + tmp].state != playerState && tabellaGioco[i_righe + tmp][j_colonne + tmp].state != FREE) {
-                      beta--;
-                      noEnemy = false;
-                  }
-                  if (noEnemy) beta++;
-              }
-              noEnemy = true;
-
-              
-
-              // Scorrimento verso in alto a dx
-              for (int tmp = 1; i_righe - tmp < M_righe && j_righe + tmp < N_righe; tmp++) {
-                  if (tabellaGioco[i_righe - tmp][j_colonne + tmp].state == playerState) beta += 2;
-                  if (tabellaGioco[i_righe - tmp][j_colonne + tmp].state == FREE) beta += 1;
-                  if (tabellaGioco[i_righe - tmp][j_colonne + tmp].state != playerState && tabellaGioco[i_righe - tmp][j_colonne + tmp].state != FREE) {
-                      beta--;
-                      noEnemy = false;
-                  }
-                  if (noEnemy) beta++;
-              }
-              noEnemy = true;
-
-              // Discesa fino in basso a sx
-              for (int tmp = 1; i_righe + tmp >= 0 && j_righe - tmp < N_righe; tmp++) {
-                  if (tabellaGioco[i_righe + tmp][j_colonne - tmp].state == playerState) beta += 2;
-                  if (tabellaGioco[i_righe + tmp][j_colonne - tmp].state == FREE) beta += 1;
-                  if (tabellaGioco[i_righe + tmp][j_colonne - tmp].state != playerState && tabellaGioco[i_righe + tmp][j_colonne - tmp].state != FREE) {
-                      beta--;
-                      noEnemy = false;
-                  }
-                  if (noEnemy) beta++;
-              }
-              noEnemy = true;
+            editVar (in_noEnemy, in_beta, in_localWinSituations, in_maxStrike, in_k);
 
 
 
-          } else {
-              System.out.println("controllo diagonale Impossibile.");          
-          }
-          
+
+
+
+
+            // Controllo riga in verticale
+            for (int r = 0; r < i_righe; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso)
+                if (tabellaGioco[r][j_MC].state == playerState) {
+                    beta += 2;
+                    strike++;
+                    if (strike > maxStrike) maxStrike = strike;
+                }
+                if (tabellaGioco[r][j_MC].state == FREE) {
+                    beta += 1;
+                    if (strike > 0 && strike >= preWinLimit) {
+                        localWinSituations++;
+                        globalWinSituations++;
+                        strike = 0;
+                    }
+                }
+                if (tabellaGioco[r][j_MC].state != playerState && tabellaGioco[r][j_MC].state != FREE) {
+                    beta--;
+                    strike = 0;
+                    noEnemy = false;
+                }
+                /*
+                if (tabellaGioco[r][j_MC].state == playerState) beta += 2;
+                if (tabellaGioco[r][j_MC].state == FREE) beta += 1;
+                if (tabellaGioco[r][j_MC].state != playerState && tabellaGioco[r][j_MC].state != FREE) {
+                    beta--;
+                    noEnemy = false;
+                }
+                if (noEnemy) beta++;
+                */
+            }
+
+            editVar (in_noEnemy, in_beta, in_localWinSituations, in_maxStrike, in_k);
+
+
+
+
+            // Controllo diagonale
+            if (M_righe < k && N_colonne < k) {
+                System.out.println("Controllo diagonale eseguito.");
+                // Scorrimento verso in alto a sx
+                for (int tmp = 1; i_righe - tmp >= 0 && j_colonne - tmp >= 0; tmp++) {
+                    if (tabellaGioco[i_righe - tmp][j_colonne - tmp].state == playerState) beta += 2;
+                    if (tabellaGioco[i_righe - tmp][j_colonne - tmp].state == FREE) beta += 1;
+                    if (tabellaGioco[i_righe - tmp][j_colonne - tmp].state != playerState && tabellaGioco[i_righe - tmp][j_colonne - tmp].state != FREE) {
+                        beta--;
+                        noEnemy = false;
+                    }
+                    if (noEnemy) beta++;
+                }
+                noEnemy = true;
+
+
+                // Discesa fino in basso a dx
+                for (int tmp = 1; i_righe + tmp < M_righe && j_righe + tmp < N_righe; tmp++) {
+                    if (tabellaGioco[i_righe + tmp][j_colonne + tmp].state == playerState)  {
+                        beta += 2;
+                        strike++;
+                        if (strike > maxStrike) maxStrike = strike;
+                    }
+                    if (tabellaGioco[i_righe + tmp][j_colonne + tmp].state == FREE) {
+                        beta += 1;
+                        if (strike > 0 && strike >= preWinLimit) {
+                            localWinSituations++;
+                            globalWinSituations++;
+                            strike = 0;
+                        }
+                    }
+
+                    if (tabellaGioco[i_righe + tmp][j_colonne + tmp].state != playerState && tabellaGioco[i_righe + tmp][j_colonne + tmp].state != FREE) {
+                        beta--;
+                        strike = 0;
+                        noEnemy = false;
+                    }
+                }
+                if (noEnemy) beta++;
+                noEnemy = true;
+
+
+
+                // Scorrimento verso in alto a dx
+                for (int tmp = 1; i_righe - tmp < M_righe && j_righe + tmp < N_righe; tmp++) {
+                    if (tabellaGioco[i_righe - tmp][j_colonne + tmp].state == playerState) beta += 2;
+                    if (tabellaGioco[i_righe - tmp][j_colonne + tmp].state == FREE) beta += 1;
+                    if (tabellaGioco[i_righe - tmp][j_colonne + tmp].state != playerState && tabellaGioco[i_righe - tmp][j_colonne + tmp].state != FREE) {
+                        beta--;
+                        noEnemy = false;
+                    }
+                    if (noEnemy) beta++;
+                }
+                noEnemy = true;
+
+                // Discesa fino in basso a sx
+                for (int tmp = 1; i_righe + tmp >= 0 && j_righe - tmp < N_righe; tmp++) {
+                    if (tabellaGioco[i_righe + tmp][j_colonne - tmp].state == playerState) beta += 2;
+                    if (tabellaGioco[i_righe + tmp][j_colonne - tmp].state == FREE) beta += 1;
+                    if (tabellaGioco[i_righe + tmp][j_colonne - tmp].state != playerState && tabellaGioco[i_righe + tmp][j_colonne - tmp].state != FREE) {
+                        beta--;
+                        noEnemy = false;
+                    }
+                    if (noEnemy) beta++;
+                }
+                noEnemy = true;
+
+
+
+            } else {
+                System.out.println("controllo diagonale Impossibile.");
+            }
+
+            editVar (in_noEnemy, in_beta, in_localWinSituations, in_maxStrike, in_k);
+
+
         }
+
+
+
+
+
+
+
+
+
+
 
         // Contollo simboli avversari
         for (int pos = 1; i < MC.length; pos += 2) {
@@ -304,53 +362,47 @@ public class Main {
 // 4
 
 // MINIMAX e ALPHA-BETA PRUNING
-/*
-MINIMAX(Tree T, bool mynode) → int
-  int eval
-  if(T.isLeaf())
-    eval ← EVALUATE(T)
-  elif(mynode = true)
-    eval ← ∞
-    for(Tree c ∈ T.children())
-      eval ← Min(eval,MINIMAX(c,false))
-    endfor
-  else eval ← -∞
-    for(Tree c ∈ T.children())
-      eval ← Max(eval,MINIMAX(c,true))
-    endfor
-  endif
-  T.label ← eval
-  return eval
-*/
-public int minimax(TreeNode in_padre, int alpha, int beta, bool myNode, int depth){
 
-  TreeNode figlioMaggiore = in_padre.getPrimoFiglio();
-  depth = 0;
-
-  if (in_padre.isLeaf() || depth == 0) return beta;
-
-  else if(myNode){    
-      int valMax = Integer.MIN_VALUE;
-      while(figlioMaggiore.next() != null){
-        valMax = Math.max(valMax, minimax(in_padre.getPrimoFiglio, alpha, beta, false, depth-1));
-        alpha = Math.max(valMax, alpha);
-        if(beta <= alpha) return valMax;
+public int minimax(TreeNode in_padre, int alpha, int beta, bool isMax, int depth){
+  if (in_padre.isLeaf() || depth == 0) return in_padre.val;
+  //Nodo da massimizzare
+  else if(isMax){
+      int best = Integer.MIN_VALUE;
+      for(TreeNode child : in_padre.getPrimoFiglio()){
+        for(TreeNode fratello : in_padre.getPrimoFiglio.next()){
+          int valore = minimax(fratello, alpha, beta, false, depth--);
+          best = Math.max(best, valore);
+          alpha = Math.max(best, alpha);
+          if(beta <= alpha) break;
+        }
       }
-      return valMax;
+      return best;
+  } else { //Nodo da minimizzare
+      int best = Integer.MAX_VALUE;
+      for(TreeNode child : in_padre.getPrimoFiglio()){
+        for(TreeNode fratello : in_padre.getPrimoFiglio.next()){
+          int valore = minimax(fratello, alpha, beta, true, depth--);
+          best = Math.min(best, valore);
+          beta = Math.min(best, beta);
+          if(beta <= alpha) break;
+        }
+      return best;
+      }
+  }
+}
+
+//CREARE SCELTA DEL PERCORSO
+public TreeNode sceltaPercorso(bool isMaximizing, TreeNode in_padre){
+
+  if(isMaximizing){
+    //ritorno il nodo da scegliere
+    in_padre.alpha = minimax(in_padre, Integer.MIN_VALUE, Integer.MAX_VALUE, isMaximizing, 3);
   } else {
-      int valMin = Integer.MAX_VALUE;
-      while(figlioMaggiore.next() != null){
-        valMin = Math.min(valMin, minimax(in_padre.getPrimoFiglio, alpha, beta, true, depth-1));
-        beta = Math.min(in_padre.setValue(), alpha);
-        if(beta <= alpha) return valMin;
-      }
-      return valMin; 
+
   }
 
 }
 
-
- 
 
 
 
