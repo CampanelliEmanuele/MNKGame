@@ -5,10 +5,11 @@ public class TreeNode {
   private MNKBoard B;           // L'informazione rappresentata dal nodo
 
   private TreeNode padre;       // Collegamento con il padre
-  private TreeNode primoFiglio; // Collegamento col primo dei vari sottoalberi 
+  private TreeNode primoFiglio; // Collegamento col primo dei vari sottoalberi
   private TreeNode next;        // Rappresenta il collegamento con l'elemento successivo
-  private TreeNode prev;        // Rappresenta il collegamento con l'elemento precedente 
-  
+  private TreeNode prev;        // Rappresenta il collegamento con l'elemento precedente
+
+  private int val;
   private int listPosition;     // Rappresenta l'indice dell'elemento nella lista di alberi
   private int alpha;
   private int beta;
@@ -38,7 +39,7 @@ public class TreeNode {
   public MNKBoard getMNKBoard () {
     return this.B;
   }
-  
+
   public void setMNKBoard (MNKBoard in_MNKBoard) {
     this.B = in_MNKBoard;
   }
@@ -46,7 +47,7 @@ public class TreeNode {
   public TreeNode getPadre () {
     return this.padre;
   }
-  
+
   public void setPadre (TreeNode in_padre) {
     this.padre = in_padre;
   }
@@ -98,5 +99,13 @@ public class TreeNode {
   public void setBeta (int in_beta) {
     this.beta = in_beta;
   }
-  
+
+  public int getVal () {
+    return this.val;
+  }
+
+  public void setVal (int in_val) {
+    this.val = in_val;
+  }
+
 }
