@@ -9,23 +9,13 @@ public class TreeNode {
   private TreeNode next;        // Rappresenta il collegamento con l'elemento successivo
   private TreeNode prev;        // Rappresenta il collegamento con l'elemento precedente
 
-  private int val;
   private int listPosition;     // Rappresenta l'indice dell'elemento nella lista di alberi
   private int alpha;
   private int beta;
+  private int val;
 
-  public TreeNode (MNKBoard in_B, TreeNode in_padre, TreeNode in_next, TreeNode in_prev, int in_listPosition, int in_alpha, int in_beta) {   // Costruttore per un nodo figlio di un padre
-    this.B = in_B;
-    this.padre = in_padre;
-    this.primoFiglio = null;
-    this.next = in_next;
-    this.prev = in_prev;
-    this.listPosition = in_listPosition;
-    this.alpha = in_alpha;
-    this.beta = in_beta;
-  }
-
-  public TreeNode (MNKBoard in_B, int in_alpha, int in_beta) {    // Costruttore per il nodo padre
+  // Costruttore per il nodo padre, la radice dell'albero
+  public TreeNode (MNKBoard in_B, int in_alpha, int in_beta, int in_val) {
     this.B = in_B;
     this.padre = null;
     this.primoFiglio = null;
@@ -34,6 +24,33 @@ public class TreeNode {
     this.listPosition = -1;
     this.alpha = Integer.MIN_VALUE;
     this.beta = Integer.MAX_VALUE;
+    this.val = in_val;
+  }
+
+  // Costruttore per il primo nodo figlio di un padre
+  public TreeNode (MNKBoard in_B, TreeNode in_padre, TreeNode in_next, TreeNode in_prev, int in_alpha, int in_beta, int in_val) {
+    this.B = in_B;
+    this.padre = in_padre;
+    this.primoFiglio = null;
+    this.next = in_next;
+    this.prev = in_prev;
+    this.listPosition = 0;
+    this.alpha = in_alpha;
+    this.beta = in_beta;
+    this.val = in_val;
+  }
+
+  // Costruttore per un nodo figlio di un padre
+  public TreeNode (MNKBoard in_B, TreeNode in_padre, TreeNode in_next, TreeNode in_prev, int in_alpha, int in_beta, int in_val) {
+    this.B = in_B;
+    this.padre = in_padre;
+    this.primoFiglio = null;
+    this.next = in_next;
+    this.prev = in_prev;
+    this.listPosition = in_prev.getListPosition() + 1;
+    this.alpha = in_alpha;
+    this.beta = in_beta;
+    this.val = in_val;
   }
 
   public MNKBoard getMNKBoard () {
@@ -60,20 +77,20 @@ public class TreeNode {
     this. primoFiglio = in_primoFiglio;
   }
 
-  public TreeNode getPrev (){
-    return this.prev;
-  }
-
-  public void setPrev (TreeNode in_prev) {
-    this.prev = in_prev;
-  }
-
   public TreeNode getNext () {
     return this.next;
   }
 
   public void setNext (TreeNode in_next) {
     this.next = in_next;
+  }
+
+  public TreeNode getPrev (){
+    return this.prev;
+  }
+
+  public void setPrev (TreeNode in_prev) {
+    this.prev = in_prev;
   }
 
   public int getListPosition () {
