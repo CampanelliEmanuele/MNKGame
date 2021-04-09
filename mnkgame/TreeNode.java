@@ -27,6 +27,7 @@ public class TreeNode {
     this.val = in_val;
   }
 
+  /*
   // Costruttore per il primo nodo figlio di un padre
   public TreeNode (MNKBoard in_B, TreeNode in_padre, TreeNode in_next, TreeNode in_prev, int in_alpha, int in_beta, int in_val) {
     this.B = in_B;
@@ -39,6 +40,7 @@ public class TreeNode {
     this.beta = in_beta;
     this.val = in_val;
   }
+  */
 
   // Costruttore per un nodo figlio di un padre
   public TreeNode (MNKBoard in_B, TreeNode in_padre, TreeNode in_next, TreeNode in_prev, int in_alpha, int in_beta, int in_val) {
@@ -47,7 +49,9 @@ public class TreeNode {
     this.primoFiglio = null;
     this.next = in_next;
     this.prev = in_prev;
-    this.listPosition = in_prev.getListPosition() + 1;
+    if (this.prev != null) {
+      this.listPosition = in_prev.getListPosition() + 1;
+    } else this.listPosition = 0;
     this.alpha = in_alpha;
     this.beta = in_beta;
     this.val = in_val;
