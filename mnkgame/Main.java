@@ -7,22 +7,13 @@ public class Main {
     // 1
 
     // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
-    // DA SISTEMARE LA CREAZIONE DELL'ALBERO AI NUOVI COSTRUTTORI
 
     // Funzione che si occupa della creazione dell'albero
-    public static void creaSottoAlbero (TreeNode in_alberoPadre, MNKBoard in_boardPadre, MNKCell[] FC) {
-        for (int k = 0; k < FC.length; k++) {               // Crea un nuovo sotto-albero per ogni cella libera (rappresentazione di ogni possible mossa)
-        MNKBoard tmpBoard = in_boardPadre;                  // Creazione della nuova board
-        tmpBoard.markCell (FC[k].i, FC[k].j);               // Marcamento della board appena creata
-        TreeNode nuovoSottoAlbero = new TreeNode (tmpBoard, in_alberoPadre);    // Creazione del sottoalbero con la nuova board
+    public static void creaSottoAlbero (TreeNode in_radice, MNKBoard in_boardPadre, MNKCell[] FC) {
+        for (int x = 0; x < FC.length; x++) {                   // Crea un nuovo sotto-albero per ogni cella libera (rappresentazione di ogni possible mossa)
+            MNKBoard tmpBoard = in_radice;                      // Creazione della nuova board
+            tmpBoard.markCell (FC[x].i, FC[x].j);               // Marcamento della board appena creata
+            TreeNode nuovoSottoAlbero = new TreeNode (tmpBoard, in_radice);    // Creazione del sottoalbero con la nuova board
         }
     }
 
@@ -34,17 +25,16 @@ public class Main {
     if (nodoInQuestione.getPrimoFiglio() != null)
         vaiAlleFoglie (nodoInQuestione.getPrimoFiglio());
     else
-        assegnaValoreABFoglia (nodoInQuestione);
+        assegnaValoreABFoglia (nodoInQuestione.getPrimoFiglio());
 
-    public static void vaiAlleFoglie (TreeNode in_padre) {    // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
-      while (in_padre != null){
-        if (in_padre.getPrimoFiglio() == null)  // Se è una foglia
-          assegnaValoreABFoglia (in_padre);
-        else {                                  // Altrimenti, se non è una foglia
-            vaiAlleFoglie (in_padre.getPrimoFiglio());  // Si applica la funzione nei sotto-alberi
-            //assegnaValoreABFoglia(in_padre);    // APPUNTO PER IL FUTURO SVILUPPO DELL'ALGORITMO ALPHA BETA, CANCELLARE QUESTA RIGA UNA VOLTA IMPLEMENTATO L'ALGORIMTO
+    public static void vaiAlleFoglie (TreeNode in_primoDeiFigli) {    // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
+      while (in_primoDeiFigli != null) {                        // Per ogni figlio del nodo padre su cui è stata invocata la funzione
+        if (in_primoDeiFigli.getPrimoFiglio() == null)          // Se è una foglia
+          assegnaValoreABFoglia (in_primoDeiFigli);
+        else {                                                  // Se non è una foglia
+            vaiAlleFoglie (in_primoDeiFigli.getPrimoFiglio());  // Si applica la funzione nei sotto-alberi
         }
-        in_padre = in_padre.getNext();
+        in_primoDeiFigli = in_primoDeiFigli.getNext();
       }
     }
 
@@ -106,7 +96,7 @@ public class Main {
       /* CONTROLLARE:
         - Errori di distrazioen
         - Errori semantici
-        - Cicli for -> eventiale sostituizione col while
+        - Cicli for -> Codice nelle parentesi tonde
       */
       MNKCellState botState = MNKCellState.P2; if (this.first) botState = MNKCellState.P1;
       MNKCellState currentPlayer = botState;
@@ -189,7 +179,7 @@ public class Main {
           primoControllo = false;
         } else vars[alpha] = vars[tmp];
 
-        
+
         if (botState == MNKCellState.P1) currentPlayer = MNKCellState.P2;   // Si cambia il giocatore a cui guardare i segni
         else currentPlayer = MNKCellState.P1;
 
@@ -236,8 +226,7 @@ public int minimax (TreeNode in_padre, int alpha, int beta, boolean isMax, int d
 }
 
 //CREARE SCELTA DEL PERCORSO
-public TreeNode sceltaPercorso(boolean isMaximizing, TreeNode in_padre){
-
+public TreeNode sceltaPercorso (boolean isMaximizing, TreeNode in_padre){
   TreeNode fratelloMaggiore = in_padre.getPrimoFiglio();
   TreeNode winner = fratelloMaggiore;  // Si utilizza un costruttore specifico
   int punteggioVincente = winner.getVal();
@@ -245,7 +234,7 @@ public TreeNode sceltaPercorso(boolean isMaximizing, TreeNode in_padre){
       return in_padre;
   else {
       while (in_padre.getPrimoFiglio() != null) {
-        if (isMaximizing){
+        if (isMaximizing) {
           //ritorno il nodo da scegliere (caso max)
           while (fratelloMaggiore.next() != null) {
             int movimento = minimax (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, false, depth);
@@ -272,20 +261,18 @@ public TreeNode sceltaPercorso(boolean isMaximizing, TreeNode in_padre){
   return winner;
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void main(String[] args) {
+    public static void main (String[] args) {
 
-        MNKBoard bp = new MNKBoard(3, 3, 3);
-        TreeNode padre = new TreeNode(bp);
+        MNKBoard bp = new MNKBoard (3, 3, 3);
+        TreeNode padre = new TreeNode (bp);
 
-        MNKBoard bf1 = new MNKBoard(3, 3, 3);
-        TreeNode figlio1 = new TreeNode(bf1, padre);
+        MNKBoard bf1 = new MNKBoard (3, 3, 3);
+        TreeNode figlio1 = new TreeNode (bf1, padre);
 
-        MNKBoard bf2 = new MNKBoard(3, 3, 3);
-        TreeNode figlio2 = new TreeNode(bf2, padre);
+        MNKBoard bf2 = new MNKBoard (3, 3, 3);
+        TreeNode figlio2 = new TreeNode (bf2, padre);
 
         // System.out.println("loool");
     }
