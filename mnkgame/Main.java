@@ -196,28 +196,28 @@ public class Main {
 
 // MINIMAX e ALPHA-BETA PRUNING
 
-public int minimax (TreeNode in_padre, int alpha, int beta, boolean isMax, int depth) {
+public int minimax(TreeNode in_padre, int alpha, int beta, boolean isMax, int depth){
   if (in_padre.isLeaf() || depth == 0) return assegnaValoreFoglia(in_padre);
   //Nodo da massimizzare
-  else if (isMax) {
+  else if(isMax){
       int best = Integer.MIN_VALUE;
-      for (TreeNode child : in_padre.getPrimoFiglio()) {
-        for (TreeNode fratello : in_padre.getPrimoFiglio.next()) {
-          int valore = minimax (fratello, alpha, beta, false, depth--);
-          best = Math.max (best, valore);
-          alpha = Math.max (best, alpha);
-          if (beta <= alpha) break;
+      for(TreeNode child : in_padre.getPrimoFiglio()){
+        for(TreeNode fratello : in_padre.getPrimoFiglio.next()){
+          int valore = minimax(fratello, alpha, beta, false, depth--);
+          best = Math.max(best, valore);
+          alpha = Math.max(best, alpha);
+          if(beta <= alpha) break;
         }
       }
       return best;
   } else { //Nodo da minimizzare
       int best = Integer.MAX_VALUE;
-      for (TreeNode child : in_padre.getPrimoFiglio()) {
-        for (TreeNode fratello : in_padre.getPrimoFiglio.next()) {
-          int valore = minimax (fratello, alpha, beta, true, depth--);
-          best = Math.min (best, valore);
-          beta = Math.min (best, beta);
-          if (beta <= alpha) break;
+      for(TreeNode child : in_padre.getPrimoFiglio()){
+        for(TreeNode fratello : in_padre.getPrimoFiglio.next()){
+          int valore = minimax(fratello, alpha, beta, true, depth--);
+          best = Math.min(best, valore);
+          beta = Math.min(best, beta);
+          if(beta <= alpha) break;
         }
 
       }
@@ -226,19 +226,20 @@ public int minimax (TreeNode in_padre, int alpha, int beta, boolean isMax, int d
 }
 
 //CREARE SCELTA DEL PERCORSO
-public TreeNode sceltaPercorso (boolean isMaximizing, TreeNode in_padre){
+public TreeNode sceltaPercorso(boolean isMaximizing, TreeNode in_padre){
+
   TreeNode fratelloMaggiore = in_padre.getPrimoFiglio();
   TreeNode winner = fratelloMaggiore;  // Si utilizza un costruttore specifico
   int punteggioVincente = winner.getVal();
   if (in_padre.getPrimoFiglio() == null)
       return in_padre;
-  else {
-      while (in_padre.getPrimoFiglio() != null) {
-        if (isMaximizing) {
+  else{
+      while(in_padre.getPrimoFiglio() != null){
+        if(isMaximizing){
           //ritorno il nodo da scegliere (caso max)
           while (fratelloMaggiore.next() != null) {
-            int movimento = minimax (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, false, depth);
-            if (movimento > punteggioVincente) {
+            int movimento = minimax(fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, false, depth)
+            if (movimento > punteggioVincente){
               punteggioVincente = movimento;
               winner.setValue(punteggioVincente);
               }
@@ -247,10 +248,10 @@ public TreeNode sceltaPercorso (boolean isMaximizing, TreeNode in_padre){
         } else {
           //ritorno il nodo da scegliere (caso min)
           while (fratelloMaggiore.next() != null) {
-            int movimento = minimax (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, true, depth);
+            int movimento = minimax(fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, true, depth)
             if (movimento < punteggioVincente) {
               punteggioVincente = movimento;
-              winner.setValue (punteggioVincente);
+              winner.setValue(punteggioVincente);
             }
             fratelloMaggiore = fratelloMaggiore.next();
           }
@@ -260,6 +261,7 @@ public TreeNode sceltaPercorso (boolean isMaximizing, TreeNode in_padre){
     }
   return winner;
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
