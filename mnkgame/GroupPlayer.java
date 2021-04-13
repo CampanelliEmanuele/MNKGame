@@ -12,16 +12,18 @@ public class GroupPlayer implements MNKPlayer {
 	private MNKGameState yourWin;
 	private int TIMEOUT;
 	private Random rand;
+	private static boolean first;
 
 	public GroupPlayer(){}
 
-	public void initPlayer(int M, int N, int K, boolean first, int timeout_in_sec){
+	public void initPlayer(int M, int N, int K, boolean in_first, int timeout_in_sec){
 
 		rand = new Random(System.currentTimeMillis());
 		B = new MNKBoard(M,N,K);
 
 		//myWin: vittoria di questo giocatore
-		myWin = first ? MNKGameState.WINP1 : MNKGameState.WINP2;
+		myWin = in_first ? MNKGameState.WINP1 : MNKGameState.WINP2;
+		this.first = in_first;
 
 		//Vittoria dell'avversario
 		yourWin = first ? MNKGameState.WINP2 : MNKGameState.WINP1;
@@ -36,7 +38,9 @@ public class GroupPlayer implements MNKPlayer {
 
 		MNKCell[] FC = in_radice.getMNKBoard().getFreeCells();
 		MNKCell[] MC = in_radice.getMNKBoard().getMarkedCells();
-		int m = boardRadice.M, n = boardRadice.N, k = boardRadice.K;
+		int m = in_radice.getMNKBoard().M;
+		int n = in_radice.getMNKBoard().N;
+		int k = in_radice.getMNKBoard().K;
 
 		for (int x = 0; x < FC.length; x++) {
 			MNKBoard newMNKBoard = new MNKBoard(m, n, k);           // Creazione della nuova board
@@ -216,7 +220,7 @@ public class GroupPlayer implements MNKPlayer {
       // end for
     }
 
-  }
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -226,7 +230,7 @@ public class GroupPlayer implements MNKPlayer {
 	// MINIMAX e ALPHA-BETA PRUNING
 
 	public static int alphabetaPruning (TreeNode in_padre, int alpha, int beta, boolean isMax, int depth) {
-	  if (in_padre.isLeaf() || depth == 0) {
+	  if (in_padre.getPrimoFiglio() == null || depth == 0) {
 			assegnaValoreABFoglia(in_padre);
 		  return in_padre.getVal();
 	  }
@@ -245,7 +249,7 @@ public class GroupPlayer implements MNKPlayer {
 	  } else { //Nodo da minimizzare
 	      int best = Integer.MAX_VALUE;
 	      for (TreeNode child : in_padre.getPrimoFiglio()) {
-	        for (TreeNode fratello : in_padre.getPrimoFiglio.next()) {
+	        for (TreeNode fratello : in_padre.getPrimoFiglio.getNext()) {
 	          int valore = alphabetaPruning (fratello, alpha, beta, true, depth--);
 	          best = Math.min (best, valore);
 	          beta = Math.min (best, beta);
@@ -258,7 +262,7 @@ public class GroupPlayer implements MNKPlayer {
 	}
 
 	//CREARE SCELTA DEL PERCORSO
-	public TreeNode sceltaPercorso (boolean isMaximizing, TreeNode in_padre) {
+	public TreeNode sceltaPercorso (boolean isMaximizing, TreeNode in_padre, int in_depth) {
 
 	  if (in_padre.getPrimoFiglio() == null)
 	    return in_padre;
@@ -268,21 +272,21 @@ public class GroupPlayer implements MNKPlayer {
 	  int punteggioVincente = winner.getVal();
 
 	  while (in_padre.getPrimoFiglio() != null) {
-	    while (fratelloMaggiore.next() != null) {
+	    while (fratelloMaggiore.getNext() != null) {
 	      if (isMaximizing) {
-	        int movimento = alphabetaPruning (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, false, depth);
+	        int movimento = alphabetaPruning (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, false, in_depth);
 	        if (movimento > punteggioVincente){
 	          punteggioVincente = movimento;
-	          winner.setValue(punteggioVincente);
+	          winner.setVal(punteggioVincente);
 	          }
 	        } else {
-	          int movimento = alphabetaPruning (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, true, depth);
+	          int movimento = alphabetaPruning (fratelloMaggiore, Integer.MIN_VALUE, Integer.MAX_VALUE, true, in_depth);
 	          if (movimento < punteggioVincente) {
 	            punteggioVincente = movimento;
-	            winner.setValue(punteggioVincente);
+	            winner.setVal(punteggioVincente);
 	          }
 	        }
-	        fratelloMaggiore = fratelloMaggiore.next();
+	        fratelloMaggiore = fratelloMaggiore.getNext();
 	      }
 	    in_padre = in_padre.getPrimoFiglio();
 	  }
