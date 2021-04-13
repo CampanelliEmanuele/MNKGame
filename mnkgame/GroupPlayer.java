@@ -335,8 +335,7 @@ public class GroupPlayer implements MNKPlayer {
 
 
 	public static void main (String[] args) {
-
-		System.out.println("lol");
+		System.out.println("È partito!");
 	}
 
 }
