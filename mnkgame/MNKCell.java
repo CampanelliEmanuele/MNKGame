@@ -1,8 +1,8 @@
 /*
  *  Copyright (C) 2021 Pietro Di Lena
- *  
+ *
  *  This file is part of the MNKGame v2.0 software developed for the
- *  students of the course "Algoritmi e Strutture di Dati" first 
+ *  students of the course "Algoritmi e Strutture di Dati" first
  *  cycle degree/bachelor in Computer Science, University of Bologna
  *  A.Y. 2020-2021.
  *
@@ -24,7 +24,7 @@ package mnkgame;
 
 /**
  * Describes the state of a cell in the <code>MNKBoard</code>.
- * 
+ *
  * @see MNKBoard MNKBoard
  */
 public class MNKCell {
@@ -40,14 +40,14 @@ public class MNKCell {
    * Cell state
    */
 	public final MNKCellState state;
-	
+
 
 	/**
-   * Allocates a cell 
-	 * 
+   * Allocates a cell
+	 *
    * @param i cell row index
    * @param j cell column index
-   * @param state cell state 
+   * @param state cell state
    */
 	public MNKCell(int i, int j, MNKCellState state) {
 		this.i     = i;
@@ -60,7 +60,7 @@ public class MNKCell {
 	 *
 	 * @param i cell row index
 	 * @param j cell column index
-	 * 
+	 *
 	 */
 	public MNKCell(int i, int j) {
 		this.i     = i;
@@ -71,7 +71,7 @@ public class MNKCell {
 	@Override
 	public boolean equals(Object o) {
 		if(o == null)               return false;
-		if(o == this)               return true; 	
+		if(o == this)               return true;
 		if(!(o instanceof MNKCell)) return false;
 
 		MNKCell c = (MNKCell) o;

@@ -14,7 +14,7 @@ public class GroupPlayer implements MNKPlayer {
 	private Random rand;
 	private static boolean first;
 
-	public GroupPlayer(){}
+	public GroupPlayer() {}
 
 	public void initPlayer(int M, int N, int K, boolean in_first, int timeout_in_sec){
 
@@ -123,7 +123,7 @@ public class GroupPlayer implements MNKPlayer {
 
     public static void assegnaValoreABFoglia (TreeNode in_foglia) {
       /* CONTROLLARE:
-        - Errori di distrazioen
+        - Errori di distrazione
         - Errori semantici
         - Cicli for -> Codice nelle parentesi tonde
       */
@@ -131,7 +131,8 @@ public class GroupPlayer implements MNKPlayer {
       MNKCellState currentPlayer = botState;
 
       MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();      // Nelle posizioni 0,2,4,... vi sono le mosse del P!, nelle posizioni 1,3,5,... vi sono le mosse del P2
-      MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
+			//MNKCellState[][] tabellaGioco = in_foglia.getMNKBoard().B;    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
+      MNKBoard tabellaGioco = in_foglia.getMNKBoard();    // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 
       boolean noEnemy = true;
       boolean primoControllo = true;
@@ -146,18 +147,25 @@ public class GroupPlayer implements MNKPlayer {
 
           // Controllo set orizzontale
           for (int c = 0; c < j_colonne; c++) {     // Controllo della i-esima righe (da sx verso dx)
-            if (tabellaGioco[i_MC][c].state == currentPlayer) playerCell (vars);
-            if (tabellaGioco[i_MC][c].state == MNKCellState.FREE) freeCell (vars);
-            if (tabellaGioco[i_MC][c].state != currentPlayer && tabellaGioco[i_MC][c].state != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
+						//if (tabellaGioco[i_MC][c].state == currentPlayer) playerCell (vars);
+						//if (tabellaGioco[i_MC][c].state == MNKCellState.FREE) freeCell (vars);
+						//if (tabellaGioco[i_MC][c].state != currentPlayer && tabellaGioco[i_MC][c].state != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
+            if (tabellaGioco.cellState(i_MC, c) == currentPlayer) playerCell (vars);
+            if (tabellaGioco.cellState(i_MC, c) == MNKCellState.FREE) freeCell (vars);
+            if (tabellaGioco.cellState(i_MC, c) != currentPlayer && tabellaGioco.cellState(i_MC, c) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
           }
           editVar (vars, noEnemy);
           noEnemy = true;
 
           // Controllo riga in verticale
           for (int r = 0; r < i_righe; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso)
-            if (tabellaGioco[r][j_MC].state == currentPlayer) playerCell (vars);
-            if (tabellaGioco[r][j_MC].state == MNKCellState.FREE) freeCell (vars);
-            if (tabellaGioco[r][j_MC].state != currentPlayer && tabellaGioco[r][j_MC].state != MNKCellState.FREE) enemyCell (vars);
+						//if (tabellaGioco[r][j_MC].state == currentPlayer) playerCell (vars);
+						//if (tabellaGioco[r][j_MC].state == MNKCellState.FREE) freeCell (vars);
+						//if (tabellaGioco[r][j_MC].state != currentPlayer && tabellaGioco[r][j_MC].state != MNKCellState.FREE) enemyCell (vars);
+
+						if (tabellaGioco.cellState(r, j_MC) == currentPlayer) playerCell (vars);
+            if (tabellaGioco.cellState(r, j_MC) == MNKCellState.FREE) freeCell (vars);
+            if (tabellaGioco.cellState(r, j_MC) != currentPlayer && tabellaGioco.cellState(r, j_MC) != MNKCellState.FREE) enemyCell (vars);
           }
           editVar (vars, noEnemy);
           noEnemy = true;
@@ -174,9 +182,12 @@ public class GroupPlayer implements MNKPlayer {
 
             // Discesa fino in basso a dx
             for (move = 1; start_i + move <= start_i + vars[k] && start_j + move <= start_j + vars[k]; move++) {
-              if (tabellaGioco[start_i + move][start_j + move].state == currentPlayer) playerCell (vars);
-              if (tabellaGioco[i_righe + move][j_colonne + move].state == MNKCellState.FREE) freeCell(vars);
-              if (tabellaGioco[i_righe + move][j_colonne + move].state != currentPlayer && tabellaGioco[i_righe + move][j_colonne + move].state != MNKCellState.FREE) enemyCell(vars);
+              //if (tabellaGioco[start_i + move][start_j + move].state == currentPlayer) playerCell (vars);
+              //if (tabellaGioco[i_righe + move][j_colonne + move].state == MNKCellState.FREE) freeCell(vars);
+              //if (tabellaGioco[i_righe + move][j_colonne + move].state != currentPlayer && tabellaGioco[i_righe + move][j_colonne + move].state != MNKCellState.FREE) enemyCell(vars);
+	            if (tabellaGioco.cellState(start_i + move, start_j + move) == currentPlayer) playerCell (vars);
+	            if (tabellaGioco.cellState(start_i + move, start_j + move) == MNKCellState.FREE) freeCell(vars);
+	            if (tabellaGioco.cellState(start_i + move, start_j + move) != currentPlayer && tabellaGioco.cellState(start_i + move, start_j + move) != MNKCellState.FREE) enemyCell(vars);
             }
             editVar (vars, noEnemy);
             noEnemy = true;
@@ -188,10 +199,13 @@ public class GroupPlayer implements MNKPlayer {
 
             // Discesa fino in basso a sx
             for (move = 1; start_i + move <= start_i + vars[k] && start_j - move <= 0; move++) {
-              if (tabellaGioco[start_i + move][start_j - move].state == currentPlayer) playerCell (vars);
-              if (tabellaGioco[start_i + move][start_j - move].state == MNKCellState.FREE) freeCell (vars);
-              if (tabellaGioco[start_i + move][start_j - move].state != currentPlayer && tabellaGioco[i_righe + move][j_colonne - move].state != MNKCellState.FREE) enemyCell (vars);
-            }
+							//if (tabellaGioco[start_i + move][start_j - move].state == currentPlayer) playerCell (vars);
+              //if (tabellaGioco[start_i + move][start_j - move].state == MNKCellState.FREE) freeCell (vars);
+              //if (tabellaGioco[start_i + move][start_j - move].state != currentPlayer && tabellaGioco[i_righe + move][j_colonne - move].state != MNKCellState.FREE) enemyCell (vars);
+            	if (tabellaGioco.cellState(start_i + move, start_j - move) == currentPlayer) playerCell (vars);
+							if (tabellaGioco.cellState(start_i + move, start_j - move) == MNKCellState.FREE) freeCell (vars);
+							if (tabellaGioco.cellState(start_i + move, start_j - move) != currentPlayer && tabellaGioco.cellState(start_i + move, start_j - move) != MNKCellState.FREE) enemyCell (vars);
+						}
             editVar (vars, noEnemy);
             noEnemy = true;
 
@@ -220,42 +234,42 @@ public class GroupPlayer implements MNKPlayer {
       // end for
     }
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 4
-
 	// MINIMAX e ALPHA-BETA PRUNING
-
-	public static int alphabetaPruning (TreeNode in_padre, int alpha, int beta, boolean isMax, int depth) {
+	public int alphabetaPruning (TreeNode in_padre, int alpha, int beta, boolean isMax, int depth) {
 	  if (in_padre.getPrimoFiglio() == null || depth == 0) {
 			assegnaValoreABFoglia(in_padre);
 		  return in_padre.getVal();
 	  }
+		TreeNode child = in_padre.getPrimoFiglio();
+		TreeNode fratello = child.getNext();
 	  //Nodo da massimizzare
-	  else if (isMax) {
+	  if (isMax) {
 	      int best = Integer.MIN_VALUE;
-	      for (TreeNode child : in_padre.getPrimoFiglio()) {
-	        for (TreeNode fratello : in_padre.getPrimoFiglio.next()) {
-	          int valore = alphabetaPruning (fratello, alpha, beta, false, depth--);
-	          best = Math.max (best, valore);
-	          alpha = Math.max (best, alpha);
-	          if (beta <= alpha) break;
-	        }
-	      }
+				while (child.getPrimoFiglio() != null) {
+					while(fratello.getNext() != null){
+						int valore = alphabetaPruning (fratello, alpha, beta, false, depth--);
+						best = Math.max (best, valore);
+						alpha = Math.max (best, alpha);
+						if (beta <= alpha) break;
+						fratello = fratello.getNext();
+					}
+					child = child.getPrimoFiglio();
+				}
 	      return best;
 	  } else { //Nodo da minimizzare
 	      int best = Integer.MAX_VALUE;
-	      for (TreeNode child : in_padre.getPrimoFiglio()) {
-	        for (TreeNode fratello : in_padre.getPrimoFiglio.getNext()) {
+				while (child.getPrimoFiglio() != null) {
+					while(fratello.getNext() != null){
 	          int valore = alphabetaPruning (fratello, alpha, beta, true, depth--);
 	          best = Math.min (best, valore);
 	          beta = Math.min (best, beta);
 	          if (beta <= alpha) break;
+						fratello = fratello.getNext();
 	        }
-
+					child = child.getPrimoFiglio();
 	      }
 	      return best;
 	  }
