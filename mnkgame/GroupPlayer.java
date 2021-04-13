@@ -23,7 +23,7 @@ public class GroupPlayer implements MNKPlayer {
 
 		//myWin: vittoria di questo giocatore
 		myWin = in_first ? MNKGameState.WINP1 : MNKGameState.WINP2;
-		this.first = in_first;
+		first = in_first;
 
 		//Vittoria dell'avversario
 		yourWin = first ? MNKGameState.WINP2 : MNKGameState.WINP1;
@@ -127,7 +127,7 @@ public class GroupPlayer implements MNKPlayer {
         - Errori semantici
         - Cicli for -> Codice nelle parentesi tonde
       */
-      MNKCellState botState = MNKCellState.P2; if (this.first) botState = MNKCellState.P1;
+      MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
       MNKCellState currentPlayer = botState;
 
       MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();      // Nelle posizioni 0,2,4,... vi sono le mosse del P!, nelle posizioni 1,3,5,... vi sono le mosse del P2
@@ -218,11 +218,11 @@ public class GroupPlayer implements MNKPlayer {
         // end for
 
         if (primoControllo) {                           // Se si stanno analizzando le celle del P1 (primo controllo, 0,2,4,...)
-          if (this.first) vars[beta] = vars[tmp];       // Se il bot è p1 (ha iniziato per primo) --> *Primo controllo* beta = tmp
+          if (first) vars[beta] = vars[tmp];       // Se il bot è p1 (ha iniziato per primo) --> *Primo controllo* beta = tmp
           else vars[alpha] = vars[tmp];                 // Altrimenti se il bot iniziato per secondo --> *Primo controllo* alpha = tmp
           primoControllo = false;
         } else {                                        // Altrimenti, se si controllano le celle del P2 (second ocontrollo, 1,3,5,...)
-          if (this.first) vars[alpha] = vars[tmp];      // Se il bot è P1 (tmp definti dalle celle di P2) --> *Secondo controllo* alpha = tmp
+          if (first) vars[alpha] = vars[tmp];      // Se il bot è P1 (tmp definti dalle celle di P2) --> *Secondo controllo* alpha = tmp
           else vars[beta] = vars[tmp];                  // Altrimenti se il boi inizia per secondo (e si è al secondo controllo) --> *Secondo controllo* beta = tmp
         }
 
