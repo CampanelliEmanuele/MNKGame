@@ -4,19 +4,21 @@ public class Algoritms {
 
   // 4
 	// MINIMAX e ALPHA-BETA PRUNING
-	public int alphabetaPruning (TreeNode in_padre, int alpha, int beta, boolean isMax, int depth) {
-	  if (in_padre.getPrimoFiglio() == null || depth == 0) {
+	public int alphabetaPruning (TreeNode in_currentNode, int alpha, int beta, boolean isMax, int depth) {
+	  if (in_currentNode.getPrimoFiglio() == null || depth == 0) {
 			assegnaValoreABFoglia(in_padre);
-		  return in_padre.getVal();
+		  return in_currentNode.getVal();
 	  }
-		TreeNode child = in_padre.getPrimoFiglio();
+		TreeNode child = in_currentNode.getPrimoFiglio();
 		TreeNode fratello = child.getNext();
 	  //Nodo da massimizzare
 	  if (isMax) {
 	      int best = Integer.MIN_VALUE;
-				while (child.getPrimoFiglio() != null) {
-					while(fratello.getNext() != null){
-						int valore = alphabetaPruning (fratello, alpha, beta, false, depth--);
+				//for (TreeNode child : in_padre.getPrimoFiglio()){
+					//for(TreeNode fratello: child.getNext()){
+				while(fratello.getNext() != null){
+					while (in_currentNode.getPrimoFiglio() != null) {
+						int valore = alphabetaPruning (child, alpha, beta, false, depth--);
 						best = Math.max (best, valore);
 						alpha = Math.max (best, alpha);
 						if (beta <= alpha) break;
@@ -27,9 +29,11 @@ public class Algoritms {
 	      return best;
 	  } else { //Nodo da minimizzare
 	      int best = Integer.MAX_VALUE;
-				while (child.getPrimoFiglio() != null) {
-					while(fratello.getNext() != null){
-	          int valore = alphabetaPruning (fratello, alpha, beta, true, depth--);
+				//for (TreeNode child : in_padre.getPrimoFiglio()){
+					//for(TreeNode fratello: child.getNext()){
+				while(fratello.getNext() != null){
+					while (in_currentNode.getPrimoFiglio() != null) {
+	          int valore = alphabetaPruning (child, alpha, beta, true, depth--);
 	          best = Math.min (best, valore);
 	          beta = Math.min (best, beta);
 	          if (beta <= alpha) break;

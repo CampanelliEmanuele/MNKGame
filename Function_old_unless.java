@@ -1,4 +1,4 @@
-public class tmp {
+public class Function_old_unless {
 
   // FUNZIONE INUTILIZZATA
   public static MNKCell[] createSet (int in_setDirection, MNKBoard in_board, MNKCellState in_simbol2, int in_k, int in_riga, int in_colonna) {    // s2 è il simbolo avversario
@@ -114,6 +114,7 @@ public class tmp {
           noEnemy = false;
         }
         */
+
       }
       editVar (vars);
       in_noEnemy = true;
@@ -144,6 +145,7 @@ public class tmp {
           noEnemy = false;
         }
         */
+
       }
       editVar (vars);
       in_noEnemy = true;
@@ -185,6 +187,7 @@ public class tmp {
             noEnemy = false;
           }
           */
+
         }
         editVar (vars);
         noEnemy = true;
@@ -210,6 +213,7 @@ public class tmp {
             noEnemy = false;
           }
           */
+
         }
         editVar (vars);
         noEnemy = true;
@@ -263,6 +267,6 @@ public class tmp {
       }
       */
 
-  }
+  //}
 
 }
