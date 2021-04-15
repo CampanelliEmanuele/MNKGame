@@ -14,11 +14,12 @@ public class GroupPlayer implements MNKPlayer {
 	private Random rand;
 	private static boolean first;
 	//private MNKCellState botState;
+	private int initialDepthLimit = 1;
 	private int M;
 	private int N;
 	private int K;
 
-	public GroupPlayer() {}
+	public GroupPlayer () {}
 
 	public void initPlayer (int in_M, int in_N, int in_K, boolean in_first, int timeout_in_sec) {
 		rand = new Random (System.currentTimeMillis());
@@ -37,18 +38,46 @@ public class GroupPlayer implements MNKPlayer {
 	 */
 	public MNKCell selectCell (MNKCell[] FC, MNKCell[] MC) {
 		// if - else per la prima mossa
-		if (first && FC.length == M * N) return MNKCell (0, 0, MNKCellState.FREE);	// Se siamo i primi a giocare
- 	  else {		// Se siamo il secondo a giocare
-				// Prima mossa avversaria --> (0,0) || (M-1,N-1) --> Marchiamo (M/2, N/2 - 1)
-				if ((MC[0].i == 0 && MC[0].j == 0) || (MC[0].i == M-1 && MC[0].j == N-1)) return MNKCell ((int) M/2, (int) N/2 - 1, MNKCellState.FREE);
-				// Prima mossa avversaria --> (0,N-1) || (M-1,0) --> Marchiamo (M/2, N/2)
-				else if ((MC[0].i == 0 && MC[0].j == N-1) || (MC[0].i == M-1 && MC[0].j == 0)) return MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);
-				else {	// Prima mossa avversaria non fatta sugli angoli
-					return MNKCell (0, 0, MNKCellState.FREE);
-				}
+		if (MC.length <= 2) {
+			if (first && FC.length == M * N) return MNKCell (0, 0, MNKCellState.FREE);	// Se siamo i primi a giocare si marca un angolo
+	 	  else {		// Se siamo il secondo a giocare
+					if (M == N && M % 2 == 0) {		// 44K - 66K
+						// L'avversario marca un angolo e noi marchiamo il centro
+						// Prima mossa avversaria --> (0,0) || (M-1,N-1) --> Marchiamo (M/2, N/2 - 1)
+						if ((MC[0].i == 0 && MC[0].j == 0) || (MC[0].i == M-1 && MC[0].j == N-1)) return MNKCell ((int) M/2, (int) N/2 - 1, MNKCellState.FREE);		// 2' + G
+						// Prima mossa avversaria --> (0,N-1) || (M-1,0) --> Marchiamo (M/2, N/2)
+						else if ((MC[0].i == 0 && MC[0].j == N-1) || (MC[0].i == M-1 && MC[0].j == 0)) return MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);	// 2' + G
+						else {		// 2' + N
+							if ((MC[0].i != (int) M/2 && MC[0].j != (int) N/2 - 1))) return MNKCell ((int) M/2, (int) N/2 - 1, MNKCellState.FREE);	// Se non ha marcato la cella in basso a sx del quadratino centrale, marcala
+							else return MNKCell ((int) M/2, (int) N/2 - 1, MNKCellState.FREE);	// Altrimenti marca quella affianco
+						}
+					} else {//else if (M == N && M % 2 == 1) {	// 33K - 55K + 34K - 62K
+						// Se l'avversaio non ha marcato il centro, lo marchiamo noi
+						if (MC[0].i != (int) M/2 && MC[0].j != (int) N/2) return MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);		// 2' + G
+						// Se invece l'avversario ha marcato il centro, noi marchiam un angolo
+						else return MNKCell (0, 0, MNKCellState.FREE);		// 2' + N
+					}
+			}
 		}
+		// FIne if
 
+		else {	// Se si è oltre il secondo turno
+			TreeNode radice = new TreeNode (this.B, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+			boolean oneShot = true;
 
+			for (int depth = 0; depth < initialDepthLimit; depth++) {
+				for (int times = 0; times < FC.length; times++) {
+
+					if (oneShot) {
+						TreeNode primoFiglio = new TreeNode (this.B, radice, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+						oneShot = false;
+					}
+					TreeNode figlio = new TreeNode (this.B, radice, null, primoFiglio, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+				}
+			}
+
+		}
+		// Fine else
 
 
 		/*	DA CAPIRE DOVE METTERE
@@ -86,12 +115,6 @@ public class GroupPlayer implements MNKPlayer {
 			TreeNode nuovoSottoAlbero = new TreeNode (newMNKBoard, in_radice, null, null, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE);                         // Creazione del sottoalbero con la nuova board
 		}
 	}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
