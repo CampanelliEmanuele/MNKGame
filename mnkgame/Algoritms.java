@@ -22,9 +22,9 @@ public class Algoritms {
 						best = Math.max (best, valore);
 						alpha = Math.max (best, alpha);
 						if (beta <= alpha) break;
-						fratello = fratello.getNext();
+						in_currentNode = in_currentNode.getPrimoFiglio();
 					}
-					child = child.getPrimoFiglio();
+					fratello = fratello.getNext();
 				}
 	      return best;
 	  } else { //Nodo da minimizzare
@@ -37,9 +37,9 @@ public class Algoritms {
 	          best = Math.min (best, valore);
 	          beta = Math.min (best, beta);
 	          if (beta <= alpha) break;
-						fratello = fratello.getNext();
-	        }
-					child = child.getPrimoFiglio();
+						in_currentNode = in_currentNode.getPrimoFiglio();
+					}
+					fratello = fratello.getNext();
 	      }
 	      return best;
 	  }
