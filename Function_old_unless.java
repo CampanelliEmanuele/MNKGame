@@ -1,5 +1,27 @@
 public class Function_old_unless {
 
+
+  // 1
+  // Crea un nuovo sotto-albero per ogni cella libera (rappresentazione di ogni possible mossa)
+  public void creaSottoAlbero (TreeNode in_radice, int depthLimit) {
+    MNKCell[] FC = in_radice.getMNKBoard().getFreeCells();			// Serve per marcare la nuova posizione sulla board
+    MNKCell[] MC = in_radice.getMNKBoard().getMarkedCells();		// Serve per marcare le precedenti posizioni sulla board
+    int m = in_radice.getMNKBoard().M;
+    int n = in_radice.getMNKBoard().N;
+    int k = in_radice.getMNKBoard().K;
+
+    for (int x = 0; x < FC.length; x++) {
+      MNKBoard newMNKBoard = new MNKBoard(m, n, k);           // Creazione della nuova board
+      for (int y = 0; y < MC.length; y++) {                   // Marcamento delle celle precedenti
+        newMNKBoard.markCell (MC[y].i, MC[y].j);
+      }
+      newMNKBoard.markCell (FC[x].i, FC[x].j);                // "Nuovo marcamento"
+      TreeNode nuovoSottoAlbero = new TreeNode (newMNKBoard, in_radice, null, null, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE);                         // Creazione del sottoalbero con la nuova board
+    }
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   // FUNZIONE INUTILIZZATA
   public static MNKCell[] createSet (int in_setDirection, MNKBoard in_board, MNKCellState in_simbol2, int in_k, int in_riga, int in_colonna) {    // s2 è il simbolo avversario
         // Usare le istruzioni throw per il controllo del valore in_setDirection !!!!!!!!
@@ -54,6 +76,7 @@ public class Function_old_unless {
         else return set;
       }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // FUNZIONE OBSOLETA
   // Funzione che decreta il valore alpha e beta del nodo;MC: LinkedList; FC: HashSet

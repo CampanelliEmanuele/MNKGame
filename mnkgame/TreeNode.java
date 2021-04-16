@@ -45,18 +45,28 @@ public class TreeNode {
     this.val = in_val;
   }
 
-  public void printInfo () {
-    System.out.println ("------------------------------------------");
+  public void printNodeInfo () {
+    //System.out.println ("------------------------------------------");
     System.out.println ("Padre: " + this.padre);
-    System.out.println ("Board: " + this.B);
+    //System.out.println ("Board: " + this.B);
     System.out.println ("Primo figlio: " + this.primoFiglio);
     System.out.println ("List position: " + this.listPosition);
-    System.out.println ("Next: " + this.next + " ; Prev: " + this.prev);
-    System.out.println ("alpha: " + this.alpha + "; beta: " + this.beta);
-    System.out.println ("Valore: " + this.val);
+    System.out.println ("Next: " + this.next);
+    System.out.println ("Prev: " + this.prev);
+    //System.out.println ("alpha: " + this.alpha + "; beta: " + this.beta);
+    //System.out.println ("Valore: " + this.val);
+    //System.out.println ("------------------------------------------");
   }
 
-  public MNKBoard getMNKBoard () { this.B; }
+  public void printMCInfo () {
+    MNKCell[] MC = this.B.getMarkedCells();
+    System.out.println ("CELLE MARCATE + STATO");
+    for (int pos = 0; pos < MC.length; pos++) {
+      System.out.println ("(" + MC[pos].i + "," + MC[pos].j + ") - " + MC[pos].state + "   " + MC[pos].toString());
+    }
+  }
+
+  public MNKBoard getMNKBoard () { return this.B; }
   public void setMNKBoard (MNKBoard in_MNKBoard) { this.B = in_MNKBoard; }
 
   public TreeNode getPadre () { return this.padre; }
