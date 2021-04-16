@@ -62,6 +62,7 @@ public class GroupPlayer implements MNKPlayer {
 		// FIne if
 
 		else {	// Se si è oltre il secondo turno
+			// CODICE ERRATO
 			TreeNode radice = new TreeNode (this.B, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
 			boolean oneShot = true;
 
@@ -117,6 +118,39 @@ public class GroupPlayer implements MNKPlayer {
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 5
+
+	// Deve ritornare "la radice / head" o funziona in automatico?
+	//public static TreeNode solve (TreeNode in_padre, int in_depthLimit) {
+	public static void solve (TreeNode in_padre, int in_depthLimit) {
+		if (in_depthLimit > 0) {				// Se in_depthLimit > 0 --> Si crea un'altro livello
+
+			while (in_padre != null) {		// Per ogni fratello (e padre compreso) si crea il sottoalbero
+
+				TreeNode primoFiglio = new TreeNode (B, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
+				in_padre.setPrimoFiglio(primoFiglio);		// Si setta il primo figlio del nodo padre
+
+				TreeNode prev = primoFiglio;		// Prev creato uguale al primoFiglio
+
+				for (int e = 1; e < FC.length; e++) {
+					B.markCell (FC[e].i, FC[e].j);			// Temporaneo marcamento della cella
+					
+					TreeNode figlio = new TreeNode (B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+					prev.setNext (figlio);							// Il fratello prev è ora collegato al suo nuovo fratello
+					prev = figlio;											// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+					B.unmarkCell (FC[e].i, FC[e].j);
+				}
+
+
+				solve (primoFiglio, in_depthLimit--);		// PRIMOFIGLIO NON HA ANCORA FRATELLI !!!!
+				in_padre = in_padre.getNext();
+			}
+		} else return in_padre;	// Altrimenti ritorna il nodo dato in input
+
+	}
+
+
 
 	public static void main (String[] args) {
 		System.out.println("È partito!");
