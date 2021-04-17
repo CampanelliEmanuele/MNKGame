@@ -62,7 +62,7 @@ public class TreeNode {
     MNKCell[] MC = this.B.getMarkedCells();
     System.out.println ("CELLE MARCATE + STATO");
     for (int pos = 0; pos < MC.length; pos++) {
-      System.out.println ("(" + MC[pos].i + "," + MC[pos].j + ") - " + MC[pos].state + "   " + MC[pos].toString());
+      System.out.println ("(" + MC[pos].i + "," + MC[pos].j + ") : " + MC[pos].state);
     }
   }
 
