@@ -293,3 +293,83 @@ public class Function_old_unless {
   //}
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public static void solve1 (TreeNode in_padre, int in_depthLimit) {
+  if (in_depthLimit > 1) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
+    MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
+    B.markCell (FC[0].i, FC[0].j);		  		// Temporaneo marcamento della prima cella
+    TreeNode primoFiglio = new TreeNode (B, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
+    B.unmarkCell ();												// Si smarca la prima cella
+    in_padre.setPrimoFiglio(primoFiglio);		// Si setta il primo figlio del nodo padre
+
+    //TreeNode head = in_padre;
+    while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
+      TreeNode prev = primoFiglio;						// Prev creato uguale al primoFiglio
+      for (int e = 1; e < FC.length; e++) {
+        B.markCell (FC[e].i, FC[e].j);			// Temporaneo marcamento della cella
+        TreeNode figlio = new TreeNode (B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        prev.setNext (figlio);							// Il fratello prev è ora collegato al suo nuovo fratello
+
+        prev = figlio;											// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+        B.unmarkCell ();										// Si smarca la cella in questione
+      }
+
+      solve1 (primoFiglio, --in_depthLimit);
+      in_padre = in_padre.getNext();
+    }
+    //return head;
+  } //else return head;	// Altrimenti ritorna il nodo dato in input
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public static void solve2 (TreeNode in_padre, MNKBoard in_B, int in_depthLimit) {
+  if (in_depthLimit > 1) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
+    MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
+    //MNKBoard tmpB = in_B;
+    System.out.println("Local B: " + B);
+
+    while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
+      in_B.markCell (FC[0].i, FC[0].j);		  		// Temporaneo marcamento della prima cella
+      TreeNode primoFiglio = new TreeNode (in_B, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
+      in_padre.setPrimoFiglio(primoFiglio);		// Si setta il primo figlio del nodo padre
+
+      solve2 (primoFiglio, in_B, in_depthLimit - 1);
+      in_B.unmarkCell ();												// Si smarca la prima cella
+
+      TreeNode prev = primoFiglio;						// Prev creato uguale al primoFiglio
+      for (int e = 1; e < FC.length; e++) {
+        in_B.markCell (FC[e].i, FC[e].j);			// Temporaneo marcamento della cella
+        TreeNode figlio = new TreeNode (in_B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        prev.setNext (figlio);							// Il fratello prev è ora collegato al suo nuovo fratello
+
+        prev = figlio;											// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+        solve2 (figlio, in_B, in_depthLimit - 1);
+        in_B.unmarkCell ();										// Si smarca la cella in questione
+      }
+
+      in_padre = in_padre.getNext();
+    }
+  } //else return head;	// Altrimenti ritorna il nodo dato in input
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Experiment
+public static void printMC (MNKBoard in_board) {
+  MNKCell[] FC = in_board.getFreeCells();
+  MNKCell[] MC = in_board.getMarkedCells();
+  for (int e = 0; e < MC.length; e++) {
+    System.out.println("MC[" + e + "] -> (" + MC[e].i + "," + MC[e].j + ")");
+  }
+  System.out.println("");
+  if (in_board.getFreeCells().length == 0) System.out.println("fine");
+  else {
+    in_board.markCell(in_board.getFreeCells()[0].i, in_board.getFreeCells()[0].j);
+    printMC (B);
+  }
+}

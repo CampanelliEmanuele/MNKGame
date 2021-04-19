@@ -48,7 +48,7 @@ public class TreeNode {
   public void printNodeInfo () {
     //System.out.println ("------------------------------------------");
     System.out.println ("Padre: " + this.padre);
-    //System.out.println ("Board: " + this.B);
+    System.out.println ("Board: " + this.B);
     System.out.println ("Primo figlio: " + this.primoFiglio);
     System.out.println ("List position: " + this.listPosition);
     System.out.println ("Next: " + this.next);

@@ -15,9 +15,9 @@ public class GroupPlayer implements MNKPlayer {
 	private static boolean first;
 	//private MNKCellState botState;
 	private int initialDepthLimit = 1;
-	private int M;
-	private int N;
-	private int K;
+	private static int M;
+	private static int N;
+	private static int K;
 
 	public GroupPlayer () {}
 
@@ -138,95 +138,97 @@ public class GroupPlayer implements MNKPlayer {
 	// 5
 
 	// Deve ritornare "la radice / head" o funziona in automatico?
-	//public static TreeNode solve (TreeNode in_padre, int in_depthLimit) {
-	public static void solve1 (TreeNode in_padre, int in_depthLimit) {
-		if (in_depthLimit > 1) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
-			MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
-			B.markCell (FC[0].i, FC[0].j);		  		// Temporaneo marcamento della prima cella
-			TreeNode primoFiglio = new TreeNode (B, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
-			B.unmarkCell ();												// Si smarca la prima cella
-			in_padre.setPrimoFiglio(primoFiglio);		// Si setta il primo figlio del nodo padre
-
-			//TreeNode head = in_padre;
-			while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
-				TreeNode prev = primoFiglio;						// Prev creato uguale al primoFiglio
-				for (int e = 1; e < FC.length; e++) {
-					B.markCell (FC[e].i, FC[e].j);			// Temporaneo marcamento della cella
-					TreeNode figlio = new TreeNode (B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
-					prev.setNext (figlio);							// Il fratello prev è ora collegato al suo nuovo fratello
-
-					prev = figlio;											// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
-					B.unmarkCell ();										// Si smarca la cella in questione
-				}
-
-				solve1 (primoFiglio, --in_depthLimit);
-				in_padre = in_padre.getNext();
-			}
-			//return head;
-		} //else return head;	// Altrimenti ritorna il nodo dato in input
-
-	}
-
-	public static void solve2 (TreeNode in_padre, MNKBoard in_B, int in_depthLimit) {
-		if (in_depthLimit > 1) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
-			MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
-			//MNKBoard tmpB = in_B;
-
-			//TreeNode head = in_padre;
-			while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
-				in_B.markCell (FC[0].i, FC[0].j);		  		// Temporaneo marcamento della prima cella
-				TreeNode primoFiglio = new TreeNode (in_B, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
-				in_padre.setPrimoFiglio(primoFiglio);		// Si setta il primo figlio del nodo padre
-
-				solve2 (primoFiglio, in_B, in_depthLimit - 1);
-				in_B.unmarkCell ();												// Si smarca la prima cella
-
-				TreeNode prev = primoFiglio;						// Prev creato uguale al primoFiglio
-				for (int e = 1; e < FC.length; e++) {
-					in_B.markCell (FC[e].i, FC[e].j);			// Temporaneo marcamento della cella
-					TreeNode figlio = new TreeNode (in_B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
-					prev.setNext (figlio);							// Il fratello prev è ora collegato al suo nuovo fratello
-
-					prev = figlio;											// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
-					solve2 (figlio, in_B, in_depthLimit - 1);
-					in_B.unmarkCell ();										// Si smarca la cella in questione
-				}
-
-				in_padre = in_padre.getNext();
-			}
-			//return head;
-		} //else return head;	// Altrimenti ritorna il nodo dato in input
-
-	}
 
 	public static void solve3 (TreeNode in_padre, MNKBoard in_B, int in_depthLimit) {
 		if (in_depthLimit > 1) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
+			System.out.println("Stato: generazione - Livello: " + (5 - in_depthLimit) + " - Local B: " + in_B);
+
 			MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
+			MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
+			MNKBoard tmpB = new MNKBoard (M,N,K);
+			for (int e = 0; e < MC.length; e++) {
+				tmpB.markCell (MC[e].i, MC[e].j);
+			}
 
-			while (in_padre != null) {										// Per ogni fratello (e padre compreso) si crea il sottoalbero
-				in_B.markCell (FC[0].i, FC[0].j);		  			// Temporaneo marcamento della prima cella
-				TreeNode primoFiglio = new TreeNode (in_B, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
-				in_padre.setPrimoFiglio(primoFiglio);				// Si setta il primo figlio del nodo padre
+			while (in_padre != null) {											// Per ogni fratello (e padre compreso) si crea il sottoalbero
+				tmpB.markCell (FC[0].i, FC[0].j);		  				// Temporaneo marcamento della prima cella
+				TreeNode primoFiglio = new TreeNode (tmpB, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
+				in_padre.setPrimoFiglio(primoFiglio);					// Si setta il primo figlio del nodo padre
 
-				solve2 (primoFiglio, in_B, in_depthLimit - 1);
-				in_B.unmarkCell ();													// Si smarca la prima cella
+				solve3 (primoFiglio, tmpB, in_depthLimit - 1);
+				//tmpB.unmarkCell ();													// Si smarca la prima cella
+				TreeNode prev = primoFiglio;									// Prev creato uguale al primoFiglio
 
-				TreeNode prev = primoFiglio;								// Prev creato uguale al primoFiglio
-				for (int e = 1; e < FC.length; e++) {
-					//MNKBoard tmpB = in_B;
-					in_B.markCell (FC[e].i, FC[e].j);					// Temporaneo marcamento della cella
-					TreeNode figlio = new TreeNode (in_B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
-					prev.setNext (figlio);										// Il fratello prev è ora collegato al suo nuovo fratello
+				for (int e = 1; e < FC.length; e++) {					// Ciclo per la creazione dei nodi di un livello
+					MNKBoard tmp2B = new MNKBoard (M,N,K);			// Crea una nuova board per ogni nodo del livello in questione
+					for (int el = 0; el < MC.length; el++) {
+						tmp2B.markCell (MC[el].i, MC[el].j);
+					}
 
-					prev = figlio;														// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
-					solve2 (figlio, in_B, in_depthLimit - 1);
-					in_B.unmarkCell ();												// Si smarca la cella in questione
+					tmp2B.markCell (FC[e].i, FC[e].j);					// Temporaneo marcamento della cella
+					TreeNode figlio = new TreeNode (tmp2B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+					prev.setNext (figlio);											// Il fratello prev è ora collegato al suo nuovo fratello
+
+					prev = figlio;															// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+					solve3 (figlio, tmp2B, in_depthLimit - 1);
+					//tmp2B.unmarkCell ();												// Si smarca la cella in questione
+				}
+				in_padre = in_padre.getNext();
+			}
+		}
+
+	}
+
+
+
+
+
+
+	public static void solve4 (TreeNode in_padre, MNKBoard in_B, int in_depthLimit) {
+		if (in_depthLimit > 1 && in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
+			System.out.println("Stato: generazione - Livello: " + (5 - in_depthLimit) + " - Local B: " + in_B);
+
+			MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
+			MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
+			//MNKBoard tmpB = in_B;
+			MNKBoard tmpB = new MNKBoard (M,N,K);
+			for (int e = 0; e < MC.length; e++) {
+				//if (tmpB.gameState() != MNKGameState.OPEN) continue;
+				tmpB.markCell (MC[e].i, MC[e].j);
+			}
+
+			System.out.println("Local B: " + in_B);
+
+			while (in_padre != null) {											// Per ogni fratello (e padre compreso) si crea il sottoalbero
+				//if (tmpB.gameState() != MNKGameState.OPEN) continue;
+				tmpB.markCell (FC[0].i, FC[0].j);		  				// Temporaneo marcamento della prima cella
+				TreeNode primoFiglio = new TreeNode (tmpB, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
+				in_padre.setPrimoFiglio(primoFiglio);					// Si setta il primo figlio del nodo padre
+
+				solve4 (primoFiglio, tmpB, in_depthLimit - 1);
+				//tmpB.unmarkCell ();													// Si smarca la prima cella
+				TreeNode prev = primoFiglio;									// Prev creato uguale al primoFiglio
+
+				for (int e = 1; e < FC.length; e++) {					// Ciclo per la creazione dei nodi di un livello
+					MNKBoard tmp2B = new MNKBoard (M,N,K);			// Crea una nuova board per ogni nodo del livello in questione
+					for (int el = 0; el < MC.length; el++) {
+						//if (tmp2B.gameState() != MNKGameState.OPEN) continue;
+						tmp2B.markCell (MC[el].i, MC[el].j);
+					}
+
+				//	if (tmp2B.gameState() != MNKGameState.OPEN) continue;
+					tmp2B.markCell (FC[e].i, FC[e].j);					// Temporaneo marcamento della cella
+					TreeNode figlio = new TreeNode (tmp2B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+					prev.setNext (figlio);											// Il fratello prev è ora collegato al suo nuovo fratello
+
+					prev = figlio;															// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+					solve4 (figlio, tmp2B, in_depthLimit - 1);
+					//tmp2B.unmarkCell ();												// Si smarca la cella in questione
 				}
 
 				in_padre = in_padre.getNext();
 			}
-			//return head;
-		} //else return head;	// Altrimenti ritorna il nodo dato in input
+		}
 
 	}
 
@@ -235,10 +237,14 @@ public class GroupPlayer implements MNKPlayer {
 	// 6
 
 	// Stampa le informazioni di ogni nodo dell'albero
-	public static void printSolve (TreeNode in_padre, int in_level) {
+	public static void printSolve (TreeNode in_padre, int in_level) {		// in_level rappresenta il livello del nodo in_padre
 		if (in_padre != null) {
 			while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
 				System.out.println ("------------------------------------------");
+				if (in_padre.getMNKBoard().gameState() != MNKGameState.OPEN) {
+					System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+					System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+				}
 				System.out.println ("LIVELLO: " + in_level);
 				System.out.println ("NIQ: " + in_padre);
 				in_padre.printNodeInfo();
@@ -253,43 +259,38 @@ public class GroupPlayer implements MNKPlayer {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Experiment
-
-	public static void changeBoard (MNKBoard in_board) {
-		MNKCell[] FC = in_board.getFreeCells();
-		MNKCell[] MC = in_board.getMarkedCells();
-		for (int e = 0; e < MC.length; e++) {
-			System.out.println("MC[" + e + "] -> (" + MC[e].i + "," + MC[e].j + ")");
-		}
-		System.out.println("");
-		if (in_board.getFreeCells().length == 0) System.out.println("fine");
-		else {
-			in_board.markCell(in_board.getFreeCells()[0].i, in_board.getFreeCells()[0].j);
-			changeBoard (B);
-		}
-	}
-
 	public static void main (String[] args) {
 		System.out.println("È partito!");
 
-		/*
-		B = new MNKBoard (3,3,3);
+		M = 3;
+		N = 3;
+		K = 3;
+		B = new MNKBoard (M,N,K);
 		MNKCell[] FC = B.getFreeCells();
 		B.markCell (FC[0].i, FC[0].j);
 		B.markCell (FC[1].i, FC[1].j);
 
-		TreeNode radice = new TreeNode (B, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
-		System.out.println("creazione albero");
-		solve3 (radice, B, 3);
+		/*
+		B.markCell (0,0);	// p1
+		B.markCell (1,0);
+		B.markCell (0,1);	// p1
+		B.markCell (2,0);
+		B.markCell (0,2);	// p1 --> B.gameState == WINP1
 
-		System.out.println("albero creato");
-		//radice.getPrimoFiglio();	// --> null
-		printSolve(radice, 0);
+		//B.markCell (2,2);	// p1
 		*/
 
+		TreeNode radice = new TreeNode (B, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+		System.out.println("Avvio la creazione dell'albero...");
+		System.out.println("Global B: " + B + "\n");
+		solve4 (radice, B, 6);
+
+		System.out.println("albero creato!");
+		printSolve(radice, 0);		// La radice è in cime all'albero --> ergo livello 0
+
+		/*
 		B = new MNKBoard (2,2,2);
 		changeBoard (B);
-
+		*/
 	}
-
 }
