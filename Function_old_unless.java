@@ -373,3 +373,45 @@ public static void printMC (MNKBoard in_board) {
     printMC (B);
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public static void solve3 (TreeNode in_padre, MNKBoard in_B, int in_depthLimit) {
+  if (in_depthLimit > 1) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
+    System.out.println("Stato: generazione - Livello: " + (5 - in_depthLimit) + " - Local B: " + in_B);
+
+    MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
+    MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
+    MNKBoard tmpB = new MNKBoard (M,N,K);
+    for (int e = 0; e < MC.length; e++) {
+      tmpB.markCell (MC[e].i, MC[e].j);
+    }
+
+    while (in_padre != null) {											// Per ogni fratello (e padre compreso) si crea il sottoalbero
+      tmpB.markCell (FC[0].i, FC[0].j);		  				// Temporaneo marcamento della prima cella
+      TreeNode primoFiglio = new TreeNode (tmpB, in_padre, true, null, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);		// Si crea il primo figlio
+      in_padre.setPrimoFiglio(primoFiglio);					// Si setta il primo figlio del nodo padre
+
+      solve3 (primoFiglio, tmpB, in_depthLimit - 1);
+      //tmpB.unmarkCell ();													// Si smarca la prima cella
+      TreeNode prev = primoFiglio;									// Prev creato uguale al primoFiglio
+
+      for (int e = 1; e < FC.length; e++) {					// Ciclo per la creazione dei nodi di un livello
+        MNKBoard tmp2B = new MNKBoard (M,N,K);			// Crea una nuova board per ogni nodo del livello in questione
+        for (int el = 0; el < MC.length; el++) {
+          tmp2B.markCell (MC[el].i, MC[el].j);
+        }
+
+        tmp2B.markCell (FC[e].i, FC[e].j);					// Temporaneo marcamento della cella
+        TreeNode figlio = new TreeNode (tmp2B, in_padre, false, prev, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        prev.setNext (figlio);											// Il fratello prev è ora collegato al suo nuovo fratello
+
+        prev = figlio;															// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+        solve3 (figlio, tmp2B, in_depthLimit - 1);
+        //tmp2B.unmarkCell ();												// Si smarca la cella in questione
+      }
+      in_padre = in_padre.getNext();
+    }
+  }
+
+}
