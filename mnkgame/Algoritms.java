@@ -3,10 +3,41 @@ package mnkgame;
 public class Algoritms {
 
   // 4
-	// MINIMAX e ALPHA-BETA PRUNING
+	//MINIMAX
+	public int minimax (TreeNode in_currentNode, bool myNode){
+		int eval;
+		if(in_currentNode.getPrimoFiglio == null){
+			assegnaValoreABFoglia(in_currentNode);
+		  return in_currentNode.getVal();
+		} else if (myNode == true){
+			eval = Integer.MIN_VALUE;
+			TreeNode child = in_currentNode.getPrimoFiglio();
+			TreeNode fratello = child.getNext();
+			while(fratello.getNext() != null){
+				while (in_currentNode.getPrimoFiglio() != null) {
+					eval = Math.min(eval, minimax(child, false));
+					in_currentNode = in_currentNode.getPrimoFiglio();
+				}
+				fratello = fratello.getNext();
+			}
+			return eval;
+		} else {
+			eval = Integer.MAX_VALUE;
+			while(fratello.getNext() != null){
+				while (in_currentNode.getPrimoFiglio() != null) {
+					eval = Math.max(eval, minimax(child, true));
+					in_currentNode = in_currentNode.getPrimoFiglio();
+				}
+				fratello = fratello.getNext();
+			}
+			return eval;
+		}
+	}
+
+	// ALPHA-BETA PRUNING
 	public int alphabetaPruning (TreeNode in_currentNode, int alpha, int beta, boolean isMax, int depth) {
 	  if (in_currentNode.getPrimoFiglio() == null || depth == 0) {
-			assegnaValoreABFoglia(in_padre);
+			assegnaValoreABFoglia(in_currentNode);
 		  return in_currentNode.getVal();
 	  }
 		TreeNode child = in_currentNode.getPrimoFiglio();
