@@ -2,6 +2,8 @@ package mnkgame;
 
 public class TreeFunctions {
 
+  public TreeFunctions () {}
+
   // 2
   // Funzione che va alle foglie dell'albero (e ne assegna il valore tramite un'altra funzione) + il relativo codice di invocazione
   public void vaiAlleFoglie (TreeNode in_primoDeiFigli, boolean in_first) {     // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
@@ -9,7 +11,7 @@ public class TreeFunctions {
       if (in_primoDeiFigli.getPrimoFiglio() == null)          // Se è una foglia
         assegnaValoreABFoglia (in_primoDeiFigli, in_first);   // Assegna i valori alpha e beta
       else {                                                  // Se non è una foglia
-          vaiAlleFoglie (in_primoDeiFigli.getPrimoFiglio());  // Si applica la funzione nei sotto-alberi
+          vaiAlleFoglie (in_primoDeiFigli.getPrimoFiglio(), in_first);  // Si applica la funzione nei sotto-alberi
       }
       in_primoDeiFigli = in_primoDeiFigli.getNext();
     }
@@ -19,7 +21,7 @@ public class TreeFunctions {
 
   // 3
   // Da spostare a livelli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)
-  public static int preWinLimit = -1 /* parteIntera (il n% di K) VALORE DA DECRETARE*/;   // Limite per decretare quando uno strike si può reputare una situazione prossima alla vittoria
+  public static int preWinLimit = -1 /* parteIntera (il n% di vars[k]) VALORE DA DECRETARE*/;   // Limite per decretare quando uno strike si può reputare una situazione prossima alla vittoria
 
   public static final int lunghezza = 15;             // Array contenenti le principali variabili (intere) della funzione assegnaValoreABFoglia
   // Indici delle variabili nell'array
@@ -116,8 +118,9 @@ public class TreeFunctions {
           editVar (vars, noEnemy);
           noEnemy = true;
 
+
           // Controllo diagonale
-          if (vars[i_righe] + 1 >= k && vars[j_colonne] + 1 >= k) {   // Se è possibile la creazione di diagonali
+          if (vars[i_righe] + 1 >= vars[k] && vars[j_colonne] + 1 >= vars[k]) {   // Se è possibile la creazione di diagonali
             System.out.println("AVVIO - FUNZIONE: assegnaValoreABFoglia - Controllo diagonale in esecuzione.");
             int move = 1;     // Variabile per lo scorrimento verso la posizione di partenza dei set diagonali, parte da 1 perchè da un valore minore di 1 si fanno incrementi inutili
 
@@ -126,33 +129,51 @@ public class TreeFunctions {
             int start_i = i_MC - move;
             int start_j = j_MC - move;
 
-            // Da in alto a sx fino in basso a dx
-            for (move = 0; start_i + move < start_i + vars[k] && start_j + move < start_j + vars[k]; move++) {
-              if (board.cellState(start_i + move, start_j + move) == currentPlayer) currenPlayerCell (vars);
-              else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) freeCell(vars);
-              else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) enemyCell(vars);
-              else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx - R.134 circa");
+            // Data la posizione più in alto a sx possibile (rispetto alla cella in analisi), controlla è in una posizione tale per cui vi sia almeno un set di lunghezza vars[k]
+            if (start_i + vars[k] - 1 <= vars[i_righe] && start_j + vars[k] - 1 <= vars[j_colonne]) {
+              System.out.println("-----------------------------------------------------------------------------");
+              System.out.println("start_i: " + start_i + " ; start_j: " + start_j + " ; vars[k]: " + vars[k]);
+              System.out.println("control_i: start_i + vars[k] - 1 = " + (start_i + vars[k] - 1));
+              System.out.println("control_j: start_j + vars[k] - 1 = " + (start_j + vars[k] - 1));
+              System.out.println("-----------------------------------------------------------------------------");
+              // Da in alto a sx fino in basso a dx
+              for (move = 0; start_i + move < start_i + vars[k] && start_j + move < start_j + vars[k]; move++) {
+                if (board.cellState(start_i + move, start_j + move) == currentPlayer) currenPlayerCell (vars);
+                else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) freeCell(vars);
+                else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) enemyCell(vars);
+                else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx - R.134 circa");
+                System.out.println("ASX -> BDX: start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
+              }
+              editVar (vars, noEnemy);
+              noEnemy = true;
             }
-            editVar (vars, noEnemy);
-            noEnemy = true;
 
             // Scorrimento verso in alto a dx
             for (move = 1; i_MC - move < i_righe && j_MC + move < j_colonne; move++) {}
             start_i = i_MC - move;
             start_j = j_MC - move;
+            System.out.println("SC ADX: start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
 
-            // Discesa fino in basso a sx
-            for (move = 0; start_i + move < start_i + vars[k] && start_j - move < 0; move++) {
-              if (board.cellState(start_i + move, start_j - move) == currentPlayer) currenPlayerCell (vars);
-              else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) freeCell (vars);
-              else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) enemyCell (vars);
-              else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto dx --> basso sx - R.149 circa");
+            if (start_i + vars[k] - 1 <= vars[i_righe] && start_j - vars[k] + 1 >= 0) {
+              System.out.println("-----------------------------------------------------------------------------");
+              System.out.println("start_i: " + start_i + " ; start_j: " + start_j + " ; vars[k]: " + vars[k]);
+              System.out.println("control_i: start_i + vars[k] - 1 = " + (start_i + vars[k] - 1));
+              System.out.println("control_j: start_j - vars[k] + 1 = " + (start_j - vars[k] + 1));
+              System.out.println("-----------------------------------------------------------------------------");
+              // Discesa fino in basso a sx
+              for (move = 0; start_i + move < start_i + vars[k] && start_j - move < 0; move++) {
+                if (board.cellState(start_i + move, start_j - move) == currentPlayer) currenPlayerCell (vars);
+                else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) freeCell (vars);
+                else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) enemyCell (vars);
+                else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto dx --> basso sx - R.149 circa");
+              }
+              editVar (vars, noEnemy);
+              noEnemy = true;
+              System.out.println("sssssssssssssssssssss");
             }
-            editVar (vars, noEnemy);
-            noEnemy = true;
 
-            }
-            // end if
+          }
+          // end if - controllo diagonale
           else {
             System.out.println("NO DIAGONAL SET - FUNZIONE: assegnaValoreABFoglia - Valori MNK non consoni per set diagonali.");
           }
@@ -187,7 +208,7 @@ public class TreeFunctions {
 
     else {
       if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP1 && in_first) in_foglia.setColor(Colors.GREEN);        // VITTORIA
-      else if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP2 && in_first) in_foglia.setsetColor(Colors.RED);  // SCONFITTA
+      else if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP2 && in_first) in_foglia.setColor(Colors.RED);  // SCONFITTA
       else if (in_foglia.getMNKBoard().gameState() == MNKGameState.DRAW) in_foglia.setColor (Colors.GREY);                // PAREGGIO
     }
 

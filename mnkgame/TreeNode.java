@@ -49,17 +49,17 @@ public class TreeNode {
   }
 
   public void printNodeInfo () {
-    //System.out.println ("------------------------------------------");
+    System.out.println ("------------------------------------------");
     System.out.println ("Padre: " + this.padre);
     System.out.println ("Board: " + this.B);
     System.out.println ("Primo figlio: " + this.primoFiglio);
     System.out.println ("List position: " + this.listPosition);
     System.out.println ("Next: " + this.next);
     System.out.println ("Prev: " + this.prev);
-    //System.out.println ("alpha: " + this.alpha + "; beta: " + this.beta);
-    //System.out.println ("Valore: " + this.val);
-    //System.out.println ("Colore: " + this.color);
-    //System.out.println ("------------------------------------------");
+    System.out.println ("alpha: " + this.alpha + "\nbeta: " + this.beta);
+    System.out.println ("Valore: " + this.val);
+    System.out.println ("Colore: " + this.color);
+    System.out.println ("------------------------------------------");
   }
 
   public void printMCInfo () {

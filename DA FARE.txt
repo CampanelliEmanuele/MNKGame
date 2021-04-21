@@ -6,3 +6,11 @@ X - Capire come accedere alla variabile state di una cella, o meglio, capire lo 
     Possibile soluzioni:
         - Capirlo tramite il metodo toString
         - USARE LA FUNZIONE EQUALS (Bisogna prima studiarla e capirla)
+
+X - Controllare come vengono assegnati i punteggi di beta (in questo caso)
+X - Controllare se e come vengono fatti i controlli diagonali (tramite degli out)
+
+X - algoritmi vari
+X - pulizia codice
+X - stesura del costo computazionale
+X - ottimizzazione codice
