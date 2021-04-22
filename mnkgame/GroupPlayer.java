@@ -190,24 +190,64 @@ public class GroupPlayer implements MNKPlayer {
 
 	// 6
 
+
+	public static void printInfo (TreeNode in_node, int in_level) {
+		System.out.println ("------------------------------------------");
+		if (in_node.getMNKBoard().gameState() != MNKGameState.OPEN) {
+			System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		}
+		System.out.println ("LIVELLO: " + in_level);
+		System.out.println ("NIQ: " + in_node);
+		in_node.printNodeInfo();
+		in_node.printMCInfo();
+		System.out.println ("------------------------------------------");
+	}
+
 	// Stampa le informazioni di ogni nodo dell'albero
 	public static void printSolve (TreeNode in_padre, int in_level) {		// in_level rappresenta il livello del nodo in_padre
 		if (in_padre != null) {
 			while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
-				System.out.println ("------------------------------------------");
-				if (in_padre.getMNKBoard().gameState() != MNKGameState.OPEN) {
-					System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-				}
-				System.out.println ("LIVELLO: " + in_level);
-				System.out.println ("NIQ: " + in_padre);
-				in_padre.printNodeInfo();
-				in_padre.printMCInfo();
-				System.out.println ("------------------------------------------");
+			  printInfo (in_padre, in_level);
 				if (in_padre.getPrimoFiglio() != null) printSolve (in_padre.getPrimoFiglio(), in_level + 1);
 				in_padre = in_padre.getNext();
 			}
 		}
 		System.out.println ("Nodo null");
+	}
+
+	/**
+	 * Stampa foglie: 								printSolve2 (Nodo, true,  node_level, n)   --> n
+	 * Stampa albero intero: 					printSolve2 (Node, false, node_level, n)   --> n < 1
+	 * Stampa albero primi n-livelli: printSolve2 (Node, false, node_level, n)   --> n >= 1
+	 */
+	public static void printSolve2 (TreeNode in_padre, boolean in_onlyLeaf, int in_level, int in_limit) {		// in_level rappresenta il livello del nodo in_padre
+		if (in_padre != null) {												// Se si passa un nodo
+			if (in_onlyLeaf) {													// Se si vuole stampare solo le foglie
+				while (in_padre != null) {								// Per ogni fratello (e padre compreso) si richiama la funzione
+					if (in_padre.getPrimoFiglio() == null) printInfo (in_padre, in_level); // Se è una foglia fa la stampa
+					if (in_padre.getPrimoFiglio() != null) printSolve2 (in_padre.getPrimoFiglio(), true, in_level + 1, -1);	// Si richiama
+					in_padre = in_padre.getNext();
+				}
+			}
+			// end if in_onlyLeaf
+			else {										// Se non si vuole stampare solo le foglie ma bensì tutto/parte dell'albero
+				if (in_limit >= 1) {		// Caso in cui si  vuole stampare solo fino ad un certo livello in_limit
+					while (in_padre != null) {
+						printInfo (in_padre, in_level);
+						if (in_padre.getPrimoFiglio() != null) printSolve2 (in_padre.getPrimoFiglio(), false, in_level + 1, in_limit - 1);
+						in_padre = in_padre.getNext();
+					}
+				} else {								// Se in_limit <= 0 (ovvero se si vuole stamapre tutto l'albero)
+					while (in_padre != null) {
+						printInfo (in_padre, in_level);
+						if (in_padre.getPrimoFiglio() != null) printSolve2 (in_padre.getPrimoFiglio(), false, in_level + 1, -1);
+						in_padre = in_padre.getNext();
+					}
+				}
+			}
+			// end else in_onlyLeaf
+		}
+
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,8 +271,8 @@ public class GroupPlayer implements MNKPlayer {
 		B.markCell (FC[1].i, FC[1].j);
 
 		/*
-		B.markCell (0,0);	// p1
-		B.markCell (1,0);
+		B.markCell (0,2);	// p1
+		B.markCell (0,0);
 		B.markCell (0,1);	// p1
 		B.markCell (2,0);
 		B.markCell (0,2);	// p1 --> B.gameState == WINP1
@@ -245,11 +285,14 @@ public class GroupPlayer implements MNKPlayer {
 
 		System.out.println("Avvio la creazione dell'albero...");
 		System.out.println("Global B: " + B + "\n");
-		solve4 (radice, B, 2);
+		solve4 (radice, B, 3);
 
 		System.out.println("albero creato!");
-		tmpTreeFunctions.assegnaValoreABFoglia(radice, true);
-		printSolve(radice, 0);		// La radice è in cime all'albero --> ergo livello 0
+		tmpTreeFunctions.vaiAlleFoglie(radice, true);
+		printSolve2(radice, true, 0, -1);		// La radice è in cime all'albero --> ergo livello 0
+
+
+
 
 		/*
 		B = new MNKBoard (2,2,2);
@@ -257,188 +300,3 @@ public class GroupPlayer implements MNKPlayer {
 		*/
 	}
 }
-
-
-/*
-Java - GroupPlayer.java:116
-È partito!
-Avvio la creazione dell'albero...
-Global B: mnkgame.MNKBoard@452b3a41
-
-albero creato!
-AVVIO - FUNZIONE: assegnaValoreABFoglia - Controllo diagonale in esecuzione.
------------------------------------------------------------------------------
-start_i: 0 ; start_j: 0 ; vars[k]: 3
-control_i: start_i + vars[k] - 1 = 2
-control_j: start_j + vars[k] - 1 = 2
------------------------------------------------------------------------------
-ASX -> BDX: start_i: 0 ; start_j: 0 ; move: 0
-ASX -> BDX: start_i: 0 ; start_j: 0 ; move: 1
-ASX -> BDX: start_i: 0 ; start_j: 0 ; move: 2
-SC ADX: start_i: 0 ; start_j: 0 ; move: 1
-AVVIO - FUNZIONE: assegnaValoreABFoglia - Controllo diagonale in esecuzione.
-SC ADX: start_i: 1 ; start_j: 0 ; move: 1
-------------------------------------------
-LIVELLO: 0
-NIQ: mnkgame.TreeNode@72ea2f77
-------------------------------------------
-Padre: null
-Board: mnkgame.MNKBoard@452b3a41
-Primo figlio: mnkgame.TreeNode@33c7353a
-List position: -1
-Next: null
-Prev: null
-alpha: 5
-beta: 11
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@33c7353a
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@1c20c684
-Primo figlio: null
-List position: 0
-Next: mnkgame.TreeNode@1fb3ebeb
-Prev: null
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(0,1) : P1
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@1fb3ebeb
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@548c4f57
-Primo figlio: null
-List position: 1
-Next: mnkgame.TreeNode@1218025c
-Prev: mnkgame.TreeNode@33c7353a
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(1,2) : P1
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@1218025c
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@816f27d
-Primo figlio: null
-List position: 2
-Next: mnkgame.TreeNode@87aac27
-Prev: mnkgame.TreeNode@1fb3ebeb
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(2,0) : P1
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@87aac27
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@3e3abc88
-Primo figlio: null
-List position: 3
-Next: mnkgame.TreeNode@6ce253f1
-Prev: mnkgame.TreeNode@1218025c
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(1,0) : P1
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@6ce253f1
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@53d8d10a
-Primo figlio: null
-List position: 4
-Next: mnkgame.TreeNode@e9e54c2
-Prev: mnkgame.TreeNode@87aac27
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(2,2) : P1
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@e9e54c2
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@65ab7765
-Primo figlio: null
-List position: 5
-Next: mnkgame.TreeNode@1b28cdfa
-Prev: mnkgame.TreeNode@6ce253f1
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(0,0) : P1
-------------------------------------------
-------------------------------------------
-LIVELLO: 1
-NIQ: mnkgame.TreeNode@1b28cdfa
-------------------------------------------
-Padre: mnkgame.TreeNode@72ea2f77
-Board: mnkgame.MNKBoard@eed1f14
-Primo figlio: null
-List position: 6
-Next: null
-Prev: mnkgame.TreeNode@e9e54c2
-alpha: -2147483648
-beta: 2147483647
-Valore: 0
-Colore: WHITE
-------------------------------------------
-CELLE MARCATE + STATO
-(1,1) : P1
-(2,1) : P2
-(0,2) : P1
-------------------------------------------
-Nodo null
-Nodo null
-[Finished in 1.555s]
-superf4brizio-VirtualBox superf4brizio 01:00:03 am
-*/

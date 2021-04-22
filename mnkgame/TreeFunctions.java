@@ -21,7 +21,7 @@ public class TreeFunctions {
 
   // 3
   // Da spostare a livelli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)
-  public static int preWinLimit = -1 /* parteIntera (il n% di vars[k]) VALORE DA DECRETARE*/;   // Limite per decretare quando uno strike si può reputare una situazione prossima alla vittoria
+  public static int preWinLimit;   // Limite per decretare quando uno strike si può reputare una situazione prossima alla vittoria
 
   public static final int lunghezza = 15;             // Array contenenti le principali variabili (intere) della funzione assegnaValoreABFoglia
   // Indici delle variabili nell'array
@@ -41,20 +41,26 @@ public class TreeFunctions {
   public static void editVar (int[] in_vars, boolean in_noEnemy) {
     if (in_noEnemy) in_vars[tmp]++;
     // Se non vi sono registrate situazioni prossime alla vittoria ma solo strike sufficientemente lunghi si incrementa tmp
-    if (in_vars[localWinSituations] == 0 && in_vars[maxStrike] >= (int)(in_vars[k] / 3)) in_vars[tmp] += (int)in_vars[maxStrike] / 4;
+    if (in_vars[localWinSituations] == 0 && in_vars[maxStrike] > (int)(in_vars[k] / 2)) in_vars[tmp] += 2;
     in_vars[maxStrike] = 0;
     in_vars[strike] = 0;
-    in_vars[localWinSituations] = 0;
+    if (in_vars[localWinSituations] > 0) {
+      in_vars[tmp] += 2;
+      in_vars[localWinSituations] = 0;
+    }
+    System.out.println ("in_vars[tmp]: " + in_vars[tmp]);
   }
 
   // 3.2
   public static void currenPlayerCell (int[] in_vars) {
+    System.out.println ("currenPlayerCell tmp +2");
     in_vars[tmp] += 2;
     in_vars[strike] += 1;
     if (in_vars[strike] > in_vars[maxStrike]) in_vars[maxStrike] = in_vars[strike];
   }
 
   public static void freeCell (int[] in_vars) {
+    System.out.println ("freeCell tmp +1");
     in_vars[tmp] += 1;
     if (in_vars[strike] > 0 && in_vars[strike] >= preWinLimit) {
       in_vars[localWinSituations]++;
@@ -65,13 +71,13 @@ public class TreeFunctions {
   }
 
   public static void enemyCell (int[] in_vars) {
+    System.out.println ("enemyCell tmp -1");
     in_vars[tmp]--;
     in_vars[strike] = 0;
   }
 
   public static void assegnaValoreABFoglia (TreeNode in_foglia, boolean in_first) {
     // set: È quel "pezzo" di celle lungo tutta la linea (orizzontale, verticale o diagonale) che viene analizzato di votla in volta
-
     MNKCellState botState = MNKCellState.P2; if (in_first) botState = MNKCellState.P1;
     // DUBBIO 1.1 MNKCellState currentPlayer = botState;    // Per current player si intende il giocatore in analisi
 
@@ -86,6 +92,7 @@ public class TreeFunctions {
       boolean noEnemy = true;                       // Variabile che tiene conto della presenza di nemici in un set
       boolean primoControllo = true;                // Si fanno due controlli (uno per ogni player), sarà true solo durante il primo di essi
 
+      preWinLimit = (int)((board.K / 3) * 2);
       int[] vars = new int[lunghezza]; for (int i = 3; i < lunghezza; i++) vars[i] = 0;
       vars[i_righe] = board.M - 1;
       vars[j_colonne] = board.N - 1;
@@ -97,9 +104,12 @@ public class TreeFunctions {
         for (int pos = alphaBeta; pos < MC.length; pos += 2) {    // La prima volta scorre le pos del player 0,2,4,..., la seconda volta le posizioni avversarie 1,3,5,...
           int i_MC = MC[pos].i;   // Coordinata i (riga) della cella in analisi
           int j_MC = MC[pos].j;   // Coordinata j (colonna) della cella in analisi
+          System.out.println ("[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+          System.out.println ("CELLA SET: (" + i_MC + "," + j_MC + ")");
 
           // Controllo set orizzontale
-          for (int c = 0; c <= j_colonne; c++) {     // Controllo della i-esima righe (da sx verso dx)
+          System.out.println ("AVVIO - Controllo orizzontale");
+          for (int c = 0; c <= vars[j_colonne]; c++) {     // Controllo della i-esima righe (da sx verso dx)
             if (board.cellState(i_MC, c) == currentPlayer) currenPlayerCell (vars);
             else if (board.cellState(i_MC, c) == MNKCellState.FREE) freeCell (vars);
             else if (board.cellState(i_MC, c) != currentPlayer && board.cellState(i_MC, c) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
@@ -109,7 +119,8 @@ public class TreeFunctions {
           noEnemy = true;
 
           // Controllo riga in verticale
-          for (int r = 0; r < i_righe; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso)
+          System.out.println ("AVVIO - Controllo verticale");
+          for (int r = 0; r <= vars[i_righe]; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso)
             if (board.cellState(r, j_MC) == currentPlayer) currenPlayerCell (vars);
             else if (board.cellState(r, j_MC) == MNKCellState.FREE) freeCell (vars);
             else if (board.cellState(r, j_MC) != currentPlayer && board.cellState(r, j_MC) != MNKCellState.FREE) enemyCell (vars);
@@ -118,11 +129,10 @@ public class TreeFunctions {
           editVar (vars, noEnemy);
           noEnemy = true;
 
-
           // Controllo diagonale
           if (vars[i_righe] + 1 >= vars[k] && vars[j_colonne] + 1 >= vars[k]) {   // Se è possibile la creazione di diagonali
-            System.out.println("AVVIO - FUNZIONE: assegnaValoreABFoglia - Controllo diagonale in esecuzione.");
-            int move = 1;     // Variabile per lo scorrimento verso la posizione di partenza dei set diagonali, parte da 1 perchè da un valore minore di 1 si fanno incrementi inutili
+            System.out.println ("AVVIO - Controllo diagonale");
+            int move = 0;     // Variabile per lo scorrimento verso la posizione di partenza dei set diagonali, parte da 1 perchè da un valore minore di 1 si fanno incrementi inutili
 
             // Scorrimento verso in alto a sx
             while (i_MC - move > 0 && j_MC - move > 0) { move++; }      // Si incrementa move fino a quando sottratto alle coordinate i e j non ci si ritrova in (i - move, j - move = 0)
@@ -131,37 +141,33 @@ public class TreeFunctions {
 
             // Data la posizione più in alto a sx possibile (rispetto alla cella in analisi), controlla è in una posizione tale per cui vi sia almeno un set di lunghezza vars[k]
             if (start_i + vars[k] - 1 <= vars[i_righe] && start_j + vars[k] - 1 <= vars[j_colonne]) {
-              System.out.println("-----------------------------------------------------------------------------");
-              System.out.println("start_i: " + start_i + " ; start_j: " + start_j + " ; vars[k]: " + vars[k]);
-              System.out.println("control_i: start_i + vars[k] - 1 = " + (start_i + vars[k] - 1));
-              System.out.println("control_j: start_j + vars[k] - 1 = " + (start_j + vars[k] - 1));
-              System.out.println("-----------------------------------------------------------------------------");
+              //System.out.println("control_i: start_i + vars[k] - 1 = " + (start_i + vars[k] - 1));
+              //System.out.println("control_j: start_j + vars[k] - 1 = " + (start_j + vars[k] - 1));
+
               // Da in alto a sx fino in basso a dx
+              System.out.println ("AVVIO - ASX -> BDX - start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
               for (move = 0; start_i + move < start_i + vars[k] && start_j + move < start_j + vars[k]; move++) {
                 if (board.cellState(start_i + move, start_j + move) == currentPlayer) currenPlayerCell (vars);
                 else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) freeCell(vars);
                 else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) enemyCell(vars);
                 else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx - R.134 circa");
-                System.out.println("ASX -> BDX: start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
               }
               editVar (vars, noEnemy);
               noEnemy = true;
             }
 
             // Scorrimento verso in alto a dx
-            for (move = 1; i_MC - move < i_righe && j_MC + move < j_colonne; move++) {}
+            for (move = 0; i_MC - move > 0 && j_MC + move < vars[j_colonne]; move++) {}
             start_i = i_MC - move;
-            start_j = j_MC - move;
-            System.out.println("SC ADX: start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
+            start_j = j_MC + move;
 
             if (start_i + vars[k] - 1 <= vars[i_righe] && start_j - vars[k] + 1 >= 0) {
-              System.out.println("-----------------------------------------------------------------------------");
-              System.out.println("start_i: " + start_i + " ; start_j: " + start_j + " ; vars[k]: " + vars[k]);
-              System.out.println("control_i: start_i + vars[k] - 1 = " + (start_i + vars[k] - 1));
-              System.out.println("control_j: start_j - vars[k] + 1 = " + (start_j - vars[k] + 1));
-              System.out.println("-----------------------------------------------------------------------------");
-              // Discesa fino in basso a sx
-              for (move = 0; start_i + move < start_i + vars[k] && start_j - move < 0; move++) {
+              //System.out.println("control_i: start_i + vars[k] - 1 = " + (start_i + vars[k] - 1));
+              //System.out.println("control_j: start_j - vars[k] + 1 = " + (start_j - vars[k] + 1));
+
+              // Da in alto a dx fino in basso a sx
+              System.out.println ("AVVIO - ADX -> BSX - start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
+              for (move = 0; start_i + move < start_i + vars[k] && start_j - move >= 0; move++) {
                 if (board.cellState(start_i + move, start_j - move) == currentPlayer) currenPlayerCell (vars);
                 else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) freeCell (vars);
                 else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) enemyCell (vars);
@@ -169,15 +175,15 @@ public class TreeFunctions {
               }
               editVar (vars, noEnemy);
               noEnemy = true;
-              System.out.println("sssssssssssssssssssss");
             }
-
+            System.out.println ("tmp: " + vars[tmp]);
           }
           // end if - controllo diagonale
           else {
             System.out.println("NO DIAGONAL SET - FUNZIONE: assegnaValoreABFoglia - Valori MNK non consoni per set diagonali.");
           }
           // end if - else
+
         }
         // end for
 
@@ -195,6 +201,7 @@ public class TreeFunctions {
 
         currentPlayer = MNKCellState.P2;
 
+        System.out.println("RESET DI TMP");
         vars[tmp] = 0;
       }
       // end for
