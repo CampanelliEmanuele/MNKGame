@@ -1,18 +1,21 @@
 V - Sviluppare l'algoritmo per l'assegnamento dei valori Alpha e Beta
-? - Sviluppare l'algoritmo AlphaBeta pruning
+WIP - Sviluppare l'algoritmo AlphaBeta pruning
 V - Studiare come vengono costruiti gli array FC e MC
 
-X - Capire come accedere alla variabile state di una cella, o meglio, capire lo stato di una cella (senza scorrere gli array)
+V - Capire come accedere alla variabile state di una cella, o meglio, capire lo stato di una cella (senza scorrere gli array)
     Possibile soluzioni:
         - Capirlo tramite il metodo toString
-        - USARE LA FUNZIONE EQUALS (Bisogna prima studiarla e capirla)
 
 V - Controllare come vengono assegnati i punteggi di beta (in questo caso)
 V - Controllare se e come vengono fatti i controlli diagonali (tramite degli out)
 
-WIP - pulizia codice
 
-x - decretare ed assegnare val
-X - algoritmi vari
+WIP - decretare ed assegnare val
+WIP - algoritmi vari
+x - test funzionamento
+
+optionals:
+
+WIP - pulizia codice
 X - stesura del costo computazionale
 X - ottimizzazione codice
