@@ -11,12 +11,12 @@ public class Algoritms {
 
   /*
 	//MINIMAX
-	public int minimax (TreeNode in_currentNode, boolean myNode){
+	public int minimax (TreeNode in_currentNode, boolean myTurn){
 		int eval;
 		if(in_currentNode.getPrimoFiglio() == null){
 			treeFunctions.assegnaValoreABFoglia(in_currentNode, first);
 		  return in_currentNode.getVal();
-		} else if (myNode == true){
+		} else if (myTurn == true){
 			eval = Integer.MIN_VALUE;
 			TreeNode child = in_currentNode.getPrimoFiglio();
 			TreeNode fratello = child.getNext();
@@ -44,6 +44,9 @@ public class Algoritms {
 	}
   */
 
+
+
+/*
   public void vaiAlleFoglieV2 (TreeNode in_primoDeiFigli, boolean in_first, int in_depth) {     // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
     while (in_primoDeiFigli != null) {                        // Per ogni figlio del nodo padre a cui è stata apllicata la funzione
       if (in_primoDeiFigli.getPrimoFiglio() == null)          // Se è una foglia
@@ -54,14 +57,17 @@ public class Algoritms {
       in_primoDeiFigli = in_primoDeiFigli.getNext();
     }
   }
+*/
+
+
 
   /*
-  public Color minimax(TreeNode in_padre, boolean myNode){
+  public Color minimax(TreeNode in_padre, boolean myTurn){
     //Siamo alle foglie dell'albero
     if(in_padre.getPrimoFiglio() == null) return in_padre.getColor();
 
     //È un livello da massimizzare
-    else if(myNode){
+    else if(myTurn){
       foreach(figlio in figli di in_padre){
         if(figlio.getColor() == Colors.GREEN)
         myColor =
@@ -74,60 +80,60 @@ public class Algoritms {
   }
   */
 
-  //ALPHA-BETA V2
-  public int alphaBetaPruning(TreeNode in_padre, boolean myNode, int in_depth, int alpha, int beta) {
-    //scorre fino  alle foglie, ma deve tenere traccia della profindità a cui si è
-    /*
-    while (in_currentNode != null) {                        // Per ogni figlio del nodo padre a cui è stata apllicata la funzione
-			if (in_primoDeiFigli.getPrimoFiglio() == null)          // Se è una foglia
-				//assegnaValoreABFoglia (in_primoDeiFigli, in_first);   // Assegna i valori alpha e beta
-			else {                                                  // Se non è una foglia
-					vaiAlleFoglie (in_primoDeiFigli.getPrimoFiglio(), in_first);  // Si applica la funzione nei sotto-alberi
-			}
-			in_primoDeiFigli = in_primoDeiFigli.getNext();
-		}
 
-
-		1) vai alle foglie
-		2) cerca il max valore il questione (A/B) tra i fratelli
-		3) Assegna il valore max dei figli, al in_padre
-		4) Ripetere fino a qunado non ritorni "in cima" (alla radice)
-		*/
-
-    if (myNode) {
-			if (in_depth == 0 || in_padre.getPrimoFiglio() == null) return in_padre.getBeta();
-
-
+  public static void prova (TreeNode p) {
+    while (p != null) {
+      System.out.println("kek");
+      p=p.getNext();
     }
-    else {
-			if (in_depth == 0 || in_padre.getPrimoFiglio() == null) return in_padre.getAlpha();
-
-    }
+    if (p == null) System.out.println("ddddddddddd");
+    System.out.println(p.getPrimoFiglio());
   }
 
-
-	public static void bigSolve (TreeNode in_padre, bool myNode) {
-		if (in_padre.getPrimoFiglio() != null) bigSolve (inpadre.getPrimoFiglio(), !myNode);
-		else {
-			int maxTmp = Integer.MIN_VALUE;
-			while (in_padre != null) {
-				if (in_padre.getPrimoFiglio() != null) bigSolve (in_padre.getPrimoFiglio(), !myNode);
-				if (myNode) {
-					if (in_padre.getAlpha() > maxTmp) maxTmp = in_padre.getAlpha();
-				} else {
-					if (in_padre.getBeta() > maxTmp) maxTmp = in_padre.getBeta();
-				}
-
-				if (in_padre.getPrimoFiglio() == null) {
-					if (myNode) in_padre.setVal(in_padre.getBeta());
-					else in_padre.setVal(in_padre.getAlpha());
-				}
-				In_padre = in_padre.getNext();
-			}
-			if (in_padre.getPadre() != NULL) in_padre.getPadre().setVal(tmpMax);
+	public static void bigSolve (TreeNode in_primoFiglio, boolean myTurn) {
+    //Se non si è in una foglia scorre l'albero verso il basso
+		if (in_primoFiglio.getPrimoFiglio() != null) {
+      bigSolve (in_primoFiglio.getPrimoFiglio(), !myTurn);
 		}
+    else {                    //Assegna alpha o beta al nodo in_primoFiglio
+      TreeNode tmpHead = in_primoFiglio;
+			int maxTmp = Integer.MIN_VALUE;
+      if (myTurn) {                                                                                   // Se è il mio turno, dovrò passare al padre il miglior valore di alpha (in quanto il padre rappresenta la scelta per l'avversaio)
+        while (in_primoFiglio != null) {                                                                    // Per ogni fratello della foglia
+          if (in_primoFiglio.getBeta() <= in_primoFiglio.getAlpha()) {  //cutoff
+            System.out.println("NODO: B: " + in_primoFiglio.getBeta() + " ; A" + in_primoFiglio.getAlpha());
+            if (in_primoFiglio.getPrimoFiglio() != null) bigSolve (in_primoFiglio.getPrimoFiglio(), !myTurn);
+            if (in_primoFiglio.getAlpha() > maxTmp) maxTmp = in_primoFiglio.getAlpha();
+          }
+          in_primoFiglio = in_primoFiglio.getNext();
+        }
+      } else {    //turno dell'avversario, si guarda alpha <= beta perchè ci si mette nei panni dell'altro giocatore
+        while (in_primoFiglio != null) {
+          System.out.println("NODO: B: " + in_primoFiglio.getBeta() + " ; A" + in_primoFiglio.getAlpha());
+          if (in_primoFiglio.getAlpha() <= in_primoFiglio.getBeta()) {   //cutoff
+            if (in_primoFiglio.getPrimoFiglio() != null) bigSolve (in_primoFiglio.getPrimoFiglio(), !myTurn);
+            if (in_primoFiglio.getBeta() > maxTmp) maxTmp = in_primoFiglio.getBeta();
+          }
 
+          in_primoFiglio = in_primoFiglio.getNext();
+        }
+      }
+
+			if (tmpHead.getPadre() != null) {                                                            // Se non si è arrivati alla radice dell'albero
+        if (myTurn) {                                                                               // Se è il mio turno
+          if (tmpHead.getPadre().getAlpha() < maxTmp) {// Si aggiorna il valore alpha del padre
+            tmpHead.getPadre().setAlpha(maxTmp);
+          }
+        } else {                                                                                    //turno avversario
+          if (tmpHead.getPadre().getBeta() < maxTmp) {// Si aggiorna beta di in_primoFiglio
+            tmpHead.getPadre().setBeta(maxTmp);
+          }
+        }
+      }
+    }
+    // fine else
 	}
+  // fine bigSolve
 
 
 
@@ -233,6 +239,7 @@ public class Algoritms {
 	}
   */
 
+  /*
   public TreeNode sceltaPercorso()
-
+  */
 }

@@ -302,13 +302,18 @@ public class GroupPlayer implements MNKPlayer {
 
 		System.out.println("albero creato!");
 		tmpTreeFunctions.vaiAlleFoglie(radice, true);
+		//printSolve2(radice, false, 0, -1);		// La radice è in cime all'albero --> ergo livello 0
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+
+
+		// Funzione da applicare solo alle foglie primoFiglio !!!
+		algoritms.bigSolve (radice.getPrimoFiglio(), false);			// Si passa true perchè è il nostro turno
 		printSolve2(radice, false, 0, -1);		// La radice è in cime all'albero --> ergo livello 0
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
 
 		//System.out.println(algoritms.sceltaPercorso (true, radice, 2));
 
@@ -319,3 +324,184 @@ public class GroupPlayer implements MNKPlayer {
 		*/
 	}
 }
+
+
+Java - GroupPlayer.java:313
+È partito!
+Avvio la creazione dell'albero...
+Global B: mnkgame.MNKBoard@4a574795
+
+albero creato!
+
+
+
+
+
+
+NODO: B: 32 ; A6
+NODO: B: 34 ; A8
+NODO: B: 36 ; A5
+NODO: B: 36 ; A8
+NODO: B: 36 ; A5
+NODO: B: 41 ; A8
+NODO: B: 41 ; A8
+------------------------------------------
+LIVELLO: 0
+NIQ: mnkgame.TreeNode@38af3868
+------------------------------------------
+Padre: null
+Board: mnkgame.MNKBoard@4a574795
+Primo figlio: mnkgame.TreeNode@77459877
+List position: -1
+Next: null
+Prev: null
+alpha: -2147483648
+beta: 41
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@77459877
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@5b2133b1
+Primo figlio: null
+List position: 0
+Next: mnkgame.TreeNode@72ea2f77
+Prev: null
+alpha: 6
+beta: 32
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(0,1) : P1
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@72ea2f77
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@33c7353a
+Primo figlio: null
+List position: 1
+Next: mnkgame.TreeNode@681a9515
+Prev: mnkgame.TreeNode@77459877
+alpha: 8
+beta: 34
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(1,2) : P1
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@681a9515
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@3af49f1c
+Primo figlio: null
+List position: 2
+Next: mnkgame.TreeNode@19469ea2
+Prev: mnkgame.TreeNode@72ea2f77
+alpha: 5
+beta: 36
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(2,0) : P1
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@19469ea2
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@13221655
+Primo figlio: null
+List position: 3
+Next: mnkgame.TreeNode@2f2c9b19
+Prev: mnkgame.TreeNode@681a9515
+alpha: 8
+beta: 36
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(1,0) : P1
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@2f2c9b19
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@31befd9f
+Primo figlio: null
+List position: 4
+Next: mnkgame.TreeNode@1c20c684
+Prev: mnkgame.TreeNode@19469ea2
+alpha: 5
+beta: 36
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(2,2) : P1
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@1c20c684
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@1fb3ebeb
+Primo figlio: null
+List position: 5
+Next: mnkgame.TreeNode@548c4f57
+Prev: mnkgame.TreeNode@2f2c9b19
+alpha: 8
+beta: 41
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(0,0) : P1
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@548c4f57
+------------------------------------------
+Padre: mnkgame.TreeNode@38af3868
+Board: mnkgame.MNKBoard@1218025c
+Primo figlio: null
+List position: 6
+Next: null
+Prev: mnkgame.TreeNode@1c20c684
+alpha: 8
+beta: 41
+Valore: 0
+Colore: WHITE
+------------------------------------------
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(0,2) : P1
+------------------------------------------
+[Finished in 1.049s]

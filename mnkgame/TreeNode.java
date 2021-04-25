@@ -24,7 +24,7 @@ public class TreeNode {
     this.prev = null;
     this.listPosition = -1;
     this.alpha = Integer.MIN_VALUE;
-    this.beta = Integer.MAX_VALUE;
+    this.beta = Integer.MIN_VALUE;
     this.val = in_val;
     this.color = Colors.WHITE;
   }

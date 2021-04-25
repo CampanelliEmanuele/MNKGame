@@ -19,3 +19,8 @@ optionals:
 WIP - pulizia codice
 X - stesura del costo computazionale
 X - ottimizzazione codice
+
+
+
+testa bigSolve dando manualmente il nodo radice
+creare la funzione che dia in automatico la foglia primoFiglio
