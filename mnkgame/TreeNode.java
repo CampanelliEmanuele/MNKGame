@@ -16,7 +16,7 @@ public class TreeNode {
   private Colors color;
 
   // Costruttore per il nodo padre, la radice dell'albero
-  public TreeNode (MNKBoard in_B, int in_alpha, int in_beta, int in_val) {
+  public TreeNode (MNKBoard in_B) {
     this.B = in_B;
     this.padre = null;
     this.primoFiglio = null;
@@ -25,12 +25,12 @@ public class TreeNode {
     this.listPosition = -1;
     this.alpha = Integer.MIN_VALUE;
     this.beta = Integer.MIN_VALUE;
-    this.val = in_val;
+    this.val = -100;
     this.color = Colors.WHITE;
   }
 
   // Costruttore di un figlio
-  public TreeNode (MNKBoard in_B, TreeNode in_padre, boolean in_primoFiglio, TreeNode in_prev, int in_alpha, int in_beta, int in_val) {
+  public TreeNode (MNKBoard in_B, TreeNode in_padre, boolean in_primoFiglio, TreeNode in_prev) {
     this.B = in_B;
     this.padre = in_padre;
     this.primoFiglio = null;    // Nodo primoFiglio che SI USA SOLO PER IL PADRE !!!
@@ -42,9 +42,9 @@ public class TreeNode {
       this.prev = in_prev;
       this.listPosition = in_prev.getListPosition() + 1;
     }
-    this.alpha = in_alpha;
-    this.beta = in_beta;
-    this.val = in_val;
+    this.alpha = Integer.MIN_VALUE;
+    this.beta = Integer.MIN_VALUE;
+    this.val = -100;
     this.color = Colors.WHITE;
   }
 

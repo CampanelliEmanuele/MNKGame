@@ -6,16 +6,51 @@ public class TreeFunctions {
 
   // 2
   // Funzione che va alle foglie dell'albero (e ne assegna il valore tramite un'altra funzione) + il relativo codice di invocazione
-  public void vaiAlleFoglie (TreeNode in_primoDeiFigli, boolean in_first) {     // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
-    while (in_primoDeiFigli != null) {                        // Per ogni figlio del nodo padre a cui è stata apllicata la funzione
-      if (in_primoDeiFigli.getPrimoFiglio() == null)          // Se è una foglia
-        assegnaValoreABFoglia (in_primoDeiFigli, in_first);   // Assegna i valori alpha e beta
+  public void vaiAlleFoglie (TreeNode in_primoFiglio, boolean in_first) {     // Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
+    while (in_primoFiglio != null) {                        // Per ogni figlio del nodo padre a cui è stata apllicata la funzione
+      if (in_primoFiglio.getPrimoFiglio() == null)          // Se è una foglia
+        assegnaValoreABFoglia (in_primoFiglio, in_first);   // Assegna i valori alpha e beta
       else {                                                  // Se non è una foglia
-          vaiAlleFoglie (in_primoDeiFigli.getPrimoFiglio(), in_first);  // Si applica la funzione nei sotto-alberi
+          vaiAlleFoglie (in_primoFiglio.getPrimoFiglio(), in_first);  // Si applica la funzione nei sotto-alberi
       }
-      in_primoDeiFigli = in_primoDeiFigli.getNext();
+      in_primoFiglio = in_primoFiglio.getNext();
     }
   }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // 7 (?)
+  // Funzione che ritorna ogni foglia primoFiglio
+  public static TreeNode ritornaFogliePF (TreeNode in_radice) {
+    while (in_radice != null) {                              // Per ogni fratello
+      if (in_radice.getPrimoFiglio() == null) {              // Se il nodo in questione non ha figli
+        return in_radice;                                    // Lo si ritorna in quanto foglia
+      } else {                                               // Se invece ha dei figli
+        ritornaFogliePF(in_radice.getPrimoFiglio());  // Si scorre albero verso il basso
+      }
+      System.out.println ("in_radice_ " + in_radice);
+      in_radice = in_radice.getNext();
+    }
+    System.out.println ("ao");
+    return null;
+  }
+
+  /*
+  public static TreeNode ritornaFogliePF2 (TreeNode in_radice) {
+    //while (in_radice != null) {                              // Per ogni fratello
+      if (in_radice.getPrimoFiglio() == null) {              // Se il nodo in questione non ha figli
+        return in_radice;                                    // Lo si ritorna in quanto foglia
+      } else {                                               // Se invece ha dei figli
+        ritornaFogliePF2(in_radice.getPrimoFiglio());  // Si scorre albero verso il basso
+      }
+    System.out.println ("in_radice_ " + in_radice);
+      //in_radice = in_radice.getNext();
+    System.out.println ("ao");
+    return in_radice.getNext();
+  }
+  */
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

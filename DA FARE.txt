@@ -11,16 +11,16 @@ V - Controllare se e come vengono fatti i controlli diagonali (tramite degli out
 
 
 WIP - decretare ed assegnare val
-WIP - algoritmi vari
-x - test funzionamento
+WIP - testa bigSolve dando manualmente il nodo radice
+WIP - creare la funzione che dia in automatico la foglia primoFiglio
 
-optionals:
 
+PIANO B:
+x - creare l'albero ed assegnare alpha e beta ad ogni nodo
+x - creare la relativa funzione di scelta percorso --> sceglie il nodo con il valore beta di alpha
+
+
+Finals:
 WIP - pulizia codice
 X - stesura del costo computazionale
 X - ottimizzazione codice
-
-
-
-testa bigSolve dando manualmente il nodo radice
-creare la funzione che dia in automatico la foglia primoFiglio
