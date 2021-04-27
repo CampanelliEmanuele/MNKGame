@@ -52,6 +52,8 @@ public class TreeNode {
     System.out.println ("------------------------------------------");
     System.out.println ("Padre: " + this.padre);
     System.out.println ("Board: " + this.B);
+    System.out.println ("MC.length: " + this.B.getMarkedCells().length);
+    System.out.println ("FC.length: " + this.B.getFreeCells().length);
     System.out.println ("Primo figlio: " + this.primoFiglio);
     System.out.println ("List position: " + this.listPosition);
     System.out.println ("Next: " + this.next);
@@ -59,6 +61,8 @@ public class TreeNode {
     System.out.println ("alpha: " + this.alpha + "\nbeta: " + this.beta);
     System.out.println ("Valore: " + this.val);
     System.out.println ("Colore: " + this.color);
+    System.out.println("");
+    printMCInfo ();
     System.out.println ("------------------------------------------");
   }
 
