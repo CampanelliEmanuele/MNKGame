@@ -134,12 +134,11 @@ public class GroupPlayer implements MNKPlayer {
 			System.out.println("albero creato!");
 			tmpTreeFunctions.vaiAlleFoglie(radice, true);
 
-			//algoritms.bigSolve2 (radice, true);		// Si passa true perchè è il nostro turno nel nodo radice
-			//printSolve2(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
+			//algoritms.bigSolve2 (radice, true);			// Si passa true perchè è il nostro turno nel nodo radice
+			printSolve2(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
 
 			//System.out.println("");
 			//System.out.println("Info cella scelta:");
-			//sceltaPercorso_1LV(radice).printNodeInfo();
 
 			TreeNode winCell = sceltaPercorso_1LV(radice);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
@@ -149,6 +148,8 @@ public class GroupPlayer implements MNKPlayer {
 			for (int el = 0; el < tmpMC.length; el++) {
 				System.out.println("tmpMC[" + el + "]: " + "(" + tmpMC[el].i + "," + tmpMC[el].j + ")");
 			}
+			winCell.printNodeInfo();
+
 			/*
 			for (int el = 0; el < tmpFC.length; el++) {
 				System.out.println("tmpFC[" + el + "]: " + "(" + tmpFC[el].i + "," + tmpFC[el].j + ")");

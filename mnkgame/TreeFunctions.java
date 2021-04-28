@@ -253,13 +253,13 @@ public class TreeFunctions {
       int beta = in_foglia.getBeta();
       if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP1 && in_first) {      // VITTORIA
         in_foglia.setColor(Colors.GREEN);
-        //in_foglia.setBeta(beta + 100000);
+        in_foglia.setBeta(Integer.MAX_VALUE);
         //in_foglia.setAlpha(alpha - 100000);
       }
       else if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP2 && in_first) { // SCONFITTA
         in_foglia.setColor(Colors.RED);
         //in_foglia.setBeta(beta - 100000);
-        //in_foglia.setAlpha(alpha + 100000);
+        in_foglia.setAlpha(Integer.MAX_VALUE);
       }
       else if (in_foglia.getMNKBoard().gameState() == MNKGameState.DRAW) {              // PAREGGIO
         in_foglia.setColor (Colors.GREY);
