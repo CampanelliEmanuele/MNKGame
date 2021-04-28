@@ -47,11 +47,13 @@ public class GroupPlayer implements MNKPlayer {
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
 
 		if (MC.length == 0) {																	// PRIMO TURNO
+				System.out.println("////////////////////////////////////////////////////////////////");
 				System.out.println("PRIMA MOSSA A NOI - MC length: " + MC.length);
 				MNKCell tmp = new MNKCell (0, 0, MNKCellState.P2);
 				return tmp;
 		}
 		else if (MC.length == 1) {														// SECONDO TURNO
+				System.out.println("////////////////////////////////////////////////////////////////");
 				System.out.println("SECONDA MOSSA A NOI - MC length: " + MC.length);
 				if (M == N && M % 2 == 0) {		// 44K - 66K
 
@@ -93,44 +95,67 @@ public class GroupPlayer implements MNKPlayer {
 
 		else {	// Se si è oltre il secondo turno
 			System.out.println("");
-			System.out.println("");
+			System.out.println("////////////////////////////////////////////////////////////////");
 			System.out.println("ELSE CASE - MC length: " + MC.length);
+			if (FC.length == 1) return FC[0];
+
+			MNKCell[] tmpMC_ = B.getMarkedCells();
+
+			System.out.println("MC date in input:");
+			for (int el = 0; el < MC.length; el++) {
+				System.out.println("MC[" + el + "]: " + "(" + MC[el].i + "," + MC[el].j + ")");
+			}
+
+			System.out.println("B.MC prima del marcamento:");
+			for (int el = 0; el < tmpMC_.length; el++) {
+				System.out.println("tmpMC_[" + el + "]: " + "(" + tmpMC_[el].i + "," + tmpMC_[el].j + ")");
+			}
+
+			// Si fanno i nuovi marcamenti
+			if (MC.length > 0) {
+				for (int el = tmpMC_.length; el < MC.length; el++) {
+					MNKCell c = MC[el];
+					B.markCell(c.i,c.j);
+				}
+			}
+			tmpMC_ = B.getMarkedCells();		// Si aggiorna tmpMC_ con le nuove celle marcate
+
+			System.out.println("B dopo del marcamento:");
+			for (int el = 0; el < tmpMC_.length; el++) {
+				System.out.println("tmpMC_[" + el + "]: " + "(" + tmpMC_[el].i + "," + tmpMC_[el].j + ")");
+			}
+
 
 			TreeNode radice = new TreeNode (B);
 
 			System.out.println("Avvio la creazione dell'albero...");
-			System.out.println("Global B: " + B + "\n");
 			//createTree_1LV (radice);
 			createTree(radice,2);
-
-
 			System.out.println("albero creato!");
 			tmpTreeFunctions.vaiAlleFoglie(radice, true);
-
 
 			//algoritms.bigSolve2 (radice, true);		// Si passa true perchè è il nostro turno nel nodo radice
 			//printSolve2(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
 
-			System.out.println("");
-			System.out.println("");
-			System.out.println("Info cella scelta:");
-			sceltaPercorso_1LV(radice).printNodeInfo();
+			//System.out.println("");
+			//System.out.println("Info cella scelta:");
+			//sceltaPercorso_1LV(radice).printNodeInfo();
 
 			TreeNode winCell = sceltaPercorso_1LV(radice);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell[] tmpFC = winCell.getMNKBoard().getFreeCells();
-/*
+
+			System.out.println("CELLA VINCENTE - MC:");
 			for (int el = 0; el < tmpMC.length; el++) {
 				System.out.println("tmpMC[" + el + "]: " + "(" + tmpMC[el].i + "," + tmpMC[el].j + ")");
 			}
+			/*
 			for (int el = 0; el < tmpFC.length; el++) {
 				System.out.println("tmpFC[" + el + "]: " + "(" + tmpFC[el].i + "," + tmpFC[el].j + ")");
 			}
-*/
+			*/
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("Cella vincencte: " + "(" + tmp.i + "," + tmp.j + ")");
-
-			//return (tmpMC[tmpMC.length - 1]);
 			return tmp;
 
 		}
@@ -314,7 +339,7 @@ public class GroupPlayer implements MNKPlayer {
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 	public static void main (String[] args) {
 		System.out.println("È partito!");
 
@@ -371,7 +396,7 @@ public class GroupPlayer implements MNKPlayer {
 
 	}
 
-
+*/
 }
 
 
