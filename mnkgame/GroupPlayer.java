@@ -132,7 +132,7 @@ public class GroupPlayer implements MNKPlayer {
 			//createTree_1LV (radice);
 			createTree(radice,2);
 			System.out.println("albero creato!");
-			tmpTreeFunctions.vaiAlleFoglie(radice, true);
+			tmpTreeFunctions.vaiAlleFoglie(radice, first);
 
 			//algoritms.bigSolve2 (radice, true);			// Si passa true perchè è il nostro turno nel nodo radice
 			printSolve2(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0

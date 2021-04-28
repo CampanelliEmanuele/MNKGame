@@ -50,8 +50,6 @@ public class TreeFunctions {
   }
   */
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // 3
@@ -127,7 +125,7 @@ public class TreeFunctions {
       boolean noEnemy = true;                       // Variabile che tiene conto della presenza di nemici in un set
       boolean primoControllo = true;                // Si fanno due controlli (uno per ogni player), sarà true solo durante il primo di essi
 
-      preWinLimit = (int)((board.K / 3) * 2);
+      preWinLimit = (int)((board.K / 3) * 2);       // preWin è pari ad un terzo di K
       int[] vars = new int[lunghezza]; for (int i = 3; i < lunghezza; i++) vars[i] = 0;
       vars[i_righe] = board.M - 1;
       vars[j_colonne] = board.N - 1;
@@ -158,7 +156,7 @@ public class TreeFunctions {
           for (int r = 0; r <= vars[i_righe]; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso)
             if (board.cellState(r, j_MC) == currentPlayer) currenPlayerCell (vars);
             else if (board.cellState(r, j_MC) == MNKCellState.FREE) freeCell (vars);
-            else if (board.cellState(r, j_MC) != currentPlayer && board.cellState(r, j_MC) != MNKCellState.FREE) enemyCell (vars);
+            else if (board.cellState(r, j_MC) != currentPlayer && board.cellState(r, j_MC) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
             else System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo verticale - R.114 circa");
           }
           editVar (vars, noEnemy);
@@ -184,7 +182,7 @@ public class TreeFunctions {
               for (move = 0; start_i + move < start_i + vars[k] && start_j + move < start_j + vars[k]; move++) {
                 if (board.cellState(start_i + move, start_j + move) == currentPlayer) currenPlayerCell (vars);
                 else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) freeCell(vars);
-                else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) enemyCell(vars);
+                else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
                 else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx - R.134 circa");
               }
               editVar (vars, noEnemy);
@@ -205,7 +203,7 @@ public class TreeFunctions {
               for (move = 0; start_i + move < start_i + vars[k] && start_j - move >= 0; move++) {
                 if (board.cellState(start_i + move, start_j - move) == currentPlayer) currenPlayerCell (vars);
                 else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) freeCell (vars);
-                else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) enemyCell (vars);
+                else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
                 else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto dx --> basso sx - R.149 circa");
               }
               editVar (vars, noEnemy);
@@ -222,13 +220,13 @@ public class TreeFunctions {
         }
         // end for
 
-        if (primoControllo) {                           // Se si stanno analizzando le celle del P1 (primo controllo, 0,2,4,...)
-          if (in_first) vars[beta] = vars[tmp];         // Se il bot è p1 (ha iniziato per primo) --> *Primo controllo* beta = tmp
-          else vars[alpha] = vars[tmp];                 // Altrimenti se il bot iniziato per secondo --> *Primo controllo* alpha = tmp
+        if (primoControllo) {                                               // Se si stanno analizzando le celle del P1 (primo controllo, 0,2,4,...)
+          if (botState == MNKCellState.P1) vars[beta] = vars[tmp];          // Se il bot è p1 (ha iniziato per primo) --> *Primo controllo* beta = tmp
+          else vars[alpha] = vars[tmp];                                     // Altrimenti se il bot iniziato per secondo --> *Primo controllo* alpha = tmp
           primoControllo = false;
-        } else {                                        // Altrimenti, se si controllano le celle del P2 (second ocontrollo, 1,3,5,...)
-          if (in_first) vars[alpha] = vars[tmp];        // Se il bot è P1 (tmp definti dalle celle di P2) --> *Secondo controllo* alpha = tmp
-          else vars[beta] = vars[tmp];                  // Altrimenti se il boi inizia per secondo (e si è al secondo controllo) --> *Secondo controllo* beta = tmp
+        } else {                                                            // Altrimenti, se si controllano le celle del P2 (second ocontrollo, 1,3,5,...)
+          if (botState == MNKCellState.P2) vars[beta] = vars[tmp];         // Se il bot è P1 (tmp definti dalle celle di P2) --> *Secondo controllo* alpha = tmp
+          else vars[alpha] = vars[tmp];                                      // Altrimenti se il boi inizia per secondo (e si è al secondo controllo) --> *Secondo controllo* beta = tmp
         }
 
         // DUBBIO 1.2 if (botState == MNKCellState.P1) currentPlayer = MNKCellState.P2;   // Si cambia il giocatore a cui guardare i segni
@@ -251,13 +249,16 @@ public class TreeFunctions {
     else {
       int alpha = in_foglia.getAlpha();
       int beta = in_foglia.getBeta();
-      if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP1 && in_first) {      // VITTORIA
+      MNKGameState winState = in_foglia.getMNKBoard().gameState();
+      if ((winState == MNKGameState.WINP1 && botState == MNKCellState.P1) || (winState == MNKGameState.WINP2 && botState == MNKCellState.P2)) {      // VITTORIA
         in_foglia.setColor(Colors.GREEN);
         in_foglia.setBeta(Integer.MAX_VALUE);
         //in_foglia.setAlpha(alpha - 100000);
       }
-      else if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP2 && in_first) { // SCONFITTA
+      else if ((winState == MNKGameState.WINP2 && botState == MNKCellState.P1) || (winState == MNKGameState.WINP1 && botState == MNKCellState.P2)) { // SCONFITTA
         in_foglia.setColor(Colors.RED);
+        System.out.println("aoaoaoaoaoaoaoaoaoaooaaooaoaoaaoaoaoaoaoaoaaoaoo");
+        System.out.println("in_first: " + in_first + " ; winState: " + winState + " ; botState: " + botState);
         //in_foglia.setBeta(beta - 100000);
         in_foglia.setAlpha(Integer.MAX_VALUE);
       }
