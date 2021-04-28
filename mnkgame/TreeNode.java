@@ -61,7 +61,6 @@ public class TreeNode {
     System.out.println ("alpha: " + this.alpha + "\nbeta: " + this.beta);
     System.out.println ("Valore: " + this.val);
     System.out.println ("Colore: " + this.color);
-    System.out.println("");
     printMCInfo ();
     System.out.println ("------------------------------------------");
   }

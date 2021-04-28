@@ -3,6 +3,10 @@ package mnkgame;
 import java.lang.Math;
 import java.util.Random;
 
+// javac -cp ".." *.java
+// java -cp ".." mnkgame.MNKGame 3 3 3 mnkgame.GroupPlayer
+// rm -r *.class
+
 public class GroupPlayer implements MNKPlayer {
 
 	private static MNKBoard B;
@@ -96,26 +100,25 @@ public class GroupPlayer implements MNKPlayer {
 
 			System.out.println("Avvio la creazione dell'albero...");
 			System.out.println("Global B: " + B + "\n");
-			createTree_1LV (radice);
+			//createTree_1LV (radice);
+			createTree(radice,2);
+
 
 			System.out.println("albero creato!");
 			tmpTreeFunctions.vaiAlleFoglie(radice, true);
 
+
 			//algoritms.bigSolve2 (radice, true);		// Si passa true perchè è il nostro turno nel nodo radice
-			//printSolve2(radice, false, 0, -1);		// La radice è in cime all'albero --> ergo livello 0
+			//printSolve2(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
 
 			System.out.println("");
+			System.out.println("");
+			System.out.println("Info cella scelta:");
+			sceltaPercorso_1LV(radice).printNodeInfo();
 
-			/*
-			for (int el = 0; el < FC.length; el++) {
-				System.out.println("FC[" + el + "]: " + "(" + FC[el].i + "," + FC[el].j + ")");
-			}
-			for (int el = 0; el < MC.length; el++) {
-				System.out.println("MC[" + el + "]: " + "(" + MC[el].i + "," + MC[el].j + ")");
-			}
-			*/
-			MNKCell[] tmpMC = sceltaPercorso_1LV(radice).getMNKBoard().getMarkedCells();
-			MNKCell[] tmpFC = sceltaPercorso_1LV(radice).getMNKBoard().getFreeCells();
+			TreeNode winCell = sceltaPercorso_1LV(radice);
+			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+			MNKCell[] tmpFC = winCell.getMNKBoard().getFreeCells();
 /*
 			for (int el = 0; el < tmpMC.length; el++) {
 				System.out.println("tmpMC[" + el + "]: " + "(" + tmpMC[el].i + "," + tmpMC[el].j + ")");
@@ -124,13 +127,11 @@ public class GroupPlayer implements MNKPlayer {
 				System.out.println("tmpFC[" + el + "]: " + "(" + tmpFC[el].i + "," + tmpFC[el].j + ")");
 			}
 */
-			sceltaPercorso_1LV(radice).printNodeInfo();
-
-			MNKCell winCell = tmpMC[0];
-			System.out.println("winCell: (" + winCell.i + "," + winCell.j + ") -> " + winCell.state);
+			MNKCell tmp = tmpMC[tmpMC.length - 1];
+			System.out.println("Cella vincencte: " + "(" + tmp.i + "," + tmp.j + ")");
 
 			//return (tmpMC[tmpMC.length - 1]);
-			return winCell;
+			return tmp;
 
 		}
 		// Fine else
@@ -244,7 +245,7 @@ public class GroupPlayer implements MNKPlayer {
 		else in_padre.setColor(Colors.GREY);
 	}
 
-	public TreeNode sceltaPercorso_1LV (TreeNode in_padre) {
+	public static TreeNode sceltaPercorso_1LV (TreeNode in_padre) {
 
 		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
 		TreeNode winNode = primoFiglio;												// Nodo ritornato
@@ -274,20 +275,7 @@ public class GroupPlayer implements MNKPlayer {
 		System.out.println ("LIVELLO: " + in_level);
 		System.out.println ("NIQ: " + in_node);
 		in_node.printNodeInfo();
-		in_node.printMCInfo();
 		System.out.println ("------------------------------------------");
-	}
-
-	// Stampa le informazioni di ogni nodo dell'albero
-	public static void printSolve (TreeNode in_padre, int in_level) {		// in_level rappresenta il livello del nodo in_padre
-		if (in_padre != null) {
-			while (in_padre != null) {								// Per ogni fratello (e padre compreso) si crea il sottoalbero
-			  printInfo (in_padre, in_level);
-				if (in_padre.getPrimoFiglio() != null) printSolve (in_padre.getPrimoFiglio(), in_level + 1);
-				in_padre = in_padre.getNext();
-			}
-		}
-		System.out.println ("Nodo null");
 	}
 
 	/**
@@ -327,7 +315,6 @@ public class GroupPlayer implements MNKPlayer {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*
 	public static void main (String[] args) {
 		System.out.println("È partito!");
 
@@ -354,7 +341,8 @@ public class GroupPlayer implements MNKPlayer {
 
 		System.out.println("Avvio la creazione dell'albero...");
 		System.out.println("Global B: " + B + "\n");
-		createTree_1LV (radice);
+		//createTree_1LV (radice);
+		createTree(radice,2);
 
 
 		System.out.println("albero creato!");
@@ -362,14 +350,29 @@ public class GroupPlayer implements MNKPlayer {
 
 
 		//algoritms.bigSolve2 (radice, true);		// Si passa true perchè è il nostro turno nel nodo radice
-		printSolve2(radice, false, 0, -1);		// La radice è in cime all'albero --> ergo livello 0
+		printSolve2(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
 
-		System.out.println("");
 		System.out.println("");
 		System.out.println("");
 		System.out.println("Cella scelta:" + sceltaPercorso_1LV(radice));
 
+		TreeNode winCell = sceltaPercorso_1LV(radice);
+		MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+		MNKCell[] tmpFC = winCell.getMNKBoard().getFreeCells();
+		for (int el = 0; el < tmpMC.length; el++) {
+			System.out.println("tmpMC[" + el + "]: " + "(" + tmpMC[el].i + "," + tmpMC[el].j + ")");
+		}
+		for (int el = 0; el < tmpFC.length; el++) {
+			System.out.println("tmpFC[" + el + "]: " + "(" + tmpFC[el].i + "," + tmpFC[el].j + ")");
+		}
+
+		MNKCell tmp = tmpMC[tmpMC.length - 1];
+		System.out.println("Cella vincencte: " + "(" + tmp.i + "," + tmp.j + ")");
 
 	}
-	*/
+
+
 }
+
+
+//
