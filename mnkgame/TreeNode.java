@@ -14,6 +14,8 @@ public class TreeNode {
   private int beta;
   private int val;
   private Colors color;
+  private int defense_i;
+  private int defense_j;
 
   // Costruttore per il nodo padre, la radice dell'albero
   public TreeNode (MNKBoard in_B) {
@@ -27,6 +29,8 @@ public class TreeNode {
     this.beta = Integer.MIN_VALUE;
     this.val = -100;
     this.color = Colors.WHITE;
+    this.defense_i = -1;
+    this.defense_j = -1;
   }
 
   // Costruttore di un figlio
@@ -46,6 +50,8 @@ public class TreeNode {
     this.beta = Integer.MIN_VALUE;
     this.val = -100;
     this.color = Colors.WHITE;
+    this.defense_i = -1;
+    this.defense_j = -1;
   }
 
   public void printNodeInfo () {
@@ -102,5 +108,11 @@ public class TreeNode {
 
   public Colors getColor () { return this.color; }
   public void setColor (Colors in_color) { this.color = in_color; }
+
+  public int getDefense_i () { return this.defense_i; }
+  public void setDefense_i (int in_defense_i) { this.defense_i = in_defense_i; }
+
+  public int getDefense_j () { return this.defense_j; }
+  public void setDefense_j (int in_defense_j) { this.defense_j = in_defense_j; }
 
 }

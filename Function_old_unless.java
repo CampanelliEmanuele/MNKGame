@@ -22,6 +22,52 @@ public class Function_old_unless {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  // Funzione inutile perchè la funzione createTree consete di crare un numero a piacere di livelli (1 compreso)
+  public static void createTree_1LV (TreeNode in_padre) {
+		if (in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {				// Se in_depthLimit > 1 --> Si crea un'altro livello
+			MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
+			MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
+
+			MNKBoard B_padre = in_padre.getMNKBoard();
+
+			MNKBoard newB = new MNKBoard (M,N,K);
+			for (int e = 0; e < MC.length; e++) {
+				newB.markCell (MC[e].i, MC[e].j);
+			}
+
+			newB.markCell(FC[0].i, FC[0].j);
+			TreeNode figlioMaggiore = new TreeNode(newB, in_padre, true, null);
+			in_padre.setPrimoFiglio(figlioMaggiore);
+			TreeNode prev = figlioMaggiore;
+
+			for (int e = 0; e < FC.length; e++) {					// Ciclo per la creazione dei nodi di un livello
+				MNKBoard newB2 = new MNKBoard (M,N,K);			// Crea una nuova board per ogni nodo del livello in questione
+				for (int el = 0; el < MC.length; el++) {
+					newB2.markCell (MC[el].i, MC[el].j);
+				}
+
+				newB2.markCell (FC[e].i, FC[e].j);					// Temporaneo marcamento della cella
+				TreeNode figlio = new TreeNode (newB2, in_padre, false, prev);
+				prev.setNext (figlio);											// Il fratello prev è ora collegato al suo nuovo fratello
+
+				prev = figlio;															// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+			}
+
+		}
+		// Fine if
+		else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP1) {
+			if (first) in_padre.setColor(Colors.GREEN);
+			else in_padre.setColor(Colors.RED);
+		}
+		else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP2) {
+			if (first) in_padre.setColor(Colors.RED);
+			else in_padre.setColor(Colors.GREEN);
+		}
+		else in_padre.setColor(Colors.GREY);
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   // FUNZIONE INUTILIZZATA
   public static MNKCell[] createSet (int in_setDirection, MNKBoard in_board, MNKCellState in_simbol2, int in_k, int in_riga, int in_colonna) {    // s2 è il simbolo avversario
         // Usare le istruzioni throw per il controllo del valore in_setDirection !!!!!!!!

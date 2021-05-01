@@ -10,7 +10,13 @@ V - Controllare come vengono assegnati i punteggi di beta (in questo caso)
 V - Controllare se e come vengono fatti i controlli diagonali (tramite degli out)
 
 
-WIP - decretare ed assegnare val
+WIP - testare se le coordinate della cella da difendere sono diverse da -1 nei momenti corretti, e se lo sono, controllare che ritornino l'effettiva cella da difendere
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+
 WIP - testa bigSolve dando manualmente il nodo radice
 WIP - creare la funzione che dia in automatico la foglia primoFiglio
 
