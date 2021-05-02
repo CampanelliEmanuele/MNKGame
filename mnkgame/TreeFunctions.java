@@ -84,34 +84,42 @@ public class TreeFunctions {
   // 3.1
   // Funzione richiamata una volta finito di controllare un set
   public static void editVar (int[] in_vars, boolean in_noEnemy) {
+    System.out.println ("editVars: PRE reset: in_vars[k_less_1]: " + in_vars[k_less_1] + " ; in_vars[max_k_less_1]: " + in_vars[max_k_less_1]);
     if (in_noEnemy) in_vars[tmp]++;
     // Se non vi sono registrate situazioni prossime alla vittoria ma solo strike sufficientemente lunghi si incrementa tmp
     if (in_vars[localWinSituations] == 0 && in_vars[maxStrike] > (int)(in_vars[k] / 2)) in_vars[tmp] += 2;
     in_vars[strike] = 0;
     in_vars[maxStrike] = 0;
+    if (in_vars[k_less_1] > in_vars[max_k_less_1]) in_vars[max_k_less_1] = in_vars[k_less_1];
     in_vars[k_less_1] = 0;
     in_vars[firstFreeCell] = 1;
+    System.out.println ("editVars: POST reset: in_vars[k_less_1]: " + in_vars[k_less_1] + " ; in_vars[max_k_less_1]: " + in_vars[max_k_less_1]);
 
     if (in_vars[localWinSituations] > 0) {
       in_vars[tmp] += 2;
       in_vars[localWinSituations] = 0;
     }
-    if (in_vars[max_k_less_1] == in_vars[k] - 1) in_vars[tmp] = Integer.MAX_VALUE - 1;       // Se un player sta per vincere si setta tmp = +inf - 1
+    if (in_vars[max_k_less_1] == in_vars[k] - 1) {
+      System.out.println ("in_vars[max_k_less_1]: " + in_vars[max_k_less_1]);
+      in_vars[tmp] = Integer.MAX_VALUE - 1;       // Se un player sta per vincere si setta tmp = +inf - 1
+    }
     //System.out.println ("in_vars[tmp]: " + in_vars[tmp]);
   }
 
   // 3.2: aumenta valori quando trova cella del player che stai analizzando
   public static void currenPlayerCell (int[] in_vars) {
     //System.out.println ("currenPlayerCell tmp +2");
+    System.out.println ("currenPlayerCell PRE: in_vars[k_less_1]: " + in_vars[k_less_1] + " ; in_vars[max_k_less_1]: " + in_vars[max_k_less_1]);
     in_vars[tmp] += 2;
     in_vars[strike] += 1;
     in_vars[k_less_1] += 1;
-    if (in_vars[k_less_1] > in_vars[max_k_less_1]) in_vars[max_k_less_1] = in_vars[k_less_1];
     if (in_vars[strike] > in_vars[maxStrike]) in_vars[maxStrike] = in_vars[strike];
+    System.out.println ("currenPlayerCell POST: in_vars[k_less_1]: " + in_vars[k_less_1] + " ; in_vars[max_k_less_1]: " + in_vars[max_k_less_1]);
   }
 
   public static void freeCell (int[] in_vars, int in_defense_i, int in_defense_j) {
     //System.out.println ("freeCell tmp +1");
+    System.out.println ("freeCell PRE: in_vars[firstFreeCell]: " + in_vars[firstFreeCell]);
     in_vars[tmp] += 1;
     if (in_vars[strike] > 0 && in_vars[strike] >= preWinLimit) {
       in_vars[localWinSituations]++;
@@ -125,10 +133,12 @@ public class TreeFunctions {
       in_vars[defense_j] = in_defense_j;
       in_vars[firstFreeCell] = 0;
     }
+    System.out.println ("freeCell POST: in_vars[firstFreeCell]: " + in_vars[firstFreeCell]);
   }
 
   public static void enemyCell (int[] in_vars) {
     //System.out.println ("enemyCell tmp -1");
+    System.out.println ("enemyCell: reset: in_vars[k_less_1]: " + in_vars[k_less_1]);
     in_vars[tmp]--;
     in_vars[strike] = 0;
     in_vars[k_less_1] = 0;
@@ -165,9 +175,13 @@ public class TreeFunctions {
           //System.out.println ("CELLA SET: (" + i_MC + "," + j_MC + ")");
 
           // Controllo set orizzontale
-          //System.out.println ("AVVIO - Controllo orizzontale");
+          System.out.println ("AVVIO - Controllo orizzontale");
           for (int c = 0; c <= vars[j_colonne]; c++) {     // Controllo della i-esima riga (da sx verso dx)
-            if (board.cellState(i_MC, c) == currentPlayer) currenPlayerCell (vars);
+            if (board.cellState(i_MC, c) == currentPlayer){
+              System.out.println("cella guardata: (" + i_MC + "," + c + ")" );
+              currenPlayerCell (vars);
+              //System.out.println("Controllo orizzontale");
+            }
             else if (board.cellState(i_MC, c) == MNKCellState.FREE) freeCell (vars, i_MC, c);
             else if (board.cellState(i_MC, c) != currentPlayer && board.cellState(i_MC, c) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
             else System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo orizzontale - R.104 circa");
@@ -176,9 +190,12 @@ public class TreeFunctions {
           noEnemy = true;
 
           // Controllo riga in verticale
-          //System.out.println ("AVVIO - Controllo verticale");
+          System.out.println ("AVVIO - Controllo verticale");
           for (int r = 0; r <= vars[i_righe]; r++) {     // Controllo della j-esima colonna (dall'alto verso il basso)
-            if (board.cellState(r, j_MC) == currentPlayer) currenPlayerCell (vars);
+            if (board.cellState(r, j_MC) == currentPlayer){
+              currenPlayerCell (vars);
+              //System.out.println("Controllo verticale");
+            }
             else if (board.cellState(r, j_MC) == MNKCellState.FREE) freeCell (vars, r, j_MC);
             else if (board.cellState(r, j_MC) != currentPlayer && board.cellState(r, j_MC) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
             else System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo verticale - R.114 circa");
@@ -188,7 +205,7 @@ public class TreeFunctions {
 
           // Controllo diagonale
           if (vars[i_righe] + 1 >= vars[k] && vars[j_colonne] + 1 >= vars[k]) {   // Se è possibile la creazione di diagonali
-            //System.out.println ("AVVIO - Controllo diagonale");
+            System.out.println ("AVVIO - Controllo diagonale");
             int move = 0;     // Variabile per lo scorrimento verso la posizione di partenza dei set diagonali, parte da 1 perchè da un valore minore di 1 si fanno incrementi inutili
 
             // Scorrimento verso in alto a sx
@@ -204,7 +221,10 @@ public class TreeFunctions {
               // Da in alto a sx fino in basso a dx
               //System.out.println ("AVVIO - ASX -> BDX - start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
               for (move = 0; start_i + move < start_i + vars[k] && start_j + move < start_j + vars[k]; move++) {
-                if (board.cellState(start_i + move, start_j + move) == currentPlayer) currenPlayerCell (vars);
+                if (board.cellState(start_i + move, start_j + move) == currentPlayer){
+                  currenPlayerCell (vars);
+                  //System.out.println("Controllo diagonale ASX -> BDX");
+                }
                 else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) freeCell(vars, start_i + move, start_j + move);
                 else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
                 else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx - R.134 circa");
@@ -225,7 +245,10 @@ public class TreeFunctions {
               // Da in alto a dx fino in basso a sx
               //System.out.println ("AVVIO - ADX -> BSX - start_i: " + start_i + " ; start_j: " + start_j + " ; move: " + move);
               for (move = 0; start_i + move < start_i + vars[k] && start_j - move >= 0; move++) {
-                if (board.cellState(start_i + move, start_j - move) == currentPlayer) currenPlayerCell (vars);
+                if (board.cellState(start_i + move, start_j - move) == currentPlayer){
+                  currenPlayerCell (vars);
+                  //System.out.println("Controllo diagonale ADX -> BSX");
+                }
                 else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) freeCell (vars, start_i + move, start_j - move);
                 else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) { enemyCell (vars); noEnemy = false; }
                 else System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto dx --> basso sx - R.149 circa");
@@ -300,6 +323,7 @@ public class TreeFunctions {
 
     //------------------------------------------------------------------------------------------
 
+    System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
 
   }
   // Fine funzione assegnaValoreABFoglia

@@ -67,6 +67,8 @@ public class TreeNode {
     System.out.println ("alpha: " + this.alpha + "\nbeta: " + this.beta);
     System.out.println ("Valore: " + this.val);
     System.out.println ("Colore: " + this.color);
+    System.out.println ("Defense_i: " + this.defense_i);
+    System.out.println ("Defense_j: " + this.defense_j);
     printMCInfo ();
     System.out.println ("------------------------------------------");
   }

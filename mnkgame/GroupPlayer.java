@@ -280,6 +280,7 @@ public class GroupPlayer implements MNKPlayer {
 
 
 		System.out.println("albero creato!");
+		first = true;
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		tmpTreeFunctions.vaiAlleFoglie(radice, botState);
 
@@ -313,34 +314,790 @@ public class GroupPlayer implements MNKPlayer {
 }
 
 
+Java - GroupPlayer.java:182
+È partito!
+Avvio la creazione dell'albero...
+Global B: mnkgame.MNKBoard@f6f4d33
+
+albero creato!
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+
+AVVIO - Controllo verticale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+enemyCell: reset: in_vars[k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
 
 
 
 
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo verticale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+enemyCell: reset: in_vars[k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo diagonale
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo verticale
+enemyCell: reset: in_vars[k_less_1]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
 
 
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+
+- x -
+- x -
+- o -
+
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+enemyCell: reset: in_vars[k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+AVVIO - Controllo orizzontale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 0
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo diagonale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 0
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 0
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+enemyCell: reset: in_vars[k_less_1]: 1
+editVars: PRE reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+AVVIO - Controllo diagonale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 1
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 1
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell PRE: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 2 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo orizzontale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+freeCell PRE: in_vars[firstFreeCell]: 0
+freeCell POST: in_vars[firstFreeCell]: 0
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo verticale
+freeCell PRE: in_vars[firstFreeCell]: 1
+freeCell POST: in_vars[firstFreeCell]: 0
+enemyCell: reset: in_vars[k_less_1]: 0
+currenPlayerCell PRE: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+currenPlayerCell POST: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: PRE reset: in_vars[k_less_1]: 1 ; in_vars[max_k_less_1]: 2
+editVars: POST reset: in_vars[k_less_1]: 0 ; in_vars[max_k_less_1]: 2
+in_vars[max_k_less_1]: 2
+AVVIO - Controllo diagonale
+llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+------------------------------------------
+LIVELLO: 0
+NIQ: mnkgame.TreeNode@77459877
+------------------------------------------
+Padre: null
+Board: mnkgame.MNKBoard@f6f4d33
+MC.length: 2
+FC.length: 7
+Primo figlio: mnkgame.TreeNode@5b2133b1
+List position: -1
+Next: null
+Prev: null
+alpha: -2147483648
+beta: -2147483648
+Valore: -100
+Colore: WHITE
+Defense_i: -1
+Defense_j: -1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@5b2133b1
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@72ea2f77
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 0
+Next: mnkgame.TreeNode@33c7353a
+Prev: null
+alpha: 5
+beta: 30
+Valore: -100
+Colore: WHITE
+Defense_i: -1
+Defense_j: -1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(0,1) : P1
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@33c7353a
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@681a9515
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 1
+Next: mnkgame.TreeNode@3af49f1c
+Prev: mnkgame.TreeNode@5b2133b1
+alpha: 2147483646
+beta: 2147483646
+Valore: -100
+Colore: WHITE
+Defense_i: 0
+Defense_j: 1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(1,2) : P1
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@3af49f1c
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@19469ea2
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 2
+Next: mnkgame.TreeNode@13221655
+Prev: mnkgame.TreeNode@33c7353a
+alpha: 2147483646
+beta: 2147483646
+Valore: -100
+Colore: WHITE
+Defense_i: 0
+Defense_j: 1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(2,0) : P1
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@13221655
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@2f2c9b19
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 3
+Next: mnkgame.TreeNode@31befd9f
+Prev: mnkgame.TreeNode@3af49f1c
+alpha: 2147483646
+beta: 2147483646
+Valore: -100
+Colore: WHITE
+Defense_i: 0
+Defense_j: 1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(1,0) : P1
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@31befd9f
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@1c20c684
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 4
+Next: mnkgame.TreeNode@1fb3ebeb
+Prev: mnkgame.TreeNode@13221655
+alpha: 2147483646
+beta: 2147483646
+Valore: -100
+Colore: WHITE
+Defense_i: 0
+Defense_j: 1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(2,2) : P1
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@1fb3ebeb
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@548c4f57
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 5
+Next: mnkgame.TreeNode@1218025c
+Prev: mnkgame.TreeNode@31befd9f
+alpha: 2147483646
+beta: 2147483646
+Valore: -100
+Colore: WHITE
+Defense_i: 0
+Defense_j: 1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(0,0) : P1
+------------------------------------------
+------------------------------------------
+------------------------------------------
+LIVELLO: 1
+NIQ: mnkgame.TreeNode@1218025c
+------------------------------------------
+Padre: mnkgame.TreeNode@77459877
+Board: mnkgame.MNKBoard@816f27d
+MC.length: 3
+FC.length: 6
+Primo figlio: null
+List position: 6
+Next: null
+Prev: mnkgame.TreeNode@1fb3ebeb
+alpha: 2147483646
+beta: 2147483646
+Valore: -100
+Colore: WHITE
+Defense_i: 0
+Defense_j: 1
+CELLE MARCATE + STATO
+(1,1) : P1
+(2,1) : P2
+(0,2) : P1
+------------------------------------------
+------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
+Cella scelta:mnkgame.TreeNode@33c7353a
+Cella da difendere: 0,1
+[Finished in 1.645s]
