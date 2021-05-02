@@ -1,4 +1,8 @@
+package fff;
+
 public class Test {
+
+  public Test () {}
 
   public static void c(int[] a) {
     a[0]++;

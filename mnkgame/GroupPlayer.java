@@ -2,6 +2,7 @@ package mnkgame;
 
 import java.lang.Math;
 import java.util.Random;
+import mnkgame.subroutine.Stampa;
 
 // javac -cp ".." *.java
 // java -cp ".." mnkgame.MNKGame 3 3 3 mnkgame.GroupPlayer
@@ -41,9 +42,9 @@ public class GroupPlayer implements MNKPlayer {
 	 * Deve ritornare la cella in cui mettere il segno
 	 */
 	public MNKCell selectCell (MNKCell[] FC, MNKCell[] MC) {
-
 		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
+		Stampa stampa = new Stampa();
 
 		if (MC.length == 0) {																	// PRIMO TURNO
 				System.out.println("////////////////////////////////////////////////////////////////");
@@ -133,7 +134,7 @@ public class GroupPlayer implements MNKPlayer {
 			tmpTreeFunctions.vaiAlleFoglie(radice, botState);
 
 			//algoritms.bigSolve2 (radice, true);			// Si passa true perchè è il nostro turno nel nodo radice
-			printTree(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
+			stampa.printTree(radice, false, 0, -1);			// La radice è in cime all'albero --> ergo livello 0
 
 			//System.out.println("");
 			//System.out.println("Info cella scelta:");
@@ -246,56 +247,11 @@ public class GroupPlayer implements MNKPlayer {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// 6
-	public static void printInfo (TreeNode in_node, int in_level) {
-		System.out.println ("------------------------------------------");
-		if (in_node.getMNKBoard().gameState() != MNKGameState.OPEN) {
-			System.out.println ("WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER");
-		}
-		System.out.println ("LIVELLO: " + in_level);
-		System.out.println ("NIQ: " + in_node);
-		in_node.printNodeInfo();
-		System.out.println ("------------------------------------------");
-	}
-
-	/**
-	 * Stampa foglie: 								printTree (Nodo, true,  node_level, n)  --> n
-	 * Stampa albero intero: 					printTree (Node, false, node_level, n)  --> n < 1
-	 * Stampa albero primi n-livelli: printTree (Node, false, node_level, n)  --> n >= 1
-	 */
-	public static void printTree (TreeNode in_padre, boolean in_onlyLeaf, int in_level, int in_limit) {		// in_level rappresenta il livello del nodo in_padre
-		if (in_padre != null) {												// Se si passa un nodo
-			if (in_onlyLeaf) {													// Se si vuole stampare solo le foglie
-				while (in_padre != null) {								// Per ogni fratello (e padre compreso) si richiama la funzione
-					if (in_padre.getPrimoFiglio() == null) printInfo (in_padre, in_level); // Se è una foglia fa la stampa
-					if (in_padre.getPrimoFiglio() != null) printTree (in_padre.getPrimoFiglio(), true, in_level + 1, -1);	// Si richiama
-					in_padre = in_padre.getNext();
-				}
-			}
-			// end if in_onlyLeaf
-			else {										// Se non si vuole stampare solo le foglie ma bensì tutto/parte dell'albero
-				if (in_limit >= 1) {		// Caso in cui si  vuole stampare solo fino ad un certo livello in_limit
-					while (in_padre != null) {
-						printInfo (in_padre, in_level);
-						if (in_padre.getPrimoFiglio() != null) printTree (in_padre.getPrimoFiglio(), false, in_level + 1, in_limit - 1);
-						in_padre = in_padre.getNext();
-					}
-				} else {								// Se in_limit <= 0 (ovvero se si vuole stamapre tutto l'albero)
-					while (in_padre != null) {
-						printInfo (in_padre, in_level);
-						if (in_padre.getPrimoFiglio() != null) printTree (in_padre.getPrimoFiglio(), false, in_level + 1, -1);
-						in_padre = in_padre.getNext();
-					}
-				}
-			}
-			// end else in_onlyLeaf
-		}
-
-	}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public static void main (String[] args) {
+		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
+		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
+		Stampa stampa = new Stampa();
+
 		System.out.println("È partito!");
 
 		// K piccolo: + tempo assegnaValoreABFoglia (controlli diagonali)
@@ -314,8 +270,6 @@ public class GroupPlayer implements MNKPlayer {
 		B.markCell (FC[1].i, FC[1].j);			// Parte da rimuovere in futuro
 
 
-		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
-		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
 
 		TreeNode radice = new TreeNode (B);
 
@@ -330,7 +284,7 @@ public class GroupPlayer implements MNKPlayer {
 		tmpTreeFunctions.vaiAlleFoglie(radice, botState);
 
 		//algoritms.bigSolve2 (radice, true);		// Si passa true perchè è il nostro turno nel nodo radice
-		printTree(radice, false, 0, -1);				// La radice è in cime all'albero --> ergo livello 0
+		stampa.printTree(radice, false, 0, -1);				// La radice è in cime all'albero --> ergo livello 0
 
 		System.out.println("");
 		System.out.println("");
