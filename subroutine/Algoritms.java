@@ -1,4 +1,4 @@
-package mnkgame;
+package subroutine;
 
 public class Algoritms {
 

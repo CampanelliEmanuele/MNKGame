@@ -1,4 +1,4 @@
-package mnkgame;
+package subroutine;
 
 public enum Colors {
   WHITE,

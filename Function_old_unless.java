@@ -1,6 +1,43 @@
+import mnkgame.*;
+import subroutine.TreeNode;
+
 public class Function_old_unless {
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	  // 7 (?)
+	  // Funzione che ritorna ogni foglia primoFiglio
+	  public static TreeNode ritornaFogliePF (TreeNode in_radice) {
+	    while (in_radice != null) {                              // Per ogni fratello
+	      if (in_radice.getPrimoFiglio() == null) {              // Se il nodo in questione non ha figli
+	        return in_radice;                                    // Lo si ritorna in quanto foglia
+	      } else {                                               // Se invece ha dei figli
+	        ritornaFogliePF(in_radice.getPrimoFiglio());  // Si scorre albero verso il basso
+	      }
+	      System.out.println ("in_radice_ " + in_radice);
+	      in_radice = in_radice.getNext();
+	    }
+	    System.out.println ("ao");
+	    return null;
+	  }
 
+	  /*
+	  public static TreeNode ritornaFogliePF2 (TreeNode in_radice) {
+	    //while (in_radice != null) {                              // Per ogni fratello
+	      if (in_radice.getPrimoFiglio() == null) {              // Se il nodo in questione non ha figli
+	        return in_radice;                                    // Lo si ritorna in quanto foglia
+	      } else {                                               // Se invece ha dei figli
+	        ritornaFogliePF2(in_radice.getPrimoFiglio());  // Si scorre albero verso il basso
+	      }
+	    System.out.println ("in_radice_ " + in_radice);
+	      //in_radice = in_radice.getNext();
+	    System.out.println ("ao");
+	    return in_radice.getNext();
+	  }
+	  */
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
   // 1
   // Crea un nuovo sotto-albero per ogni cella libera (rappresentazione di ogni possible mossa)
   public void creaSottoAlbero (TreeNode in_radice, int depthLimit) {

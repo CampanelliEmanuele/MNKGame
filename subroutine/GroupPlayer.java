@@ -1,8 +1,9 @@
-package mnkgame;
+package subroutine;
 
 //import java.lang.Math;
 import java.util.Random;
-import mnkgame.subroutine.Stampa;
+
+import mnkgame.*;
 
 // javac -cp ".." *.java
 // java -cp ".." mnkgame.MNKGame 3 3 3 mnkgame.GroupPlayer

@@ -1,9 +1,11 @@
-package mnkgame;
+package subroutine;
+
+import mnkgame.MNKBoard;
+import mnkgame.MNKCell;
+import mnkgame.MNKCellState;
+import mnkgame.MNKGameState;
 
 public class TreeFunctions {
-
-  public static int globalDefense_i;
-  public static int globalDefense_j;
 
   public TreeFunctions () {}
 
@@ -21,39 +23,6 @@ public class TreeFunctions {
   }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  // 7 (?)
-  // Funzione che ritorna ogni foglia primoFiglio
-  public static TreeNode ritornaFogliePF (TreeNode in_radice) {
-    while (in_radice != null) {                              // Per ogni fratello
-      if (in_radice.getPrimoFiglio() == null) {              // Se il nodo in questione non ha figli
-        return in_radice;                                    // Lo si ritorna in quanto foglia
-      } else {                                               // Se invece ha dei figli
-        ritornaFogliePF(in_radice.getPrimoFiglio());  // Si scorre albero verso il basso
-      }
-      System.out.println ("in_radice_ " + in_radice);
-      in_radice = in_radice.getNext();
-    }
-    System.out.println ("ao");
-    return null;
-  }
-
-  /*
-  public static TreeNode ritornaFogliePF2 (TreeNode in_radice) {
-    //while (in_radice != null) {                              // Per ogni fratello
-      if (in_radice.getPrimoFiglio() == null) {              // Se il nodo in questione non ha figli
-        return in_radice;                                    // Lo si ritorna in quanto foglia
-      } else {                                               // Se invece ha dei figli
-        ritornaFogliePF2(in_radice.getPrimoFiglio());  // Si scorre albero verso il basso
-      }
-    System.out.println ("in_radice_ " + in_radice);
-      //in_radice = in_radice.getNext();
-    System.out.println ("ao");
-    return in_radice.getNext();
-  }
-  */
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // 3
   // Da spostare a livelli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)

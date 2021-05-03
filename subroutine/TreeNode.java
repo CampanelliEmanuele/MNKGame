@@ -1,4 +1,7 @@
-package mnkgame;
+package subroutine;
+
+import mnkgame.MNKBoard;
+import mnkgame.MNKCell;
 
 public class TreeNode {
 
