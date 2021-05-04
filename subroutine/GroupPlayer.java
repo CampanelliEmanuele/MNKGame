@@ -40,7 +40,7 @@ public class GroupPlayer implements MNKPlayer {
 	}
 
 	/*
-	 * Deve ritornare la cella in cui mettere il segno
+	 * Deve ritornare la cella da marcare
 	 */
 	public MNKCell selectCell (MNKCell[] FC, MNKCell[] MC) {
 		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
@@ -128,7 +128,7 @@ public class GroupPlayer implements MNKPlayer {
 			TreeNode radice = new TreeNode (B);													// radice dell'albero
 			System.out.println("Avvio la creazione dell'albero...");
 			//createTree_1LV (radice);
-			createTree(radice,2);
+			tmpTreeFunctions.createTree(radice, 2, first);
 			System.out.println("albero creato!");
 
 			MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
@@ -140,7 +140,7 @@ public class GroupPlayer implements MNKPlayer {
 			//System.out.println("");
 			//System.out.println("Info cella scelta:");
 
-			TreeNode winCell = sceltaPercorso_1LV(radice);
+			TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell[] tmpFC = winCell.getMNKBoard().getFreeCells();
 
@@ -166,83 +166,6 @@ public class GroupPlayer implements MNKPlayer {
 
 	public String playerName () {
 		return "Slow_Unmade";				// Lento_Sfatto
-	}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// Per memorizzare i sottoalberi verrà utilizzata una struttura dati dinamica omogena lineare
-
-	
-	// 5
-	public static void createTree (TreeNode in_padre, int in_depthLimit) {
-		if (in_depthLimit > 1) {
-			if (in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {					// Se in_depthLimit > 1 --> Si crea un'altro livello
-				//System.out.println("Stato: generazione - Livello: " + (5 - in_depthLimit) + " - Local B: " + in_padre.getMNKBoard());
-				MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
-				MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
-				MNKBoard tmpB = new MNKBoard (M,N,K);
-				for (int e = 0; e < MC.length; e++) {
-					tmpB.markCell (MC[e].i, MC[e].j);
-				}
-				//System.out.println("Local B: " + in_padre.getMNKBoard());
-
-				while (in_padre != null) {													// Per ogni fratello (e padre compreso) si crea il sottoalbero
-					//if (tmpB.gameState() != MNKGameState.OPEN) continue;
-					tmpB.markCell (FC[0].i, FC[0].j);		  								// Temporaneo marcamento della prima cella
-					TreeNode primoFiglio = new TreeNode (tmpB, in_padre, true, null);		// Si crea il primo figlio
-					in_padre.setPrimoFiglio(primoFiglio);									// Si setta il primo figlio del nodo padre
-
-					createTree (primoFiglio, in_depthLimit - 1);
-					//tmpB.unmarkCell ();													// Si smarca la prima cella
-					TreeNode prev = primoFiglio;											// Prev creato uguale al primoFiglio
-
-					for (int e = 1; e < FC.length; e++) {									// Ciclo per la creazione dei nodi di un livello
-						MNKBoard tmp2B = new MNKBoard (M,N,K);								// Crea una nuova board per ogni nodo del livello in questione
-						for (int el = 0; el < MC.length; el++) tmp2B.markCell (MC[el].i, MC[el].j);
-
-						tmp2B.markCell (FC[e].i, FC[e].j);									// Temporaneo marcamento della cella
-						TreeNode figlio = new TreeNode (tmp2B, in_padre, false, prev);
-						prev.setNext (figlio);												// Il fratello prev è ora collegato al suo nuovo fratello
-
-						prev = figlio;														// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
-						createTree (figlio, in_depthLimit - 1);
-					}
-
-					in_padre = in_padre.getNext();
-				}
-
-			}
-			// Fine if
-			else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP1) {
-				if (first) in_padre.setColor(Colors.GREEN);
-				else in_padre.setColor(Colors.RED);
-			}
-			else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP2) {
-				if (first) in_padre.setColor(Colors.RED);
-				else in_padre.setColor(Colors.GREEN);
-			}
-			else in_padre.setColor(Colors.GREY);
-		}
-
-	}
-
-	// Ritorna il nodo migliore tra i nodi del livello sottostante a quello del padre
-	public static TreeNode sceltaPercorso_1LV (TreeNode in_padre) {
-
-		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
-		TreeNode winNode = primoFiglio;												// Nodo ritornato
-		int maxBeta = Integer.MIN_VALUE;
-
-		while (primoFiglio != null) {								// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
-				if (primoFiglio.getBeta() > maxBeta) {
-					maxBeta = primoFiglio.getBeta();
-					winNode = primoFiglio;
-				} else if (primoFiglio.getBeta() == maxBeta) {
-						if (primoFiglio.getAlpha() > winNode.getAlpha()) winNode = primoFiglio;
-				}
-				primoFiglio = primoFiglio.getNext();
-		}
-		return winNode;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,7 +199,7 @@ public class GroupPlayer implements MNKPlayer {
 		System.out.println("Avvio la creazione dell'albero...");
 		System.out.println("Global B: " + B + "\n");
 		//createTree_1LV (radice);
-		createTree(radice,2);
+		tmpTreeFunctions.createTree(radice, 2, first);
 
 
 		System.out.println("albero creato!");
@@ -284,14 +207,18 @@ public class GroupPlayer implements MNKPlayer {
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		tmpTreeFunctions.vaiAlleFoglie(radice, botState);
 
-		//algoritms.bigSolve2 (radice, true);		// Si passa true perchè è il nostro turno nel nodo radice
+		//algoritms.bigSolve2 (radice, true);				// Si passa true perchè è il nostro turno nel nodo radice
 		stampa.printTree(radice, false, 0, -1);				// La radice è in cime all'albero --> ergo livello 0
 
 		System.out.println("");
 		System.out.println("");
-		System.out.println("Cella scelta:" + sceltaPercorso_1LV(radice));
+		System.out.println("Cella scelta:" + tmpTreeFunctions.sceltaPercorso_1LV(radice));
 
-		TreeNode winCell = sceltaPercorso_1LV(radice);
+		TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);
+		
+		// Se winCell non ha coordinate >= 0 singifica che non bisogna difendere nessuna cella
+		// e si piò dunque tornare l'ultima cella marcata
+		// !!! DA TENERE ANCHE CONTO DELLO STATO DEL BOT (P1 or P2)
 
 		if (winCell.getDefense_i() >= 0 && winCell.getDefense_j() >= 0) {
 			System.out.println("Cella da difendere: " + winCell.getDefense_i() + "," + winCell.getDefense_j());
@@ -308,7 +235,10 @@ public class GroupPlayer implements MNKPlayer {
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 		}
+		
 
 	}
+	// fine main
 
 }
+// fine class GroupPlayer
