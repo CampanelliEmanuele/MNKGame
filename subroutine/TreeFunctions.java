@@ -26,7 +26,7 @@ public class TreeFunctions {
 					tmpB.markCell (MC[e].i, MC[e].j);
 				}
 				//System.out.println("Local B: " + in_padre.getMNKBoard());
-
+				
 				while (in_padre != null) {													// Per ogni fratello (e padre compreso) si crea il sottoalbero
 					//if (tmpB.gameState() != MNKGameState.OPEN) continue;
 					tmpB.markCell (FC[0].i, FC[0].j);		  								// Temporaneo marcamento della prima cella
@@ -102,11 +102,35 @@ public class TreeFunctions {
 	private static final int localWinSituations = 12;     // Situazioni vicine alla vittoria nella riga/colonna/diagonale in analisi
 	private static final int globalWinSituations = 13;    // Situazione vicine alla vittoria nella tabella di gioco in questione
 	// Variabili contenenti le coordinate della cella da difendere
-	private static final int cp_counter = 15;					// Funziona come strike ma non si resetta quando trova una freeCell
-	private static final int fc_counter = 16;
-	private static final int defense_i = 17;				// Coordinata i della cella da difendere
-	private static final int defense_j = 18;				// Coordinata j della cella da difendere
+	private static final int cp_counter = 15;				// Conta quante celle dello stesso tipo si susseguono, si resetta dopo due freeCell consecutive (ha 1 freeCell di margine perchè si fa un controllo per K-1 simboli)
+	private static final int fc_counter = 16;				// Tiene conto delle freeCell che si susseguono
+	private static final int defense_i = 17;				// Coordinata i della cella da difendere (locale)
+	private static final int defense_j = 18;				// Coordinata j della cella da difendere (locale)
 
+	/* Pseudo-codice per la difesa di una cella
+	If (currentPlayer)
+		cp_counter ++
+		If (cp_counter >= K) cp_counter = 1
+		If (cp_counter == K-1 && vars[defense_i] >= 0) 		-> A
+			Nodo.setDefense_i(vars[defense_i])
+			Nodo.setDefense_j(vars[defense_j])
+		fc_counter = 0
+	Else if (freeCell)
+		fc_counter++
+		If (fc_counter > 1) cp_counter = 0                	-> B/C
+		vars[defense_i] = cella_in_questione.i
+		vars[defense_j] = cella_in_questione.j
+		If (in_vars[cp_counter] == in_vars[k] - 1)
+			Nodo.setDefense_i(vars[defense_i])
+			Nodo.setDefense_j(vars[defense_j])
+			cp_counter = 0                                   -> B
+	Else if (enemyCell)
+		cp_counter = 0
+		fc_counter = 0
+		vars[defense_i] = -1
+		vars[defense_j] = -1
+	*/
+	
 	// 3.1
 	// Funzione richiamata una volta finito di controllare un set
 	private static void editVar (int[] in_vars, boolean in_noEnemy) {
@@ -121,8 +145,8 @@ public class TreeFunctions {
 	      in_vars[localWinSituations] = 0;
 	    }
 	    
-	    // AD ogni nuovo controllo, bisogna resettare tali variabili per:
-	    in_vars[cp_counter] = 0;	// Tenere ul conto dei simbolo nel nuo set in analisi
+	    // Ad ogni nuovo controllo, bisogna resettare tali variabili per:
+	    in_vars[cp_counter] = 0;	// Tenere il conto dei simboli nel nuovo set in analisi
 	    in_vars[fc_counter] = 0;
 	    in_vars[defense_i] = -1;	// Si resettano le coordinate locali della cella da difendere
 	    in_vars[defense_j] = -1;
@@ -135,13 +159,13 @@ public class TreeFunctions {
 	    in_vars[strike] += 1;
 	    if (in_vars[strike] > in_vars[maxStrike]) in_vars[maxStrike] = in_vars[strike];
 
-	    in_vars[cp_counter]++;
-		if (in_vars[cp_counter] >= in_vars[k]) in_vars[cp_counter] = 1;
-		if (in_vars[cp_counter] == in_vars[k] - 1 && in_vars[defense_i] >= 0) {
+	    in_vars[cp_counter]++;														// Si aumenta il conteggio delle celle (del player in analisi) in serie
+		if (in_vars[cp_counter] >= in_vars[k]) in_vars[cp_counter] = 1;				// Se cp_counter ha valori "sballati" si pone a 1
+		if (in_vars[cp_counter] == in_vars[k] - 1 && in_vars[defense_i] >= 0) {		// Controllo per vedere è stata trovata la cella da difendere
 			in_nodo.setDefense_i(in_vars[defense_i]);
 			in_nodo.setDefense_j(in_vars[defense_j]);
 		}
-		in_vars[fc_counter] = 0;
+		in_vars[fc_counter] = 0;				// Reset del counter delle freeCell
 	}
 
 	private static void freeCell (int[] in_vars, TreeNode in_node, int in_i, int in_j) {
@@ -154,16 +178,17 @@ public class TreeFunctions {
 	    	in_vars[strike] = 0;
 	    }
 	    
+	    
 		in_vars[fc_counter]++;
-		if (in_vars[fc_counter] > 1) in_vars[cp_counter] = 0;	// Se vi sono 2 o più celle liberi affiancate si resetta cp_counter
+		if (in_vars[fc_counter] > 1) in_vars[cp_counter] = 0;	// Se vi sono 2 o più celle libere affiancate si resetta cp_counter
 		
-		in_vars[defense_i] = in_i;				// Si salvano localmente le coordinate della cella in questione
+		in_vars[defense_i] = in_i;								// Si salvano localmente le coordinate della cella in questione
 		in_vars[defense_j] = in_j;
 
-		if (in_vars[cp_counter] == in_vars[k] - 1) {
-			in_node.setDefense_i(in_vars[in_i]);
-			in_node.setDefense_j(in_vars[in_j]);
-			in_vars[cp_counter] = 0;					// Una volta salvato nel nodo le coordinate da difendere, si resetta cp_counter
+		if (in_vars[cp_counter] == in_vars[k] - 1) {			// Controllo per capire se è una cella da difendere
+			in_node.setDefense_i(in_vars[defense_i]);
+			in_node.setDefense_j(in_vars[defense_j]);
+			in_vars[cp_counter] = 0;							// Una volta salvato nel nodo le coordinate da difendere, si resetta cp_counter
 		}
 	}
 
@@ -197,6 +222,8 @@ public class TreeFunctions {
 	    	vars[i_righe] = board.M - 1;
 	    	vars[j_colonne] = board.N - 1;
 	    	vars[k] = board.K;
+	    	vars[defense_i] = -1;
+	    	vars[defense_j] = -1;
 	
 	        // Si esegue la valutazione per attribuire un valore ad entrambi i simboli alpha e beta di ogni giocatore
 	    	for (int alphaBeta = 0; alphaBeta < 2; alphaBeta++) {

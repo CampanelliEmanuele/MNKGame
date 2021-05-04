@@ -96,20 +96,24 @@ public class GroupPlayer implements MNKPlayer {
 		else {	// Se si è oltre il secondo turno
 			System.out.println("");
 			System.out.println("////////////////////////////////////////////////////////////////");
-			System.out.println("ELSE CASE - MC length: " + MC.length);
+			//System.out.println("ELSE CASE - MC length: " + MC.length);
 			if (FC.length == 1) return FC[0];
 
 			MNKCell[] tmpMC_ = B.getMarkedCells();
 
+			/*
 			System.out.println("MC date in input:");
 			for (int el = 0; el < MC.length; el++) {
 				System.out.println("MC[" + el + "]: " + "(" + MC[el].i + "," + MC[el].j + ")");
 			}
-
+			*/
+			
+			/*
 			System.out.println("B.MC prima del marcamento:");
 			for (int el = 0; el < tmpMC_.length; el++) {
 				System.out.println("tmpMC_[" + el + "]: " + "(" + tmpMC_[el].i + "," + tmpMC_[el].j + ")");
 			}
+			*/
 
 			// Si fanno i nuovi marcamenti
 			if (MC.length > 0) {
@@ -120,10 +124,12 @@ public class GroupPlayer implements MNKPlayer {
 			}
 			tmpMC_ = B.getMarkedCells();		// Si aggiorna tmpMC_ con le nuove celle marcate
 
+			/*
 			System.out.println("B dopo del marcamento:");
 			for (int el = 0; el < tmpMC_.length; el++) {
 				System.out.println("tmpMC_[" + el + "]: " + "(" + tmpMC_[el].i + "," + tmpMC_[el].j + ")");
 			}
+			*/
 
 			TreeNode radice = new TreeNode (B);													// radice dell'albero
 			System.out.println("Avvio la creazione dell'albero...");
@@ -144,10 +150,12 @@ public class GroupPlayer implements MNKPlayer {
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell[] tmpFC = winCell.getMNKBoard().getFreeCells();
 
+			/*
 			System.out.println("CELLA VINCENTE - MC:");
 			for (int el = 0; el < tmpMC.length; el++) {
 				System.out.println("tmpMC[" + el + "]: " + "(" + tmpMC[el].i + "," + tmpMC[el].j + ")");
 			}
+			*/
 			winCell.printNodeInfo();
 
 			/*
@@ -155,9 +163,16 @@ public class GroupPlayer implements MNKPlayer {
 				System.out.println("tmpFC[" + el + "]: " + "(" + tmpFC[el].i + "," + tmpFC[el].j + ")");
 			}
 			*/
-			MNKCell tmp = tmpMC[tmpMC.length - 1];
-			System.out.println("Cella vincencte: " + "(" + tmp.i + "," + tmp.j + ")");
-			return tmp;
+			
+			if (winCell.getDefense_i() >= 0 && winCell.getDefense_j() >= 0) {			// Se c'è una cella da difendere, la si marca
+				MNKCell tmp = new MNKCell (winCell.getDefense_i(), winCell.getDefense_j(), tmpMC[tmpMC.length - 1].state);
+				System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
+				return tmp;
+			} else {																	// Altrimenti si ritorna la migliore per il nostro bot
+				MNKCell tmp = tmpMC[tmpMC.length - 1];
+				System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+				return tmp;
+			}
 
 		}
 		// Fine else
@@ -169,7 +184,7 @@ public class GroupPlayer implements MNKPlayer {
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 	public static void main (String[] args) {
 		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
@@ -198,7 +213,6 @@ public class GroupPlayer implements MNKPlayer {
 
 		System.out.println("Avvio la creazione dell'albero...");
 		System.out.println("Global B: " + B + "\n");
-		//createTree_1LV (radice);
 		tmpTreeFunctions.createTree(radice, 2, first);
 
 
@@ -214,12 +228,24 @@ public class GroupPlayer implements MNKPlayer {
 		System.out.println("");
 		System.out.println("Cella scelta:" + tmpTreeFunctions.sceltaPercorso_1LV(radice));
 
-		TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);
 		
-		// Se winCell non ha coordinate >= 0 singifica che non bisogna difendere nessuna cella
-		// e si piò dunque tornare l'ultima cella marcata
-		// !!! DA TENERE ANCHE CONTO DELLO STATO DEL BOT (P1 or P2)
+		
+		TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);		// Ritorna il nodo avente il valore Beta più alto
+		
+		// Se winCell.defense_i == -1 && winCell-defense_j == -1 --> Marca l'ultima cella di MC
+		// Altrimenti marchiamo la cella da difendere
 
+		if (first) {
+			System.out.println("first = true ; Cella da difendere: " + winCell.getDefense_i() + "," + winCell.getDefense_j());
+			System.out.println("A: " + winCell.getAlpha() + " ; B: " + winCell.getBeta());
+		} else {
+			System.out.println("first = false ; Cella da difendere: " + winCell.getDefense_i() + "," + winCell.getDefense_j());
+			System.out.println("A: " + winCell.getAlpha() + " ; B: " + winCell.getBeta());
+		}
+		
+		
+		
+		
 		if (winCell.getDefense_i() >= 0 && winCell.getDefense_j() >= 0) {
 			System.out.println("Cella da difendere: " + winCell.getDefense_i() + "," + winCell.getDefense_j());
 		} else {
@@ -239,6 +265,7 @@ public class GroupPlayer implements MNKPlayer {
 
 	}
 	// fine main
+	*/
 
 }
 // fine class GroupPlayer
