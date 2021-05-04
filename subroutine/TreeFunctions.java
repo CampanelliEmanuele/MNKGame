@@ -106,30 +106,6 @@ public class TreeFunctions {
 	private static final int fc_counter = 16;				// Tiene conto delle freeCell che si susseguono
 	private static final int defense_i = 17;				// Coordinata i della cella da difendere (locale)
 	private static final int defense_j = 18;				// Coordinata j della cella da difendere (locale)
-
-	/* Pseudo-codice per la difesa di una cella
-	If (currentPlayer)
-		cp_counter ++
-		If (cp_counter >= K) cp_counter = 1
-		If (cp_counter == K-1 && vars[defense_i] >= 0) 		-> A
-			Nodo.setDefense_i(vars[defense_i])
-			Nodo.setDefense_j(vars[defense_j])
-		fc_counter = 0
-	Else if (freeCell)
-		fc_counter++
-		If (fc_counter > 1) cp_counter = 0                	-> B/C
-		vars[defense_i] = cella_in_questione.i
-		vars[defense_j] = cella_in_questione.j
-		If (in_vars[cp_counter] == in_vars[k] - 1)
-			Nodo.setDefense_i(vars[defense_i])
-			Nodo.setDefense_j(vars[defense_j])
-			cp_counter = 0                                   -> B
-	Else if (enemyCell)
-		cp_counter = 0
-		fc_counter = 0
-		vars[defense_i] = -1
-		vars[defense_j] = -1
-	*/
 	
 	// 3.1
 	// Funzione richiamata una volta finito di controllare un set
@@ -214,13 +190,14 @@ public class TreeFunctions {
 	    if (in_foglia.getMNKBoard().gameState() == MNKGameState.OPEN) {
 	    	MNKCellState currentPlayer = MNKCellState.P1;
 	
-	    	MNKBoard board = in_foglia.getMNKBoard();     // Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
+	    	MNKBoard board = in_foglia.getMNKBoard();     	// Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 	    	MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();        // Nelle posizioni 0,2,4,... vi sono le mosse del P1, nelle posizioni 1,3,5,... vi sono le mosse del P2
 	
-	    	boolean noEnemy = true;                       // Variabile che tiene conto della presenza di nemici in un set
-	    	boolean primoControllo = true;                // Si fanno due controlli (uno per ogni player), sarà true solo durante il primo di essi
+	    	boolean noEnemy = true;                       	// Variabile che tiene conto della presenza di nemici in un set
+	    	boolean primoControllo = true;                	// Si fanno due controlli (uno per ogni player), sarà true solo durante il primo di essi
 	
-	    	preWinLimit = (int)((board.K / 3) * 2);       // preWin è pari ad un terzo di K
+	    	//preWinLimit = (int)((board.K / 3) * 2);       // preWin è pari a due terzi terzi di K
+	    	preWinLimit = (int)(board.K / 3);
 	    	int[] vars = new int[lunghezza]; for (int i = 3; i < lunghezza; i++) vars[i] = 0;
 	    	vars[i_righe] = board.M - 1;
 	    	vars[j_colonne] = board.N - 1;

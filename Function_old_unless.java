@@ -4,6 +4,30 @@ import subroutine.TreeNode;
 
 public class Function_old_unless {
 
+	/* Pseudo-codice per la difesa di una cella
+	If (currentPlayer)
+		cp_counter ++
+		If (cp_counter >= K) cp_counter = 1
+		If (cp_counter == K-1 && vars[defense_i] >= 0) 		-> A
+			Nodo.setDefense_i(vars[defense_i])
+			Nodo.setDefense_j(vars[defense_j])
+		fc_counter = 0
+	Else if (freeCell)
+		fc_counter++
+		If (fc_counter > 1) cp_counter = 0                	-> B/C
+		vars[defense_i] = cella_in_questione.i
+		vars[defense_j] = cella_in_questione.j
+		If (in_vars[cp_counter] == in_vars[k] - 1)
+			Nodo.setDefense_i(vars[defense_i])
+			Nodo.setDefense_j(vars[defense_j])
+			cp_counter = 0                                   -> B
+	Else if (enemyCell)
+		cp_counter = 0
+		fc_counter = 0
+		vars[defense_i] = -1
+		vars[defense_j] = -1
+	*/
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 3
 	// Da spostare a livelli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)
