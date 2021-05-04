@@ -6,7 +6,7 @@ import java.util.Random;
 import mnkgame.*;
 
 // javac -cp ".." *.java
-// java -cp ".." mnkgame.MNKGame 3 3 3 mnkgame.GroupPlayer
+// java -cp ".." mnkgame.MNKGame 3 3 3 subroutine.GroupPlayer
 // rm -r *.class
 
 public class GroupPlayer implements MNKPlayer {
@@ -123,6 +123,7 @@ public class GroupPlayer implements MNKPlayer {
 			
 			System.out.println("NODO VINCENTE ##############################################################################################################");
 			winCell.printNodeInfo();
+			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			
 			if (winCell.getDefense_i() >= 0 && winCell.getDefense_j() >= 0) {			// Se c'è una cella da difendere, la si marca
 				MNKCell tmp = new MNKCell (winCell.getDefense_i(), winCell.getDefense_j(), tmpMC[tmpMC.length - 1].state);

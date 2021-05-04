@@ -4,6 +4,8 @@ public class Algoritms {
 
   protected Algoritms (boolean in_first) { first = in_first; }
 
+  private static boolean first;
+  
   TreeFunctions treeFunctions = new TreeFunctions();
 
   // BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
