@@ -2,7 +2,6 @@ package subroutine;
 
 public class Algoritms {
 
-  private boolean first;
   protected Algoritms (boolean in_first) { first = in_first; }
 
   TreeFunctions treeFunctions = new TreeFunctions();

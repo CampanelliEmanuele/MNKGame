@@ -10,12 +10,9 @@ V - Controllare come vengono assegnati i punteggi di beta (in questo caso)
 V - Controllare se e come vengono fatti i controlli diagonali (tramite degli out)
 
 
-WIP - testare se le coordinate della cella da difendere sono diverse da -1 nei momenti corretti, e se lo sono, controllare che ritornino l'effettiva cella da difendere
-
+V - testare se le coordinate della cella da difendere sono diverse da -1 nei momenti corretti, e se lo sono, controllare che ritornino l'effettiva cella da difendere
 
 -----------------------------------------------------------------------------------------------------------------------------
-
-
 
 WIP - testa bigSolve dando manualmente il nodo radice
 WIP - creare la funzione che dia in automatico la foglia primoFiglio
@@ -27,6 +24,6 @@ x - creare la relativa funzione di scelta percorso --> sceglie il nodo con il va
 
 
 Finals:
-WIP - pulizia codice
+WIP - pulizia codice (levare funzioni inutile e commenti)
 X - stesura del costo computazionale
-X - ottimizzazione codice
+X - ottimizzazione codice (implementazioni di algoritmi più efficienti)
