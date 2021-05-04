@@ -12,6 +12,9 @@ V - Controllare se e come vengono fatti i controlli diagonali (tramite degli out
 
 V - testare se le coordinate della cella da difendere sono diverse da -1 nei momenti corretti, e se lo sono, controllare che ritornino l'effettiva cella da difendere
 
+
+WIP - Correggere gli ultimi errori nella difesa (caso 333, il bot inizia per secondo)
+
 -----------------------------------------------------------------------------------------------------------------------------
 
 WIP - testa bigSolve dando manualmente il nodo radice
