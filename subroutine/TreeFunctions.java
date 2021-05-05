@@ -30,11 +30,11 @@ public class TreeFunctions {
 	}
 	
 	private static void D_enemyCell (int[] in_D_vars, TreeNode in_nodo) {
-		in_D_vars[ec_counter]++;														// Si aumenta il conteggio delle celle (del player in analisi) in serie
+		in_D_vars[ec_counter]++;															// Si aumenta il conteggio delle celle (del player in analisi) in serie
 		if (in_D_vars[ec_counter] >= in_D_vars[k]) in_D_vars[ec_counter] = 1;				// Se ec_counter ha valori "sballati" si pone a 1
 		if (in_D_vars[ec_counter] == in_D_vars[k] - 1 && in_D_vars[defense_i] >= 0) {		// Controllo per vedere è stata trovata la cella da difendere
-		in_nodo.setDefense_i(in_D_vars[defense_i]);
-		in_nodo.setDefense_j(in_D_vars[defense_j]);
+			in_nodo.setDefense_i(in_D_vars[defense_i]);
+			in_nodo.setDefense_j(in_D_vars[defense_j]);
 		}
 		in_D_vars[fc_counter] = 0;													// Reset del counter delle AB_freeCell
 	}
@@ -53,18 +53,17 @@ public class TreeFunctions {
 		}
 	}
 	
-	private static void D_botPlayer (int[] in_D_vars) {
-		in_D_vars[ec_counter] = 0;
-		in_D_vars[fc_counter] = 0;
-		in_D_vars[defense_i] = -1;
-		in_D_vars[defense_j] = -1;
-	}
-	
 	protected void defenseCell (TreeNode in_foglia, MNKCellState in_botState) {
 	
 		MNKBoard board = in_foglia.getMNKBoard();     					// Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 		MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();        // Nelle posizioni 0,2,4,... vi sono le mosse del P1, nelle posizioni 1,3,5,... vi sono le mosse del P2
 		int[] D_vars = new int[D_length]; for (int i = 3; i < D_length; i++) D_vars[i] = 0;
+		D_vars[i_righe] = board.M - 1;
+		D_vars[j_colonne] = board.N - 1;
+		D_vars[k] = board.K;
+		D_vars[defense_i] = -1;
+		D_vars[defense_j] = -1;
+		
 		int start = -1; MNKCellState enemyState;
 		
 		if (in_botState == MNKCellState.P1) {
@@ -84,7 +83,7 @@ public class TreeFunctions {
 			for (int c = 0; c <= D_vars[j_colonne]; c++) {     		// Controllo della i-esima riga (da sx verso dx)
 				if (board.cellState(i_MC, c) == enemyState) D_enemyCell (D_vars, in_foglia);
 				else if (board.cellState(i_MC, c) == MNKCellState.FREE) D_freeCell (D_vars, in_foglia, i_MC, c);
-				else if (board.cellState(i_MC, c) != enemyState && board.cellState(i_MC, c) != MNKCellState.FREE) D_botPlayer (D_vars);
+				else if (board.cellState(i_MC, c) != enemyState && board.cellState(i_MC, c) != MNKCellState.FREE) D_editVar (D_vars);
 				else System.out.println ("ERRORE - Funzione: defenseCell - DOVE: Controllo orizzontale");
 			}
 			D_editVar (D_vars);
@@ -94,7 +93,7 @@ public class TreeFunctions {
 			for (int r = 0; r <= D_vars[i_righe]; r++) {     			// Controllo della j-esima colonna (dall'alto verso il basso)
 				if (board.cellState(r, j_MC) == enemyState) D_enemyCell (D_vars, in_foglia);
 				else if (board.cellState(r, j_MC) == MNKCellState.FREE) D_freeCell (D_vars, in_foglia, r, j_MC);
-				else if (board.cellState(r, j_MC) != enemyState && board.cellState(r, j_MC) != MNKCellState.FREE) D_botPlayer (D_vars);
+				else if (board.cellState(r, j_MC) != enemyState && board.cellState(r, j_MC) != MNKCellState.FREE) D_editVar (D_vars);
 				else System.out.println ("ERRORE - Funzione: defenseCell - DOVE: Controllo verticale");
 			}
 			D_editVar (D_vars);
@@ -114,7 +113,7 @@ public class TreeFunctions {
 					for (move = 0; start_i + move < start_i + D_vars[k] && start_j + move < start_j + D_vars[k]; move++) {
 						if (board.cellState(start_i + move, start_j + move) == enemyState) D_enemyCell (D_vars, in_foglia);
 						else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) D_freeCell(D_vars, in_foglia, start_i + move, start_j + move);
-						else if (board.cellState(start_i + move, start_j + move) != enemyState && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) D_botPlayer (D_vars);
+						else if (board.cellState(start_i + move, start_j + move) != enemyState && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) D_editVar (D_vars);
 						else System.out.println ("ERRORE - FUNZIONE: defenseCell - DOVE: Controllo diagonale: alto sx --> basso dx");
 					}
 					D_editVar (D_vars);	
@@ -129,8 +128,8 @@ public class TreeFunctions {
 					// Da in alto a dx fino in basso a sx
 					for (move = 0; start_i + move < start_i + D_vars[k] && start_j - move >= 0; move++) {
 						if (board.cellState(start_i + move, start_j - move) == enemyState) D_enemyCell (D_vars, in_foglia);
-						else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) AB_freeCell (D_vars, in_foglia, start_i + move, start_j - move);
-						else if (board.cellState(start_i + move, start_j - move) != enemyState && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) D_botPlayer (D_vars);
+						else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) D_freeCell (D_vars, in_foglia, start_i + move, start_j - move);
+						else if (board.cellState(start_i + move, start_j - move) != enemyState && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) D_editVar (D_vars);
 						else System.out.println ("ERRORE - FUNZIONE: defenseCell - DOVE: Controllo diagonale: alto dx --> basso sx");
 					}
 					D_editVar (D_vars);	
@@ -404,8 +403,6 @@ public class TreeFunctions {
 	    // Fine if board OPEN
 
 	    else {
-	    	int alpha = in_foglia.getAlpha();
-	    	int beta = in_foglia.getBeta();
 	    	MNKGameState winState = in_foglia.getMNKBoard().gameState();
 	    	if ((winState == MNKGameState.WINP1 && in_botState == MNKCellState.P1) || (winState == MNKGameState.WINP2 && in_botState == MNKCellState.P2)) {      // VITTORIA
 	    		in_foglia.setColor(Colors.GREEN);
