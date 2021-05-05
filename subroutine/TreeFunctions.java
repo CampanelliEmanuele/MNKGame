@@ -213,7 +213,6 @@ public class TreeFunctions {
 	    			int j_MC = MC[pos].j;   								// Coordinata j (colonna) della cella in analisi
 	
 	    			// Controllo set orizzontale
-	    			System.out.println ("AVVIO - Controllo orizzontale");
 	    			for (int c = 0; c <= vars[j_colonne]; c++) {     		// Controllo della i-esima riga (da sx verso dx)
 	    				if (board.cellState(i_MC, c) == currentPlayer) currenPlayerCell (vars, in_foglia);
 	    				else if (board.cellState(i_MC, c) == MNKCellState.FREE) freeCell (vars, in_foglia, i_MC, c);
@@ -224,7 +223,6 @@ public class TreeFunctions {
 	    			noEnemy = true;
 	
 	    			// Controllo riga in verticale
-	    			System.out.println ("AVVIO - Controllo verticale");
 	    			for (int r = 0; r <= vars[i_righe]; r++) {     			// Controllo della j-esima colonna (dall'alto verso il basso)
 	    				if (board.cellState(r, j_MC) == currentPlayer) currenPlayerCell (vars, in_foglia);
 	    				else if (board.cellState(r, j_MC) == MNKCellState.FREE) freeCell (vars, in_foglia, r, j_MC);

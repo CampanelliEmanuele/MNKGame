@@ -145,7 +145,7 @@ public class GroupPlayer implements MNKPlayer {
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 	public static void main (String[] args) {
 		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
@@ -168,33 +168,25 @@ public class GroupPlayer implements MNKPlayer {
 		B.markCell (FC[0].i, FC[0].j);			// Parte da rimuovere in futuro
 		B.markCell (FC[1].i, FC[1].j);			// Parte da rimuovere in futuro
 
-
+		// ___________________________________________________________________________________________
 
 		TreeNode radice = new TreeNode (B);
-
-		System.out.println("Avvio la creazione dell'albero...");
-		System.out.println("Global B: " + B + "\n");
 		tmpTreeFunctions.createTree(radice, 2, first);
 
-
-		System.out.println("albero creato!");
-		first = true;
+		first = true;																			// DA CAMBIARE DI VOLTA IN VOLTA X I TEST
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		tmpTreeFunctions.vaiAlleFoglie(radice, botState);
 
-		//algoritms.bigSolve2 (radice, true);				// Si passa true perchè è il nostro turno nel nodo radice
 		stampa.printTree(radice, false, 0, -1);				// La radice è in cime all'albero --> ergo livello 0
 
 		System.out.println("");
-		System.out.println("");
-		System.out.println("Cella scelta:" + tmpTreeFunctions.sceltaPercorso_1LV(radice));
-
-		
-		
+		System.out.println("Cella scelta:" + tmpTreeFunctions.sceltaPercorso_1LV(radice));	
 		TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);		// Ritorna il nodo avente il valore Beta più alto
 		
-		// Se winCell.defense_i == -1 && winCell-defense_j == -1 --> Marca l'ultima cella di MC
-		// Altrimenti marchiamo la cella da difendere
+		System.out.println("NODO VINCENTE ##############################################################################################################");
+		winCell.printNodeInfo();
+		
+		// ___________________________________________________________________________________________
 
 		if (first) {
 			System.out.println("first = true ; Cella da difendere: " + winCell.getDefense_i() + "," + winCell.getDefense_j());
@@ -206,19 +198,8 @@ public class GroupPlayer implements MNKPlayer {
 		
 		
 		
-		
-		if (winCell.getDefense_i() >= 0 && winCell.getDefense_j() >= 0) {
-			System.out.println("Cella da difendere: " + winCell.getDefense_i() + "," + winCell.getDefense_j());
-		} else {
+		if (winCell.getDefense_i() < 0 && winCell.getDefense_j() < 0) {
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
-			MNKCell[] tmpFC = winCell.getMNKBoard().getFreeCells();
-			for (int el = 0; el < tmpMC.length; el++) {
-				System.out.println("tmpMC[" + el + "]: " + "(" + tmpMC[el].i + "," + tmpMC[el].j + ")");
-			}
-			for (int el = 0; el < tmpFC.length; el++) {
-				System.out.println("tmpFC[" + el + "]: " + "(" + tmpFC[el].i + "," + tmpFC[el].j + ")");
-			}
-
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 		}
@@ -226,7 +207,7 @@ public class GroupPlayer implements MNKPlayer {
 
 	}
 	// fine main
-	*/
+	
 
 }
 // fine class GroupPlayer
