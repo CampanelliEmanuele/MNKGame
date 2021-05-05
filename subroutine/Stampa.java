@@ -22,7 +22,7 @@ public class Stampa {
   	 * Stampa albero intero: 					printTree (Node, false, node_level, n)  --> n < 1
   	 * Stampa albero primi n-livelli: printTree (Node, false, node_level, n)  --> n >= 1
   	 */
-    protected static void printTree (TreeNode in_padre, boolean in_onlyLeaf, int in_level, int in_limit) {		// in_level rappresenta il livello del nodo in_padre
+    protected void printTree (TreeNode in_padre, boolean in_onlyLeaf, int in_level, int in_limit) {		// in_level rappresenta il livello del nodo in_padre
   		if (in_padre != null) {												// Se si passa un nodo
   			if (in_onlyLeaf) {													// Se si vuole stampare solo le foglie
   				while (in_padre != null) {								// Per ogni fratello (e padre compreso) si richiama la funzione

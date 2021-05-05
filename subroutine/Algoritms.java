@@ -4,13 +4,13 @@ public class Algoritms {
 
   protected Algoritms (boolean in_first) { first = in_first; }
 
-  private static boolean first;
+  private boolean first;
   
   TreeFunctions treeFunctions = new TreeFunctions();
 
   // BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
 
-  protected static void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
+  protected void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
 		/*
     if (in_primoFiglio.getPrimoFiglio() != null) {              // Se il nodo in questione ha dei figli
       bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
