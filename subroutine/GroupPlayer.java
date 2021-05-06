@@ -94,6 +94,11 @@ public class GroupPlayer implements MNKPlayer {
 		// Fine if primi due turni
 
 		else {	// Se si è oltre il secondo turno
+			
+			int count = 0;
+			for(int i = 0; i < FC.length; i++) {count++;}
+			
+			
 			System.out.println("");
 			System.out.println("/////////////////////////////////////////////////////////////////////////////////////");
 			System.out.println("ELSE CASE - MC length: " + MC.length);
@@ -110,7 +115,9 @@ public class GroupPlayer implements MNKPlayer {
 			TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
 			MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 			
-			
+			if(count < 18) {
+				algoritms.minMax(radice.getPrimoFiglio(), botState, botState);
+			}
 			
 			// ////////////////////////
 			tmpTreeFunctions.defenseCell(radice, botState);
