@@ -1,17 +1,39 @@
 package subroutine;
 
+import mnkgame.*;
+
 public class Algoritms {
 
-  protected Algoritms (boolean in_first) { first = in_first; }
+	protected Algoritms (boolean in_first) { first = in_first; }
 
-  private boolean first;
+	private boolean first;
   
-  TreeFunctions treeFunctions = new TreeFunctions();
-
+	TreeFunctions treeFunctions = new TreeFunctions();
+  
+	/*
+	 * MAX:  BT == S
+	 * min:  BT != S 
+	 */
+	// Non si parte dalla radice ma dal primoFiglio dell'albero
+	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
+		while (in_foglia != null) {																	// Per ogni fratello
+			if (in_foglia.getPrimoFiglio() == null) {												// Se non è una foglia
+				if (in_S == MNKCellState.P1) minMax (in_foglia, in_BT, MNKCellState.P2);			// Si scrende di livello
+				else minMax (in_foglia, in_BT, MNKCellState.P1);									// Si scrende di livello
+			}
+			if (in_foglia.getNext() == null) in_foglia.getPadre().setColor(in_foglia.getColor());							// Se è l'ultimo figlio, il padre ne eredita il colore
+			else {																											// Altrimenti
+				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN) in_foglia.getPadre().setColor(Colors.GREEN);		// Se è un livello di min ed il nodo ha colore GREEN, si colora il padre
+				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED) in_foglia.getPadre().setColor(Colors.RED);	// Se e un livello di MAX ed il nodo ha colore RED, si colora il padre
+			}
+			in_foglia = in_foglia.getNext();
+		}
+	}
+  
   // BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
 
   protected void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
-		/*
+	 	/*
     if (in_primoFiglio.getPrimoFiglio() != null) {              // Se il nodo in questione ha dei figli
       bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
 		}

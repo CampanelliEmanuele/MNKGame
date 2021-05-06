@@ -19,6 +19,8 @@ public class TreeNode {
   private Colors color;
   private int defense_i;
   private int defense_j;
+  
+  // Variabili (a occhio) più sacrificabili: listPosition, val e color
 
   // Costruttore per il nodo padre, la radice dell'albero
   protected TreeNode (MNKBoard in_B) {
