@@ -30,6 +30,17 @@ public class Algoritms {
 		}
 	}
   
+	// in_nodo è il nipote (primoFiglio del primoFiglio)
+	public int greenNode (TreeNode in_nodo) {
+		int greenCounter = 0;
+		while (in_nodo != null) {
+			if (in_nodo.getColor() == Colors.GREEN) greenCounter++;
+			if (in_nodo.getPrimoFiglio() != null) greenCounter += greenNode (in_nodo.getPrimoFiglio());
+			in_nodo = in_nodo.getNext();
+		}
+		return greenCounter;
+	}
+	
   // BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
 
   protected void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
