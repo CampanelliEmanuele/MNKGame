@@ -14,7 +14,10 @@ V - testare se le coordinate della cella da difendere sono diverse da -1 nei mom
 
 V - Correggere gli ultimi errori nella difesa (caso 333, il bot inizia per secondo)
 
-X - Correggere la scelta tra vittoria-difesa (eseguire e controllare sempre la creazione dell'albero per scrutare vittorie anzichè difese)
+V - Correggere la scelta tra vittoria-difesa (eseguire e controllare sempre la creazione dell'albero per scrutare vittorie anzichè difese)
+
+X - Implementare un algoritmo che "guardi un po' in avanti" per veder la mossa migliore
+X - Fai incontro con Di Lena per capire come siam messi
 
 -----------------------------------------------------------------------------------------------------------------------------
 
