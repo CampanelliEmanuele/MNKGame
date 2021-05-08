@@ -62,7 +62,7 @@ public class Algoritms {
 		return winNode;
 	}
 	*/
-	protected TreeNode sceltaPercorso (TreeNode in_padre, boolean in_takeMaxBeta) {
+	protected TreeNode sceltaPercorso (TreeNode in_padre, boolean in_takeMaxBeta, MNKCellState in_botState) {
 		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
 		TreeNode winNode = primoFiglio;								// Nodo ritornato
 		
@@ -86,8 +86,17 @@ public class Algoritms {
 				if (primoFiglio.getColor() == Colors.GREEN) return primoFiglio;
 				primoFiglio = primoFiglio.getNext();
 			}
+      
 			// Se non ha trovato nodi di colore verde
-			return sceltaPercorso(in_padre, true);
+			TreeFunctions tmpTreeFunctions = new TreeFunctions();
+			tmpTreeFunctions.assegnaValoreABFoglia(in_padre, in_botState);
+			tmpTreeFunctions.defenseCell(in_padre, in_botState);
+			
+			if (in_padre.getBeta() == Integer.MAX_VALUE || in_padre.getDefense_i() < 0)	return sceltaPercorso(in_padre, true, in_botState);
+			else {
+				in_padre.getMNKBoard().markCell(in_padre.getDefense_i(), in_padre.getDefense_j());
+				return in_padre;
+			}
 			
 		}
 		

@@ -113,6 +113,8 @@ public class GroupPlayer implements MNKPlayer {
 			TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
 			MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;			
 			
+			// ////////////////////////
+			
 			if (FC.length <= 18) {
 				// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
 				tmpTreeFunctions.createTree(radice, FC.length + 1, first);		// Crea il nodo sottostante
@@ -121,7 +123,7 @@ public class GroupPlayer implements MNKPlayer {
 				if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
 				else algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P1);
 				
-				TreeNode winCell = algoritms.sceltaPercorso(radice, false);
+				TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 				MNKCell tmp = tmpMC[tmpMC.length - 1];
 				System.out.println("NODO VINCENTE #################################################################################");
@@ -133,7 +135,7 @@ public class GroupPlayer implements MNKPlayer {
 				tmpTreeFunctions.defenseCell(radice, botState);
 				tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
 				tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
-				TreeNode winCell = algoritms.sceltaPercorso(radice, true);
+				TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 				
 				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 					MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
@@ -150,7 +152,7 @@ public class GroupPlayer implements MNKPlayer {
 					System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				}
-				// ///////////////////////
+				// ////////////////////////
 			}
 			
 		}
@@ -166,7 +168,7 @@ public class GroupPlayer implements MNKPlayer {
 
 	
 	public static void main (String[] args) {
-		TreeFunctions tmpTreeFunctions = new TreeFunctions();		// Creazione dell'oggetto per l'uso delle funzioni
+		TreeFunctions tmpTreeFunctions = new TreeFunctions();				// Creazione dell'oggetto per l'uso delle funzioni
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
 		Stampa stampa = new Stampa();
 
@@ -210,7 +212,7 @@ public class GroupPlayer implements MNKPlayer {
 			if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
 			else algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P1);
 			
-			TreeNode winCell = algoritms.sceltaPercorso(radice, false);
+			TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("NODO VINCENTE #################################################################################");
@@ -222,7 +224,7 @@ public class GroupPlayer implements MNKPlayer {
 			tmpTreeFunctions.defenseCell(radice, botState);
 			tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
 			tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
-			TreeNode winCell = algoritms.sceltaPercorso(radice, true);
+			TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 			
 			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
