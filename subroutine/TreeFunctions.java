@@ -164,6 +164,7 @@ public class TreeFunctions {
 				}
 				//System.out.println("Local B: " + in_padre.getMNKBoard());
 				
+				
 				while (in_padre != null) {													// Per ogni fratello (e padre compreso) si crea il sottoalbero
 					//if (tmpB.gameState() != MNKGameState.OPEN) continue;
 					tmpB.markCell (FC[0].i, FC[0].j);		  								// Temporaneo marcamento della prima cella
@@ -199,7 +200,8 @@ public class TreeFunctions {
 				if (in_first) in_padre.setColor(Colors.RED);
 				else in_padre.setColor(Colors.GREEN);
 			}
-			else in_padre.setColor(Colors.GREY);
+			//else in_padre.setColor(Colors.GREY);
+			else in_padre.setColor(Colors.RED);
 		}
 
 	}
@@ -427,25 +429,6 @@ public class TreeFunctions {
 	// Fine funzione assegnaValoreABFoglia
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// Ritorna il nodo migliore tra i nodi del livello sottostante a quello del padre
-	protected TreeNode sceltaPercorso_1LV (TreeNode in_padre) {
-
-		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
-		TreeNode winNode = primoFiglio;												// Nodo ritornato
-		int maxBeta = Integer.MIN_VALUE;
-
-		while (primoFiglio != null) {								// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
-			if (primoFiglio.getBeta() > maxBeta) {
-				maxBeta = primoFiglio.getBeta();
-				winNode = primoFiglio;
-			} else if (primoFiglio.getBeta() == maxBeta) {
-				if (primoFiglio.getAlpha() > winNode.getAlpha()) winNode = primoFiglio;
-			}
-			primoFiglio = primoFiglio.getNext();
-		}
-		return winNode;
-	}
 	
 }
 // Fine class TreeFunctions

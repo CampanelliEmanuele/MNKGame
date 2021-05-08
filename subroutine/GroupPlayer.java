@@ -108,23 +108,33 @@ public class GroupPlayer implements MNKPlayer {
 				}
 			}	// A questa riga di codice, la board B è aggiornata alla situazione attuale della partita
 			
+			// ////////////////////////
+			
 			TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
-			MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
-			tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
+			MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;			
 			
 			if (FC.length <= 18) {
+				// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
+				tmpTreeFunctions.createTree(radice, FC.length + 1, first);		// Crea il nodo sottostante
+				
 				// Modifica i colori dell'albero sottostante
 				if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
 				else algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P1);
 				
-				// DEVE TORNARE QUALCOSA
-				
+				TreeNode winCell = algoritms.sceltaPercorso(radice, false);
+				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+				MNKCell tmp = tmpMC[tmpMC.length - 1];
+				System.out.println("NODO VINCENTE #################################################################################");
+				winCell.printNodeInfo();
+				System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+				return tmp;
 			}
-			else {			
-				// ////////////////////////
+			else {		
 				tmpTreeFunctions.defenseCell(radice, botState);
+				tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
 				tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
-				TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);
+				TreeNode winCell = algoritms.sceltaPercorso(radice, true);
+				
 				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 					MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 					MNKCell tmp = tmpMC[tmpMC.length - 1];
@@ -140,7 +150,7 @@ public class GroupPlayer implements MNKPlayer {
 					System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				}
-				// ////////////////////////
+				// ///////////////////////
 			}
 			
 		}
@@ -173,13 +183,16 @@ public class GroupPlayer implements MNKPlayer {
 		K = 3;											// Parte da rimuovere in futuro
 		B = new MNKBoard (M,N,K);
 
-		MNKCell[] FC = B.getFreeCells();		// Parte da rimuovere in futuro
-		//B.markCell (FC[0].i, FC[0].j);			// Parte da rimuovere in futuro
-		//B.markCell (FC[1].i, FC[1].j);			// Parte da rimuovere in futuro
-		B.markCell (1,1);
+		MNKCell[] FC = B.getFreeCells();				// Parte da rimuovere in futuro
+		//B.markCell (FC[0].i, FC[0].j);				// Parte da rimuovere in futuro
+		//B.markCell (FC[1].i, FC[1].j);				// Parte da rimuovere in futuro
 		B.markCell (0,0);
 		B.markCell (1,0);
 		
+		B.markCell (0,1);
+		B.markCell (1,1);	
+		
+		B.markCell (2,2);
 		
 		// ___________________________________________________________________________________________
 		// Codice del selectCell
@@ -187,24 +200,46 @@ public class GroupPlayer implements MNKPlayer {
 		TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		
-		tmpTreeFunctions.defenseCell(radice, botState);
-		tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
-		tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
-		TreeNode winCell = tmpTreeFunctions.sceltaPercorso_1LV(radice);
-		if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
+		// ////////////////////////
+		
+		if (FC.length <= 18) {
+			// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
+			tmpTreeFunctions.createTree(radice, FC.length + 1, first);		// Crea il nodo sottostante
+			
+			// Modifica i colori dell'albero sottostante
+			if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
+			else algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P1);
+			
+			TreeNode winCell = algoritms.sceltaPercorso(radice, false);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("NODO VINCENTE #################################################################################");
 			winCell.printNodeInfo();
 			System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 			//return tmp;
-		} else {// if (radice.getDefense_i() >= 0) {
-			MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
-			MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), tmpMC[tmpMC.length - 1].state);
-			System.out.println("NODO VINCENTE #################################################################################");
-			radice.printNodeInfo();
-			System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
-			//return tmp;
+		}
+		else {		
+			tmpTreeFunctions.defenseCell(radice, botState);
+			tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
+			tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
+			TreeNode winCell = algoritms.sceltaPercorso(radice, true);
+			
+			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
+				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+				MNKCell tmp = tmpMC[tmpMC.length - 1];
+				System.out.println("NODO VINCENTE #################################################################################");
+				winCell.printNodeInfo();
+				System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+				//return tmp;
+			} else {
+				MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
+				MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), tmpMC[tmpMC.length - 1].state);
+				System.out.println("NODO VINCENTE #################################################################################");
+				radice.printNodeInfo();
+				System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
+				//return tmp;
+			}
+			// ////////////////////////
 		}	
 		
 
