@@ -408,18 +408,18 @@ public class TreeFunctions {
 	    	MNKGameState winState = in_foglia.getMNKBoard().gameState();
 	    	if ((winState == MNKGameState.WINP1 && in_botState == MNKCellState.P1) || (winState == MNKGameState.WINP2 && in_botState == MNKCellState.P2)) {      // VITTORIA
 	    		in_foglia.setColor(Colors.GREEN);
-	    		System.out.println("VITTORIA PER IL BOT");
+	    		//System.out.println("CELLA DI VITTORIA PER IL BOT");
 	    		in_foglia.setBeta(Integer.MAX_VALUE);
 	    	}
 	    	else if ((winState == MNKGameState.WINP2 && in_botState == MNKCellState.P1) || (winState == MNKGameState.WINP1 && in_botState == MNKCellState.P2)) { // SCONFITTA
 	    		in_foglia.setColor(Colors.RED);
-	    		System.out.println("VITTORIA AVVERSARIA");
+	    		//System.out.println("CELLA DI VITTORIA AVVERSARIA");
 	    		System.out.println("winState: " + winState + " ; in_botState: " + in_botState);
 	    		in_foglia.setAlpha(Integer.MAX_VALUE);
 	    	}
 	    	else if (in_foglia.getMNKBoard().gameState() == MNKGameState.DRAW) {              // PAREGGIO
 	    		in_foglia.setColor (Colors.GREY);
-	    		System.out.println("PAREGGIO");
+	    		//System.out.println("CELLA DI PAREGGIO");
 	    	}
 	
 	    }

@@ -46,58 +46,58 @@ public class GroupPlayer implements MNKPlayer {
 		TreeFunctions tmpTreeFunctions = new TreeFunctions();				// Creazione dell'oggetto per l'uso delle funzioni
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
 		Stampa stampa = new Stampa();
+		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 
 		if (MC.length == 0) {																	// PRIMO TURNO
-				System.out.println("/////////////////////////////////////////////////////////////////////////////////////");
-				System.out.println("PRIMA MOSSA A NOI - MC length: " + MC.length);
-				MNKCell tmp = new MNKCell (0, 0, MNKCellState.P1);
-				return tmp;
+			MNKCell tmp = new MNKCell (0, 0, MNKCellState.P1);
+			return tmp;
 		}
-		else if (MC.length == 1) {														// SECONDO TURNO
-				System.out.println("/////////////////////////////////////////////////////////////////////////////////////");
-				System.out.println("SECONDA MOSSA A NOI - MC length: " + MC.length);
-				if (M == N && M % 2 == 0) {		// Caso di MNK: 44K - 66K
-						// L'avversario ha la prima mossa e marca la cella: (0,0) || (M-1,N-1) --> Allora noi marchiamo (M/2, N/2 - 1)
-						if ((MC[0].i == 0 && MC[0].j == 0) || (MC[0].i == M-1 && MC[0].j == N-1)) {			// Se l'avversario marca l'angolo ASX o l'angolo in BDX
-								MNKCell tmp = new MNKCell (M/2, N/2 - 1, MNKCellState.P2);									// Noi marchiamo il centro
-								return tmp;			// 2' + G
-						}
-						// L'avversario ha la prima mossa e marca la cella: (0,N-1) || (M-1,0) --> Allora noi marchiamo (M/2, N/2)
-						else if ((MC[0].i == 0 && MC[0].j == N-1) || (MC[0].i == M-1 && MC[0].j == 0)) {	// Se l'avversario marca l'angolo BSX o l'angolo in ADX
-								MNKCell tmp = new MNKCell (M/2, N/2, MNKCellState.P2);												// Noi marchiamo il centro
-								return tmp;
-						}
-						// Se l'avversario non marca un angolo
-						else {
-								if ((MC[0].i != M/2 && MC[0].j != N/2 - 1)) {											// Se NON HA marcato la cella in BSX del quadratino centrale
-										MNKCell tmp = new MNKCell (M/2, N/2 - 1, MNKCellState.FREE);	// La marca il bot
-										return tmp;
-								}
-								else {																														// Se HA marcato la cella in BSX del quadratino centrale
-										MNKCell tmp = new MNKCell (M/2, N/2, MNKCellState.FREE);			// Altrimenti marca quella affianco
-										return tmp;
-								}
-						}
+		else if (MC.length == 1) {																// SECONDO TURNO
+			if (M == N && M % 2 == 0) {																// Caso di MNK: 44K - 66K
+				// L'avversario ha la prima mossa e marca la cella: (0,0) || (M-1,N-1) --> Allora noi marchiamo (M/2, N/2 - 1) (zona centrale 
+				if ((MC[0].i == 0 && MC[0].j == 0) || (MC[0].i == M-1 && MC[0].j == N-1)) {			// Se l'avversario marca l'angolo ASX o l'angolo in BDX
+					System.out.println("Caso if -> if" + MC[0].toString());
+					MNKCell tmp = new MNKCell (M/2, N/2 - 1, MNKCellState.P2);						// Noi marchiamo il centro
+					return tmp;			// 2' + G
 				}
-				else {	// Caso di MNK: 33K - 55K + 34K - 62K
-						if (MC[0].i != (int) M/2 && MC[0].j != (int) N/2) {													// Se l'avversario NON HA marcato il centro
-								MNKCell tmp = new MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);		// Lo marchiamo noi
-								return tmp;
-						}
-						else {																											// Se invece l'avversario HA marcato il centro
-								MNKCell tmp = new MNKCell (0, 0, MNKCellState.FREE);		// Allora noi marchiam un angolo
-								return tmp;
-						}
+				// L'avversario ha la prima mossa e marca la cella: (0,N-1) || (M-1,0) --> Allora noi marchiamo (M/2, N/2)
+				else if ((MC[0].i == 0 && MC[0].j == N-1) || (MC[0].i == M-1 && MC[0].j == 0)) {	// Se l'avversario marca l'angolo BSX o l'angolo in ADX
+					System.out.println("Caso if -> else if" + MC[0].toString());
+					MNKCell tmp = new MNKCell (M/2, N/2, MNKCellState.P2);							// Noi marchiamo il centro
+					return tmp;
 				}
+				// Se l'avversario non marca un angolo
+				else {
+					if ((MC[0].i != M/2 && MC[0].j != N/2 - 1)) {									// Se NON HA marcato la cella in BSX del quadratino centrale
+						System.out.println("Caso if -> else -> if" + MC[0].toString());
+						MNKCell tmp = new MNKCell (M/2, N/2 - 1, MNKCellState.FREE);				// La marca il bot
+						return tmp;
+					}
+					else {																			// Se ha marcato la cella in BSX del quadratino centrale
+						System.out.println("Caso if -> else -> else" + MC[0].toString());
+						MNKCell tmp = new MNKCell (M/2, N/2, MNKCellState.FREE);					// Altrimenti marca quella affianco
+						return tmp;
+					}
+				}
+			}
+			else {
+				// Caso di MNK: 33K - 55K + 34K - 62K
+				if (MC[0].i == (int) M/2 && MC[0].j == (int) N/2) {									// Se l'avversario HA marcato il centro
+					System.out.println("Caso else -> if" + MC[0].toString());
+					MNKCell tmp = new MNKCell (0, 0, MNKCellState.FREE);							// Allora noi marchiamo un'angolo
+					return tmp;
+				}
+				else {																				// Se invece l'avversario NON HA marcato il centro
+					System.out.println("Caso else -> else" + MC[0].toString());
+					MNKCell tmp = new MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);			// Allora noi marchiam un angolo	
+					return tmp;
+				}
+				
+			}
 
 		}
 		// Fine if primi due turni
-
 		else {	// Se si è oltre il secondo turno
-			
-			System.out.println("");
-			System.out.println("/////////////////////////////////////////////////////////////////////////////////////");
-			System.out.println("ELSE CASE - MC length: " + MC.length);
 			if (FC.length == 1) return FC[0];
 
 			MNKCell[] tmpMC_ = B.getMarkedCells();
@@ -108,16 +108,13 @@ public class GroupPlayer implements MNKPlayer {
 				}
 			}	// A questa riga di codice, la board B è aggiornata alla situazione attuale della partita
 			
-			// ////////////////////////
-			
 			TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
-			MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;			
 			
 			// ////////////////////////
 			
-			if (FC.length <= 18) {
+			if (FC.length <= 10) {
 				// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
-				tmpTreeFunctions.createTree(radice, FC.length + 1, first);		// Crea il nodo sottostante
+				tmpTreeFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
 				
 				// Modifica i colori dell'albero sottostante
 				if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
@@ -126,9 +123,8 @@ public class GroupPlayer implements MNKPlayer {
 				TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 				MNKCell tmp = tmpMC[tmpMC.length - 1];
-				System.out.println("NODO VINCENTE #################################################################################");
-				winCell.printNodeInfo();
-				System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+				System.out.println("minMax");
+				//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("minMax - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 				return tmp;
 			}
 			else {		
@@ -140,21 +136,17 @@ public class GroupPlayer implements MNKPlayer {
 				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 					MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 					MNKCell tmp = tmpMC[tmpMC.length - 1];
-					System.out.println("NODO VINCENTE #################################################################################");
-					winCell.printNodeInfo();
-					System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+					//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("AB - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				} else {
 					MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
 					MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), tmpMC[tmpMC.length - 1].state);
-					System.out.println("NODO VINCENTE #################################################################################");
-					radice.printNodeInfo();
-					System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
+					//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				}
-				// ////////////////////////
+				
 			}
-			
+			// ////////////////////////
 		}
 		// Fine else turno oltre il secondo
 	}
@@ -202,11 +194,9 @@ public class GroupPlayer implements MNKPlayer {
 		TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		
-		// ////////////////////////
-		
-		if (FC.length <= 18) {
+		if (FC.length <= 10) {
 			// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
-			tmpTreeFunctions.createTree(radice, FC.length + 1, first);		// Crea il nodo sottostante
+			tmpTreeFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
 			
 			// Modifica i colori dell'albero sottostante
 			if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
@@ -215,9 +205,8 @@ public class GroupPlayer implements MNKPlayer {
 			TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
-			System.out.println("NODO VINCENTE #################################################################################");
-			winCell.printNodeInfo();
-			System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+			System.out.println("minMax");
+			//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("minMax - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 			//return tmp;
 		}
 		else {		
@@ -229,20 +218,17 @@ public class GroupPlayer implements MNKPlayer {
 			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 				MNKCell tmp = tmpMC[tmpMC.length - 1];
-				System.out.println("NODO VINCENTE #################################################################################");
-				winCell.printNodeInfo();
-				System.out.println("Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+				//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("AB - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 				//return tmp;
 			} else {
 				MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
 				MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), tmpMC[tmpMC.length - 1].state);
-				System.out.println("NODO VINCENTE #################################################################################");
-				radice.printNodeInfo();
-				System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
+				//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 				//return tmp;
 			}
-			// ////////////////////////
-		}	
+			
+		}
+		// ////////////////////////
 		
 
 	}
