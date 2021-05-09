@@ -4,9 +4,9 @@ import mnkgame.*;
 
 public class Algoritms {
 
-	protected Algoritms (boolean in_first) { first = in_first; }
-
 	private boolean first;
+
+	protected Algoritms (boolean in_first) { this.first = in_first; }
   
 	TreeFunctions treeFunctions = new TreeFunctions();
   
@@ -89,10 +89,15 @@ public class Algoritms {
       
 			// Se non ha trovato nodi di colore verde
 			TreeFunctions tmpTreeFunctions = new TreeFunctions();
-			tmpTreeFunctions.assegnaValoreABFoglia(in_padre, in_botState);
+			
+			primoFiglio = in_padre.getPrimoFiglio();
+			while (primoFiglio != null) {
+				tmpTreeFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
+				primoFiglio = primoFiglio.getNext();
+			}
 			tmpTreeFunctions.defenseCell(in_padre, in_botState);
 			
-			if (in_padre.getBeta() == Integer.MAX_VALUE || in_padre.getDefense_i() < 0)	return sceltaPercorso(in_padre, true, in_botState);
+			if (in_padre.getDefense_i() < 0) return sceltaPercorso (in_padre, true, in_botState);
 			else {
 				in_padre.getMNKBoard().markCell(in_padre.getDefense_i(), in_padre.getDefense_j());
 				return in_padre;
@@ -101,7 +106,7 @@ public class Algoritms {
 		}
 		
 	}
-
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
