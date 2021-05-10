@@ -180,18 +180,16 @@ public class GroupPlayer implements MNKPlayer {
 		MNKCell[] FC = B.getFreeCells();				// Parte da rimuovere in futuro
 		//B.markCell (FC[0].i, FC[0].j);				// Parte da rimuovere in futuro
 		//B.markCell (FC[1].i, FC[1].j);				// Parte da rimuovere in futuro
-		B.markCell (0,0);
-		B.markCell (1,0);
+		//B.markCell (0,0);	// E
+		//B.markCell (1,1);	// B
 		
-		B.markCell (0,1);
-		B.markCell (1,1);	
 		
-		B.markCell (2,2);
-		
+
 		// ___________________________________________________________________________________________
 		// Codice del selectCell
 		
 		TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
+		first = false;
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		
 		if (FC.length <= 10) {
@@ -202,12 +200,22 @@ public class GroupPlayer implements MNKPlayer {
 			if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
 			else algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P1);
 			
+			radice.printNodeInfo();
+			TreeNode primoFiglio = radice.getPrimoFiglio();
+			while (primoFiglio != null) {
+				System.out.println("pos: " + primoFiglio.getListPosition() + " Color: " + primoFiglio.getColor());
+				primoFiglio = primoFiglio.getNext();
+			}
+
+			//stampa.printMoleColor (radice);
+			
 			TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("minMax");
 			//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("minMax - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 			//return tmp;
+			//
 		}
 		else {		
 			tmpTreeFunctions.defenseCell(radice, botState);
@@ -228,12 +236,13 @@ public class GroupPlayer implements MNKPlayer {
 			}
 			
 		}
-		// ////////////////////////
+		
+		
+		
 		
 
 	}
 	// fine main
 	
-
 }
 // fine class GroupPlayer

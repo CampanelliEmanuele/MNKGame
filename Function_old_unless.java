@@ -1,3 +1,6 @@
+import subroutine.Colors;
+import subroutine.TreeNode;
+
 //import mnkgame.*;
 //import subroutine.Colors;
 //import subroutine.TreeNode;
@@ -32,6 +35,18 @@ public class Function_old_unless {
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// Ritorna il numero di nodi verdi di un nodo rosso (funzione non testata)
+	// in_nodo è il nipote (primoFiglio del primoFiglio)
+	public int greenNodeCounter (TreeNode in_nodo) {
+		int greenCounter = 0;
+		while (in_nodo != null) {
+			if (in_nodo.getColor() == Colors.GREEN) greenCounter++;
+			if (in_nodo.getPrimoFiglio() != null) greenCounter += greenNodeCounter (in_nodo.getPrimoFiglio());
+			in_nodo = in_nodo.getNext();
+		}
+		return greenCounter;
+	}
 	
 	  // 7 (?)
 	  // Funzione che ritorna ogni foglia primoFiglio

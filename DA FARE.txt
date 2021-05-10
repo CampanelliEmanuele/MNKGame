@@ -21,16 +21,15 @@ X - Fai incontro con Di Lena per capire come siam messi
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-WIP - testa bigSolve dando manualmente il nodo radice
-WIP - creare la funzione che dia in automatico la foglia primoFiglio
-
-
-PIANO B:
-x - creare l'albero ed assegnare alpha e beta ad ogni nodo
-x - creare la relativa funzione di scelta percorso --> sceglie il nodo con il valore beta di alpha
+WIP - Capire per quale cazzo di motivo in caso di nodo RED ci siano dei figli WHITE
 
 
 Finals:
 WIP - pulizia codice (levare funzioni inutile e commenti)
 X - stesura del costo computazionale
 X - ottimizzazione codice (implementazioni di algoritmi più efficienti)
+
+
+MERDACCIA:
+WIP - testa bigSolve dando manualmente il nodo radice
+WIP - creare la funzione che dia in automatico la foglia primoFiglio

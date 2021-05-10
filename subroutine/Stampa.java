@@ -21,6 +21,8 @@ public class Stampa {
   	 * Stampa foglie: 								printTree (Nodo, true,  node_level, n)  --> n
   	 * Stampa albero intero: 					printTree (Node, false, node_level, n)  --> n < 1
   	 * Stampa albero primi n-livelli: printTree (Node, false, node_level, n)  --> n >= 1
+  	 * in_limit: è il livello a cui fermare la stampa
+  	 * in_level: è il livello di partenza della stampa
   	 */
     protected void printTree (TreeNode in_padre, boolean in_onlyLeaf, int in_level, int in_limit) {		// in_level rappresenta il livello del nodo in_padre
   		if (in_padre != null) {												// Se si passa un nodo
@@ -51,6 +53,22 @@ public class Stampa {
   		}
 
   	}
-
+	
+	public void printMoleColor (TreeNode in_padre) {
+		if (in_padre != null) {
+  			while (in_padre != null) {
+  				if (in_padre.getColor() != Colors.GREEN && in_padre.getColor() != Colors.RED) {
+  					System.out.println("3RR0R3");
+  					System.out.println("Nodo: " + in_padre);
+  					System.out.println("Colore: " + in_padre.getColor());
+  					//in_padre.printNodeInfo();
+  				}
+  				
+  				if (in_padre.getPrimoFiglio() != null) printMoleColor (in_padre.getPrimoFiglio());		// Se ha dei figli si scende
+  				in_padre = in_padre.getNext();
+  			}
+  		}
+	}
+	// Fine printMoleColor
 
 }

@@ -12,9 +12,10 @@ public class Algoritms {
   
 	/*
 	 * MAX:  BT == S
-	 * min:  BT != S 
+	 * min:  BT != S
 	 */
 	// Non si parte dalla radice ma dal primoFiglio dell'albero
+	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodo
 	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
 		while (in_foglia != null) {																	// Per ogni fratello
 			if (in_foglia.getPrimoFiglio() != null) {												// Se non è una foglia
@@ -28,17 +29,6 @@ public class Algoritms {
 			}
 			in_foglia = in_foglia.getNext();
 		}
-	}
-  
-	// in_nodo è il nipote (primoFiglio del primoFiglio)
-	public int greenNodeCounter (TreeNode in_nodo) {
-		int greenCounter = 0;
-		while (in_nodo != null) {
-			if (in_nodo.getColor() == Colors.GREEN) greenCounter++;
-			if (in_nodo.getPrimoFiglio() != null) greenCounter += greenNodeCounter (in_nodo.getPrimoFiglio());
-			in_nodo = in_nodo.getNext();
-		}
-		return greenCounter;
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
