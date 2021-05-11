@@ -11,25 +11,43 @@ public class Algoritms {
 	TreeFunctions treeFunctions = new TreeFunctions();
   
 	/*
-	 * MAX:  BT == S
-	 * min:  BT != S
+	 * MAX:  BT == S -> RED
+	 * min:  BT != S -> GREEN
 	 */
 	// Non si parte dalla radice ma dal primoFiglio dell'albero
 	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodo
 	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
-		while (in_foglia != null) {																	// Per ogni fratello
+		while (in_foglia != null) {																	// Per ogni fratello (per ongi nodo di un livello)
 			if (in_foglia.getPrimoFiglio() != null) {												// Se non è una foglia
 				if (in_S == MNKCellState.P1) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P2);			// Si scende di livello
-				else minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);									// Si scende di livello
-			}
-			if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE) in_foglia.getPadre().setColor(in_foglia.getColor());							// Se è l'ultimo figlio, il padre ne eredita il colore
-			else {																											// Altrimenti
-				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN) in_foglia.getPadre().setColor(Colors.GREEN);		// Se è un livello di min ed il nodo ha colore GREEN, si colora il padre
-				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED) in_foglia.getPadre().setColor(Colors.RED);	// Se e un livello di MAX ed il nodo ha colore RED, si colora il padre
+				else if (in_S == MNKCellState.P2) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);									// Si scende di livello
+			} 
+			//if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE) in_foglia.getPadre().setColor(in_foglia.getColor());							// Se è l'ultimo figlio, il padre ne eredita il colore
+			if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE) in_foglia.getPadre().setColor(in_foglia.getColor());
+			else if (in_foglia.getNext() != null) {																											// Se invece non è l'ultima foglia
+				//if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN) in_foglia.getPadre().setColor(Colors.GREEN);		// Se è un livello di min ed il nodo ha colore GREEN, si colora il padre
+				//else if (in_BT == in_S && in_foglia.getColor() == Colors.RED) in_foglia.getPadre().setColor(Colors.RED);	// Se e un livello di MAX ed il nodo ha colore RED, si colora il padre
+				// 30 -> 45 46 50 53
+				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN) in_foglia.getPadre().setColor(in_foglia.getColor());	
+				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED) in_foglia.getPadre().setColor(in_foglia.getColor());
+			} else {
+				//System.out.println("Siamo all'ultimo nodo di un livello, e il padre non è WHITE");
 			}
 			in_foglia = in_foglia.getNext();
 		}
 	}
+
+	/*
+	public TreeNode minMax_v2 (TreeNode in_node, MNKCellState in_botState, ) {
+		int eval = 0;
+		if (in_node.getPrimoFiglio() == null) {
+			if (in_node.getMNKBoard().gameState() == MNKGameState.WINP1 && in_botState == MNKCellState.P1) eval = 1;
+			else if (in_node.getMNKBoard().gameState() == MNKGameState.WINP2 && in_botState == MNKCellState.P2) eval = 1;
+			else eval = -1;
+		}
+	
+	}
+	*/
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +89,7 @@ public class Algoritms {
 			return winNode;
 		}
 		
-		else {
+		else { //fai minimax
 			while (primoFiglio != null) {
 				if (primoFiglio.getColor() == Colors.GREEN) return primoFiglio;
 				primoFiglio = primoFiglio.getNext();
