@@ -58,6 +58,7 @@ public class Stampa {
 		if (in_padre != null) {
   			while (in_padre != null) {
   				if (in_padre.getColor() != Colors.GREEN && in_padre.getColor() != Colors.RED) {
+  					System.out.println("Vittoria: " + in_padre.getMNKBoard().gameState());
   					System.out.println("3RR0R3");
   					System.out.println("Nodo: " + in_padre);
   					System.out.println("Colore: " + in_padre.getColor());

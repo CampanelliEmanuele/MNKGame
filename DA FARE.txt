@@ -21,8 +21,8 @@ X - Fai incontro con Di Lena per capire come siam messi
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-WIP - Capire per quale cazzo di motivo in caso di nodo RED ci siano dei figli WHITE
-
+WIP - Capire per quale cazzo di motivo in caso di nodo RED ci siano dei figli WHITE --> Sitazioni di cutoff (?) --> Toglire i cutoff per vedere se il bot migliora
+X - Valutare se sostituire i colori con i gameState
 
 Finals:
 WIP - pulizia codice (levare funzioni inutile e commenti)

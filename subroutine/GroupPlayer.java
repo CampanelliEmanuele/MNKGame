@@ -207,7 +207,7 @@ public class GroupPlayer implements MNKPlayer {
 				primoFiglio = primoFiglio.getNext();
 			}
 
-			//stampa.printMoleColor (radice);
+			stampa.printMoleColor (radice);
 			
 			TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
 			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
