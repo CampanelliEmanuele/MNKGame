@@ -190,26 +190,14 @@ public class GroupPlayer implements MNKPlayer {
 
 		MNKCell[] FC = B.getFreeCells();				// Parte da rimuovere in futuro
 		
-		B.markCell (FC[0].i, FC[0].j);
-		B.markCell (FC[1].i, FC[1].j);
-		B.markCell (FC[2].i, FC[2].j);
-		B.markCell (FC[3].i, FC[3].j);
-		B.markCell (FC[4].i, FC[4].j);
-		B.markCell (FC[5].i, FC[5].j);
-		B.markCell (FC[6].i, FC[6].j);
-		/*
-		B.markCell (0,0);
-		B.markCell (0,2);
-
-		B.markCell (0,2);
-		B.markCell (1,1);
-
-		B.markCell (1,0);
-		B.markCell (1,2);
-
-		B.markCell (2,0);
-		*/
+		B.markCell (FC[0].i, FC[0].j);	// 11
+		//B.markCell (FC[1].i, FC[1].j);	// 21
+		//B.markCell (FC[2].i, FC[2].j);	// 01
+		//B.markCell (FC[3].i, FC[3].j);	// 12
 		
+		//B.markCell (FC[4].i, FC[4].j);	// 20
+		//B.markCell (FC[5].i, FC[5].j);	// 10
+		//B.markCell (FC[6].i, FC[6].j);	// 22
 
 		// ___________________________________________________________________________________________
 		// Codice del selectCell
