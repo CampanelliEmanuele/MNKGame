@@ -20,6 +20,11 @@ public class TreeFunctions {
 	private static final int fc_counter = 6;			// Tiene conto delle AB_freeCell che si susseguono
 	private static final int defense_i = 7;				// Coordinata i della cella da difendere (locale)
 	private static final int defense_j = 8;				// Coordinata j della cella da difendere (locale)
+
+	private static boolean shutdown (TreeNode in_node) {
+		if (in_node.getDefense_i() >= 0 && in_node.getDefense_j() >= 0) return true;
+		else return false;
+	}
 	
 	private static void D_editVar (int[] in_D_vars) {
 		// Ad ogni nuovo controllo, bisogna resettare tali variabili per:
@@ -36,7 +41,7 @@ public class TreeFunctions {
 			in_nodo.setDefense_i(in_D_vars[defense_i]);
 			in_nodo.setDefense_j(in_D_vars[defense_j]);
 		}
-		in_D_vars[fc_counter] = 0;													// Reset del counter delle AB_freeCell
+		in_D_vars[fc_counter] = 0;															// Reset del counter delle AB_freeCell
 	}
 	
 	private static void D_freeCell (int[] in_D_vars, TreeNode in_node, int in_i, int in_j) {
@@ -49,7 +54,7 @@ public class TreeFunctions {
 		if (in_D_vars[ec_counter] == in_D_vars[k] - 1) {			// Controllo per capire se è una cella da difendere
 			in_node.setDefense_i(in_D_vars[defense_i]);
 			in_node.setDefense_j(in_D_vars[defense_j]);
-			in_D_vars[ec_counter] = 0;							// Una volta salvato nel nodo le coordinate da difendere, si resetta ec_counter
+			in_D_vars[ec_counter] = 0;								// Una volta salvato nel nodo le coordinate da difendere, si resetta ec_counter
 		}
 	}
 	
@@ -81,6 +86,7 @@ public class TreeFunctions {
 			
 			// Controllo set orizzontale
 			for (int c = 0; c <= D_vars[j_colonne]; c++) {     		// Controllo della i-esima riga (da sx verso dx)
+				if (shutdown(in_foglia)) return;
 				if (board.cellState(i_MC, c) == enemyState) D_enemyCell (D_vars, in_foglia);
 				else if (board.cellState(i_MC, c) == MNKCellState.FREE) D_freeCell (D_vars, in_foglia, i_MC, c);
 				else if (board.cellState(i_MC, c) != enemyState && board.cellState(i_MC, c) != MNKCellState.FREE) D_editVar (D_vars);
@@ -91,6 +97,7 @@ public class TreeFunctions {
 			
 			// Controllo riga in verticale
 			for (int r = 0; r <= D_vars[i_righe]; r++) {     			// Controllo della j-esima colonna (dall'alto verso il basso)
+				if (shutdown(in_foglia)) return;
 				if (board.cellState(r, j_MC) == enemyState) D_enemyCell (D_vars, in_foglia);
 				else if (board.cellState(r, j_MC) == MNKCellState.FREE) D_freeCell (D_vars, in_foglia, r, j_MC);
 				else if (board.cellState(r, j_MC) != enemyState && board.cellState(r, j_MC) != MNKCellState.FREE) D_editVar (D_vars);
@@ -111,6 +118,7 @@ public class TreeFunctions {
 				if (start_i + D_vars[k] - 1 <= D_vars[i_righe] && start_j + D_vars[k] - 1 <= D_vars[j_colonne]) {
 					// Da in alto a sx fino in basso a dx
 					for (move = 0; start_i + move < start_i + D_vars[k] && start_j + move < start_j + D_vars[k]; move++) {
+						if (shutdown(in_foglia)) return;
 						if (board.cellState(start_i + move, start_j + move) == enemyState) D_enemyCell (D_vars, in_foglia);
 						else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE) D_freeCell(D_vars, in_foglia, start_i + move, start_j + move);
 						else if (board.cellState(start_i + move, start_j + move) != enemyState && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE) D_editVar (D_vars);
@@ -127,6 +135,7 @@ public class TreeFunctions {
 				if (start_i + D_vars[k] - 1 <= D_vars[i_righe] && start_j - D_vars[k] + 1 >= 0) {
 					// Da in alto a dx fino in basso a sx
 					for (move = 0; start_i + move < start_i + D_vars[k] && start_j - move >= 0; move++) {
+						if (shutdown(in_foglia)) return;
 						if (board.cellState(start_i + move, start_j - move) == enemyState) D_enemyCell (D_vars, in_foglia);
 						else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE) D_freeCell (D_vars, in_foglia, start_i + move, start_j - move);
 						else if (board.cellState(start_i + move, start_j - move) != enemyState && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) D_editVar (D_vars);
@@ -152,27 +161,20 @@ public class TreeFunctions {
 	protected void createTree (TreeNode in_padre, int in_depthLimit, boolean in_first) {
 		if (in_depthLimit > 1) {
 			if (in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {					// Se in_depthLimit > 1 --> Si crea un'altro livello
-				//System.out.println("Stato: generazione - Livello: " + (5 - in_depthLimit) + " - Local B: " + in_padre.getMNKBoard());
 				MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
 				MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
 				int M = in_padre.getMNKBoard().M;
 				int N = in_padre.getMNKBoard().N;
 				int K = in_padre.getMNKBoard().K;
 				MNKBoard tmpB = new MNKBoard (M,N,K);
-				for (int e = 0; e < MC.length; e++) {
-					tmpB.markCell (MC[e].i, MC[e].j);
-				}
-				//System.out.println("Local B: " + in_padre.getMNKBoard());
-				
+				for (int e = 0; e < MC.length; e++) tmpB.markCell (MC[e].i, MC[e].j);
 				
 				while (in_padre != null) {													// Per ogni fratello (e padre compreso) si crea il sottoalbero
-					//if (tmpB.gameState() != MNKGameState.OPEN) continue;
 					tmpB.markCell (FC[0].i, FC[0].j);		  								// Temporaneo marcamento della prima cella
 					TreeNode primoFiglio = new TreeNode (tmpB, in_padre, true, null);		// Si crea il primo figlio
 					in_padre.setPrimoFiglio(primoFiglio);									// Si setta il primo figlio del nodo padre
 
 					createTree (primoFiglio, in_depthLimit - 1, in_first);
-					//tmpB.unmarkCell ();													// Si smarca la prima cella
 					TreeNode prev = primoFiglio;											// Prev creato uguale al primoFiglio
 
 					for (int e = 1; e < FC.length; e++) {									// Ciclo per la creazione dei nodi di un livello
@@ -186,10 +188,8 @@ public class TreeFunctions {
 						prev = figlio;														// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
 						createTree (figlio, in_depthLimit - 1, in_first);
 					}
-
 					in_padre = in_padre.getNext();
 				}
-
 			}
 			// Fine if
 			else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP1) {
@@ -205,7 +205,7 @@ public class TreeFunctions {
 		}
 
 	}
-
+ 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   	// 2

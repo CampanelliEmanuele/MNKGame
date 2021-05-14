@@ -15,21 +15,40 @@ public class Algoritms {
 	 * min:  BT != S -> GREEN
 	 */
 	// Non si parte dalla radice ma dal primoFiglio dell'albero
-	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodo
+	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodos
 	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
-		while (in_foglia != null) {							
+		/*
+		if (in_foglia.getColor() == Colors.WHITE) {
+			if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP1) {
+				if (in_BT == MNKCellState.P1) in_foglia.setColor(Colors.GREEN);
+				else in_foglia.setColor(Colors.RED);
+			}
+			else if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP2) {
+				if (in_BT == MNKCellState.P1) in_foglia.setColor(Colors.RED);
+				else in_foglia.setColor(Colors.GREEN);
+			}
+			//else in_padre.setColor(Colors.GREY);
+			else in_foglia.setColor(Colors.RED);
+		}
+		*/
+		while (in_foglia != null) {
 			if (in_foglia.getPrimoFiglio() != null) {
 				if (in_S == MNKCellState.P1) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P2);			
-				else if (in_S == MNKCellState.P2) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);	
+				else if (in_S == MNKCellState.P2) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);
 			} 
 			if (in_foglia.getNext() != null) {			
 				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN) in_foglia.getPadre().setColor(in_foglia.getColor());	
 				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED) in_foglia.getPadre().setColor(in_foglia.getColor());
-			} else if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE) in_foglia.getPadre().setColor(in_foglia.getColor());
+			} 
+			else if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE) in_foglia.getPadre().setColor(in_foglia.getColor());
 			in_foglia = in_foglia.getNext();
 		}
 	}
 
+	
+	
+	
+	
 	/*
 	public TreeNode minMax_v2 (TreeNode in_node, MNKCellState in_botState, ) {
 		int eval = 0;

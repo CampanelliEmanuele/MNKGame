@@ -112,7 +112,7 @@ public class GroupPlayer implements MNKPlayer {
 			
 			// ////////////////////////
 			
-			if (FC.length <= 10) {
+			if (FC.length <= -9) {
 				// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
 				tmpTreeFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
 				
@@ -183,22 +183,39 @@ public class GroupPlayer implements MNKPlayer {
 		// 						+ ...
 		// Preferenza del K piccolo
 
-		M = 3;											// Parte da rimuovere in futuro
-		N = 3;											// Parte da rimuovere in futuro
-		K = 3;											// Parte da rimuovere in futuro
+		M = 5;											// Parte da rimuovere in futuro
+		N = 5;											// Parte da rimuovere in futuro
+		K = 4;											// Parte da rimuovere in futuro
 		B = new MNKBoard (M,N,K);
 
 		MNKCell[] FC = B.getFreeCells();				// Parte da rimuovere in futuro
-		
+		/*
 		B.markCell (FC[0].i, FC[0].j);	// 11
-		//B.markCell (FC[1].i, FC[1].j);	// 21
-		//B.markCell (FC[2].i, FC[2].j);	// 01
-		//B.markCell (FC[3].i, FC[3].j);	// 12
+		B.markCell (FC[1].i, FC[1].j);	// 21
+		B.markCell (FC[2].i, FC[2].j);	// 01
+		B.markCell (FC[3].i, FC[3].j);	// 12
 		
-		//B.markCell (FC[4].i, FC[4].j);	// 20
+		B.markCell (FC[4].i, FC[4].j);	// 20
+		*/
 		//B.markCell (FC[5].i, FC[5].j);	// 10
 		//B.markCell (FC[6].i, FC[6].j);	// 22
-
+		B.markCell(2, 3);
+		B.markCell(0, 3);
+		
+		B.markCell(4, 0);
+		B.markCell(1, 1);
+		
+		B.markCell(2, 2);
+		B.markCell(1, 4);
+		
+		B.markCell(3, 4);
+		B.markCell(3, 0);
+		
+		B.markCell(2, 0);
+		//B.markCell(2, 4);
+		
+		//B.markCell(2, 1); \\ enemy win
+		
 		// ___________________________________________________________________________________________
 		// Codice del selectCell
 		
@@ -206,7 +223,7 @@ public class GroupPlayer implements MNKPlayer {
 		first = false;
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		
-		if (FC.length <= 10) {
+		if (FC.length <= -10) {
 			// DA TESTARE //tmpTreeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
 			tmpTreeFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
 			
@@ -227,11 +244,12 @@ public class GroupPlayer implements MNKPlayer {
 			MNKCell tmp = tmpMC[tmpMC.length - 1];
 			System.out.println("minMax");
 			System.out.println("BotState: " + botState + " ; Colore radice: " + radice.getColor());
-			//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("minMax - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
-			//return tmp; 
+			//System.out.println("NODO VINCENTE ##########################################################");
+			winCell.printNodeInfo();// System.out.println("minMax - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+			//return tmp;
 			
 		}
-		else {		
+		else {
 			tmpTreeFunctions.defenseCell(radice, botState);
 			tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
 			tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
@@ -240,11 +258,13 @@ public class GroupPlayer implements MNKPlayer {
 			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 				MNKCell tmp = tmpMC[tmpMC.length - 1];
+				System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
 				//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("AB - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 				//return tmp;
 			} else {
 				MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
-				MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), tmpMC[tmpMC.length - 1].state);
+				MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), botState);
+				System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
 				//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 				//return tmp;
 			}
