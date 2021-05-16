@@ -59,7 +59,6 @@ public class TreeFunctions {
 	}
 	
 	protected void defenseCell (TreeNode in_foglia, MNKCellState in_botState) {
-	
 		MNKBoard board = in_foglia.getMNKBoard();     					// Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
 		MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();        // Nelle posizioni 0,2,4,... vi sono le mosse del P1, nelle posizioni 1,3,5,... vi sono le mosse del P2
 		int[] D_vars = new int[D_length]; for (int i = 3; i < D_length; i++) D_vars[i] = 0;
@@ -150,7 +149,7 @@ public class TreeFunctions {
 			}
 			// end if - else controllo diagonale
 		}
-			// fine for scorrimento delle MC
+		// fine for scorrimento delle MC
 			
 	}
 	// Fine funzione defenseCell
@@ -260,8 +259,9 @@ public class TreeFunctions {
 	// 3.2: aumenta valori quando trova cella del player che stai analizzando
 	private static void AB_currenPlayerCell (int[] in_AB_vars, TreeNode in_nodo) {
 		//System.out.println ("AB_currenPlayerCell tmp +2");
-	    in_AB_vars[tmp] += 2;
+		in_AB_vars[tmp] += 3;
 	    in_AB_vars[strike] += 1;
+	    in_AB_vars[tmp] += in_AB_vars[strike];
 	    if (in_AB_vars[strike] > in_AB_vars[maxStrike]) in_AB_vars[maxStrike] = in_AB_vars[strike];
 	}
 
@@ -271,7 +271,8 @@ public class TreeFunctions {
 	    if (in_AB_vars[strike] > 0 && in_AB_vars[strike] >= preWinLimit) {
 	    	in_AB_vars[localWinSituations]++;
 	    	in_AB_vars[globalWinSituations]++;
-	    	in_AB_vars[tmp]++;
+
+		    in_AB_vars[tmp] += in_AB_vars[strike];
 	    	in_AB_vars[strike] = 0;
 	    }
 	}

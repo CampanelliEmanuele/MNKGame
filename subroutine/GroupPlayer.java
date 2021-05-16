@@ -56,25 +56,25 @@ public class GroupPlayer implements MNKPlayer {
 			if (M == N && M % 2 == 0) {																// Caso di MNK: 44K - 66K
 				// L'avversario ha la prima mossa e marca la cella: (0,0) || (M-1,N-1) --> Allora noi marchiamo (M/2, N/2 - 1) (zona centrale 
 				if ((MC[0].i == 0 && MC[0].j == 0) || (MC[0].i == M-1 && MC[0].j == N-1)) {			// Se l'avversario marca l'angolo ASX o l'angolo in BDX
-					System.out.println("Caso if -> if" + MC[0].toString());
+					//System.out.println("Caso if -> if" + MC[0].toString());
 					MNKCell tmp = new MNKCell (M/2, N/2 - 1, MNKCellState.P2);						// Noi marchiamo il centro
 					return tmp;			// 2' + G
 				}
 				// L'avversario ha la prima mossa e marca la cella: (0,N-1) || (M-1,0) --> Allora noi marchiamo (M/2, N/2)
 				else if ((MC[0].i == 0 && MC[0].j == N-1) || (MC[0].i == M-1 && MC[0].j == 0)) {	// Se l'avversario marca l'angolo BSX o l'angolo in ADX
-					System.out.println("Caso if -> else if" + MC[0].toString());
+					//System.out.println("Caso if -> else if" + MC[0].toString());
 					MNKCell tmp = new MNKCell (M/2, N/2, MNKCellState.P2);							// Noi marchiamo il centro
 					return tmp;
 				}
 				// Se l'avversario non marca un angolo
 				else {
 					if ((MC[0].i != M/2 && MC[0].j != N/2 - 1)) {									// Se NON HA marcato la cella in BSX del quadratino centrale
-						System.out.println("Caso if -> else -> if" + MC[0].toString());
+						//System.out.println("Caso if -> else -> if" + MC[0].toString());
 						MNKCell tmp = new MNKCell (M/2, N/2 - 1, MNKCellState.FREE);				// La marca il bot
 						return tmp;
 					}
 					else {																			// Se ha marcato la cella in BSX del quadratino centrale
-						System.out.println("Caso if -> else -> else" + MC[0].toString());
+						//System.out.println("Caso if -> else -> else" + MC[0].toString());
 						MNKCell tmp = new MNKCell (M/2, N/2, MNKCellState.FREE);					// Altrimenti marca quella affianco
 						return tmp;
 					}
@@ -83,12 +83,12 @@ public class GroupPlayer implements MNKPlayer {
 			else {
 				// Caso di MNK: 33K - 55K + 34K - 62K
 				if (MC[0].i == (int) M/2 && MC[0].j == (int) N/2) {									// Se l'avversario HA marcato il centro
-					System.out.println("Caso else -> if" + MC[0].toString());
+					//System.out.println("Caso else -> if" + MC[0].toString());
 					MNKCell tmp = new MNKCell (0, 0, MNKCellState.FREE);							// Allora noi marchiamo un'angolo
 					return tmp;
 				}
 				else {																				// Se invece l'avversario NON HA marcato il centro
-					System.out.println("Caso else -> else" + MC[0].toString());
+					//System.out.println("Caso else -> else" + MC[0].toString());
 					MNKCell tmp = new MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);			// Allora noi marchiam un angolo	
 					return tmp;
 				}
@@ -147,13 +147,15 @@ public class GroupPlayer implements MNKPlayer {
 				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
 					MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 					MNKCell tmp = tmpMC[tmpMC.length - 1];
-					System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
+					//winCell.printMCInfo();
+					//System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
 					//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("AB - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				} else {
 					MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
 					MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), botState);
-					System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
+					//winCell.printMCInfo();
+					//System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
 					//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				}
