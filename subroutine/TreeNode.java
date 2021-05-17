@@ -13,12 +13,12 @@ public class TreeNode {
   private TreeNode prev;        // Rappresenta il collegamento con l'elemento precedente
 
   private int listPosition;     // Rappresenta l'indice dell'elemento nella lista di alberi
-  private int alpha;
-  private int beta;
-  private int val;
+  private float alpha;
+  private float beta;
+  private float val;
   private Colors color;
-  private int defense_i;
-  private int defense_j;
+  private int priority_i;
+  private int priority_j;
   
   // Variabili (a occhio) più sacrificabili: listPosition, val e color
 
@@ -34,8 +34,8 @@ public class TreeNode {
     this.beta = Integer.MIN_VALUE;
     this.val = -100;
     this.color = Colors.WHITE;
-    this.defense_i = -1;
-    this.defense_j = -1;
+    this.priority_i = -1;
+    this.priority_j = -1;
   }
 
   // Costruttore di un figlio
@@ -55,8 +55,8 @@ public class TreeNode {
     this.beta = Integer.MIN_VALUE;
     this.val = -100;
     this.color = Colors.WHITE;
-    this.defense_i = -1;
-    this.defense_j = -1;
+    this.priority_i = -1;
+    this.priority_j = -1;
   }
 
   protected void printNodeInfo () {
@@ -72,8 +72,8 @@ public class TreeNode {
     System.out.println ("alpha: " + this.alpha + "\nbeta: " + this.beta);
     System.out.println ("Valore: " + this.val);
     System.out.println ("Colore: " + this.color);
-    System.out.println ("Defense_i: " + this.defense_i);
-    System.out.println ("Defense_j: " + this.defense_j);
+    System.out.println ("priority_i: " + this.priority_i);
+    System.out.println ("priority_j: " + this.priority_j);
     printMCInfo ();
     System.out.println ("------------------------------------------");
   }
@@ -104,22 +104,27 @@ public class TreeNode {
   protected int getListPosition () { return this.listPosition; }
   protected void setListPosition (int in_listPosition) { this.listPosition = in_listPosition; }
 
-  protected int getAlpha () { return this.alpha; }
-  protected void setAlpha (int in_alpha) { this.alpha = in_alpha; }
+  protected float getAlpha () { return this.alpha; }
+  protected void setAlpha (float in_alpha) { this.alpha = in_alpha; }
 
-  protected int getBeta () { return this.beta; }
-  protected void setBeta (int in_beta) { this.beta = in_beta; }
+  protected float getBeta () { return this.beta; }
+  protected void setBeta (float in_beta) { this.beta = in_beta; }
 
-  protected int getVal () { return this.val; }
-  protected void setVal (int in_val) { this.val = in_val; }
+  protected float getVal () { return this.val; }
+  protected void setVal (float in_val) { this.val = in_val; }
 
   protected Colors getColor () { return this.color; }
   protected void setColor (Colors in_color) { this.color = in_color; }
 
-  protected int getDefense_i () { return this.defense_i; }
-  protected void setDefense_i (int in_defense_i) { this.defense_i = in_defense_i; }
+  protected int getPriority_i () { return this.priority_i; }
+  protected void setPriority_i (int in_defense_i) { this.priority_i = in_defense_i; }
 
-  protected int getDefense_j () { return this.defense_j; }
-  protected void setDefense_j (int in_defense_j) { this.defense_j = in_defense_j; }
+  protected int getPriority_j () { return this.priority_j; }
+  protected void setPriority_j (int in_defense_j) { this.priority_j = in_defense_j; }
+  
+  protected void setPriorityCell (int in_i, int in_j) {
+	  this.priority_i = in_i;
+	  this.priority_j = in_j;
+  }
 
 }

@@ -139,26 +139,52 @@ public class GroupPlayer implements MNKPlayer {
 				
 			}
 			else {
+				tmpTreeFunctions.createTree(radice, 2, first);								// Crea il nodo sottostante
+				tmpTreeFunctions.vaiAlleFoglie(radice, botState);							// Assegna i valori AB
+				TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
+				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+				
+				if (winCell.getBeta() == Integer.MAX_VALUE) {								// Se c'è una vittoria imminente
+					MNKCell tmp = tmpMC[tmpMC.length - 1];
+					return tmp;																// Marca la cella vincente
+				} else {																	// Se non c'è una vittoria imminente
+					tmpTreeFunctions.defenseCell(radice, botState);
+					if (radice.getPriority_i() >= 0) {										// Se c'è una cella da difendere
+						MNKCell tmp = new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState);
+						return tmp;															// Marca la cella da difendere
+					} else {																// Se non c'è una ella da difendere
+						tmpTreeFunctions.quickMark (radice, first);
+						if (radice.getPriority_i() >= 0) {									// Se c'è un marcamento veloce possibile
+							MNKCell tmp = new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState);
+							return tmp;														// Fa il marcamento rapido
+						} else {															// Se non c'è un marcamento rapido possibile
+							MNKCell tmp = tmpMC[tmpMC.length - 1];
+							return tmp;
+						}
+					}
+				}
+				
+				
+				
+				
+				
+				/*
 				tmpTreeFunctions.defenseCell(radice, botState);
 				tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
 				tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
 				TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 				
-				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
+				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getPriority_i() < 0) {
 					MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 					MNKCell tmp = tmpMC[tmpMC.length - 1];
-					//winCell.printMCInfo();
-					//System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
-					//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("AB - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
 					return tmp;
 				} else {
 					MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
-					MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), botState);
-					//winCell.printMCInfo();
-					//System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
-					//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
+					MNKCell tmp = new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState);
 					return tmp;
 				}
+				*/
+				
 				
 			}
 			
@@ -255,12 +281,12 @@ public class GroupPlayer implements MNKPlayer {
 			
 		}
 		else {
-			tmpTreeFunctions.defenseCell(radice, botState);
+			tmpTreeFunctions.PriorityCell(radice, botState);
 			tmpTreeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
 			tmpTreeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
 			TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 			
-			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getDefense_i() < 0) {
+			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getPriority_i() < 0) {
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 				MNKCell tmp = tmpMC[tmpMC.length - 1];
 				System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
@@ -268,7 +294,7 @@ public class GroupPlayer implements MNKPlayer {
 				//return tmp;
 			} else {
 				MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
-				MNKCell tmp = new MNKCell (radice.getDefense_i(), radice.getDefense_j(), botState);
+				MNKCell tmp = new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState);
 				System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
 				//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
 				//return tmp;

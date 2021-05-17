@@ -87,7 +87,7 @@ public class Algoritms {
 		TreeNode winNode = primoFiglio;								// Nodo ritornato
 		
 		if (in_takeMaxBeta) {
-			int maxBeta = Integer.MIN_VALUE;
+			float maxBeta = Float.MIN_VALUE;
 
 			while (primoFiglio != null) {								// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
 				if (primoFiglio.getBeta() > maxBeta) {
@@ -117,9 +117,9 @@ public class Algoritms {
 			}
 			tmpTreeFunctions.defenseCell(in_padre, in_botState);
 			
-			if (in_padre.getDefense_i() < 0) return sceltaPercorso (in_padre, true, in_botState);
+			if (in_padre.getPriority_i() < 0) return sceltaPercorso (in_padre, true, in_botState);
 			else {
-				in_padre.getMNKBoard().markCell(in_padre.getDefense_i(), in_padre.getDefense_j());
+				in_padre.getMNKBoard().markCell(in_padre.getPriority_i(), in_padre.getPriority_j());
 				return in_padre;
 			}
 			
@@ -139,7 +139,7 @@ public class Algoritms {
     */
     //else {                                                      // Se il nodo in questione non ha dei figli
       TreeNode tmpHead = in_primoFiglio;
-			int maxTmp = Integer.MIN_VALUE;
+      float maxTmp = Float.MIN_VALUE;
       if (myTurn) {                                             // Se è il mio turno, dovrò passare al padre il miglior valore di alpha (in quanto il padre rappresenta la scelta per l'avversaio)
         System.out.println("CASE: myTurn");
         while (in_primoFiglio != null) {                        // Per ogni fratello della foglia

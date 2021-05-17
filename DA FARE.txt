@@ -1,5 +1,4 @@
 V - Sviluppare l'algoritmo per l'assegnamento dei valori Alpha e Beta
-WIP - Sviluppare l'algoritmo AlphaBeta pruning
 V - Studiare come vengono costruiti gli array FC e MC
 
 V - Capire come accedere alla variabile state di una cella, o meglio, capire lo stato di una cella (senza scorrere gli array)
@@ -16,13 +15,18 @@ V - Correggere gli ultimi errori nella difesa (caso 333, il bot inizia per secon
 
 V - Correggere la scelta tra vittoria-difesa (eseguire e controllare sempre la creazione dell'albero per scrutare vittorie anzichè difese)
 
-X - Implementare un algoritmo che "guardi un po' in avanti" per veder la mossa migliore
+
 X - Fai incontro con Di Lena per capire come siam messi
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-WIP - Capire per quale cazzo di motivo in caso di nodo RED ci siano dei figli WHITE --> Sitazioni di cutoff (?) --> Toglire i cutoff per vedere se il bot migliora
-X - Valutare se sostituire i colori con i gameState
+- Conversione dei valori in float
+- Rivedere l'assegnamento dei punti nella casistiche diagonali
+- Migliorare l'assegnamento dei punti allo strike
+
+
+
+
 
 Finals:
 WIP - pulizia codice (levare funzioni inutile e commenti)
@@ -31,5 +35,7 @@ X - ottimizzazione codice (implementazioni di algoritmi più efficienti)
 
 
 MERDACCIA:
+WIP - Capire per quale cazzo di motivo in caso di nodo RED ci siano dei figli WHITE --> Sitazioni di cutoff (?) --> Toglire i cutoff per vedere se il bot migliora
+X - Valutare se sostituire i colori con i gameState
 WIP - testa bigSolve dando manualmente il nodo radice
 WIP - creare la funzione che dia in automatico la foglia primoFiglio
