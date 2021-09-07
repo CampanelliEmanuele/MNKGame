@@ -12,16 +12,13 @@ public class TreeNode {
   private TreeNode next;        // Rappresenta il collegamento con l'elemento successivo
   private TreeNode prev;        // Rappresenta il collegamento con l'elemento precedente
 
-  private int listPosition;     // Rappresenta l'indice dell'elemento nella lista di alberi
+  private int listPosition;     // Rappresenta l'indice dell'elemento nella lista di alberi (usata solo per il debug)
   private float alpha;
   private float beta;
-  private float val;
   private Colors color;
   private int priority_i;
   private int priority_j;
   
-  // Variabili (a occhio) più sacrificabili: listPosition, val e color
-
   // Costruttore per il nodo padre, la radice dell'albero
   protected TreeNode (MNKBoard in_B) {
     this.B = in_B;
@@ -32,7 +29,6 @@ public class TreeNode {
     this.listPosition = -1;
     this.alpha = Integer.MIN_VALUE;
     this.beta = Integer.MIN_VALUE;
-    this.val = -100;
     this.color = Colors.WHITE;
     this.priority_i = -1;
     this.priority_j = -1;
@@ -53,7 +49,6 @@ public class TreeNode {
     }
     this.alpha = Integer.MIN_VALUE;
     this.beta = Integer.MIN_VALUE;
-    this.val = -100;
     this.color = Colors.WHITE;
     this.priority_i = -1;
     this.priority_j = -1;
@@ -70,7 +65,6 @@ public class TreeNode {
     System.out.println ("Next: " + this.next);
     System.out.println ("Prev: " + this.prev);
     System.out.println ("alpha: " + this.alpha + "\nbeta: " + this.beta);
-    System.out.println ("Valore: " + this.val);
     System.out.println ("Colore: " + this.color);
     System.out.println ("priority_i: " + this.priority_i);
     System.out.println ("priority_j: " + this.priority_j);
@@ -108,9 +102,6 @@ public class TreeNode {
 
   protected float getBeta () { return this.beta; }
   protected void setBeta (float in_beta) { this.beta = in_beta; }
-
-  protected float getVal () { return this.val; }
-  protected void setVal (float in_val) { this.val = in_val; }
 
   protected Colors getColor () { return this.color; }
   protected void setColor (Colors in_color) { this.color = in_color; }
