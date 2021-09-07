@@ -1,41 +1,6 @@
-V - Sviluppare l'algoritmo per l'assegnamento dei valori Alpha e Beta
-V - Studiare come vengono costruiti gli array FC e MC
-
-V - Capire come accedere alla variabile state di una cella, o meglio, capire lo stato di una cella (senza scorrere gli array)
-    Possibile soluzioni:
-        - Capirlo tramite il metodo toString
-
-V - Controllare come vengono assegnati i punteggi di beta (in questo caso)
-V - Controllare se e come vengono fatti i controlli diagonali (tramite degli out)
-
-
-V - testare se le coordinate della cella da difendere sono diverse da -1 nei momenti corretti, e se lo sono, controllare che ritornino l'effettiva cella da difendere
-
-V - Correggere gli ultimi errori nella difesa (caso 333, il bot inizia per secondo)
-
-V - Correggere la scelta tra vittoria-difesa (eseguire e controllare sempre la creazione dell'albero per scrutare vittorie anzichè difese)
-
-
-X - Fai incontro con Di Lena per capire come siam messi
-
------------------------------------------------------------------------------------------------------------------------------
-
-- Conversione dei valori in float
-- Rivedere l'assegnamento dei punti nella casistiche diagonali
-- Migliorare l'assegnamento dei punti allo strike
-
-
 Per eseguire er codice vai nella directory: ..../MNKGame/mnkgame e scrivi:
 	java -cp ".." mnkgame.MNKGame 3 3 3 mnkgame.RandomPlayer subroutine.GroupPlayer
 		
-
-
-
-Finals:
-WIP - pulizia codice (levare funzioni inutile e commenti)
-X - stesura del costo computazionale
-X - ottimizzazione codice (implementazioni di algoritmi più efficienti)
-
 
 MERDACCIA:
 WIP - Capire per quale cazzo di motivo in caso di nodo RED ci siano dei figli WHITE --> Sitazioni di cutoff (?) --> Toglire i cutoff per vedere se il bot migliora

@@ -24,7 +24,8 @@ public class TreeFunctions {
 	private static boolean shutdown (TreeNode in_node) {
 		if (in_node.getPriority_i() >= 0 && in_node.getPriority_j() >= 0)
 			return true;
-		else return false;
+		else
+			return false;
 	}
 	
 	private static void D_editVar (int[] in_D_vars) {
