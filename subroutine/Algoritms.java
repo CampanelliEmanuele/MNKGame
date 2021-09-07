@@ -33,14 +33,19 @@ public class Algoritms {
 		*/
 		while (in_foglia != null) {
 			if (in_foglia.getPrimoFiglio() != null) {
-				if (in_S == MNKCellState.P1) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P2);			
-				else if (in_S == MNKCellState.P2) minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);
+				if (in_S == MNKCellState.P1)
+					minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P2);			
+				else if (in_S == MNKCellState.P2)
+					minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);
 			} 
 			if (in_foglia.getNext() != null) {			
-				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN) in_foglia.getPadre().setColor(in_foglia.getColor());	
-				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED) in_foglia.getPadre().setColor(in_foglia.getColor());
+				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN)
+					in_foglia.getPadre().setColor(in_foglia.getColor());	
+				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED)
+					in_foglia.getPadre().setColor(in_foglia.getColor());
 			} 
-			else if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE) in_foglia.getPadre().setColor(in_foglia.getColor());
+			else if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE)
+				in_foglia.getPadre().setColor(in_foglia.getColor());
 			in_foglia = in_foglia.getNext();
 		}
 	}
@@ -88,14 +93,12 @@ public class Algoritms {
 		
 		if (in_takeMaxBeta) {
 			float maxBeta = Float.MIN_VALUE;
-
 			while (primoFiglio != null) {								// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
 				if (primoFiglio.getBeta() > maxBeta) {
 					maxBeta = primoFiglio.getBeta();
 					winNode = primoFiglio;
-				} else if (primoFiglio.getBeta() == maxBeta) {
+				} else if (primoFiglio.getBeta() == maxBeta)
 					if (primoFiglio.getAlpha() > winNode.getAlpha()) winNode = primoFiglio;
-				}
 				primoFiglio = primoFiglio.getNext();
 			}
 			return winNode;
@@ -103,7 +106,8 @@ public class Algoritms {
 		
 		else { //fai minimax
 			while (primoFiglio != null) {
-				if (primoFiglio.getColor() == Colors.GREEN) return primoFiglio;
+				if (primoFiglio.getColor() == Colors.GREEN)
+					return primoFiglio;
 				primoFiglio = primoFiglio.getNext();
 			}
       
@@ -117,7 +121,8 @@ public class Algoritms {
 			}
 			tmpTreeFunctions.defenseCell(in_padre, in_botState);
 			
-			if (in_padre.getPriority_i() < 0) return sceltaPercorso (in_padre, true, in_botState);
+			if (in_padre.getPriority_i() < 0)
+				return sceltaPercorso (in_padre, true, in_botState);
 			else {
 				in_padre.getMNKBoard().markCell(in_padre.getPriority_i(), in_padre.getPriority_j());
 				return in_padre;
@@ -147,8 +152,10 @@ public class Algoritms {
           //if (in_primoFiglio.getBeta() <= in_primoFiglio.getAlpha()) {  //cutoff
           if (in_primoFiglio.getAlpha() < in_primoFiglio.getBeta()) {  //cutoff
             System.out.println("NODO: B: " + in_primoFiglio.getBeta() + " ; A" + in_primoFiglio.getAlpha());
-            if (in_primoFiglio.getPrimoFiglio() != null) bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);
-            if (in_primoFiglio.getAlpha() > maxTmp) maxTmp = in_primoFiglio.getAlpha();
+            if (in_primoFiglio.getPrimoFiglio() != null)
+            	bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);
+            if (in_primoFiglio.getAlpha() > maxTmp)
+            	maxTmp = in_primoFiglio.getAlpha();
           }
           in_primoFiglio = in_primoFiglio.getNext();
         }
@@ -158,24 +165,23 @@ public class Algoritms {
           System.out.println("NODO: B: " + in_primoFiglio.getBeta() + " ; A" + in_primoFiglio.getAlpha());
           //if (in_primoFiglio.getAlpha() <= in_primoFiglio.getBeta()) {   //cutoff
           if (in_primoFiglio.getBeta() < in_primoFiglio.getAlpha()) {  //cutoff
-            if (in_primoFiglio.getPrimoFiglio() != null) bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);
-            if (in_primoFiglio.getBeta() > maxTmp) maxTmp = in_primoFiglio.getBeta();
+            if (in_primoFiglio.getPrimoFiglio() != null)
+            	bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);
+            if (in_primoFiglio.getBeta() > maxTmp)
+            	maxTmp = in_primoFiglio.getBeta();
           }
           in_primoFiglio = in_primoFiglio.getNext();
         }
       }
 
-			if (tmpHead.getPadre() != null) {                                                         // Se non si è arrivati alla radice dell'albero
-        if (myTurn) {                                                                           // Se è il mio turno
-          if (tmpHead.getPadre().getAlpha() < maxTmp) tmpHead.getPadre().setAlpha(maxTmp);      // Si aggiorna il valore alpha del padre
-        } else {                                                                                //turno avversario
-          if (tmpHead.getPadre().getBeta() < maxTmp) tmpHead.getPadre().setBeta(maxTmp);        // Si aggiorna beta di in_primoFiglio
-        }
+	  if (tmpHead.getPadre() != null) {                                                         // Se non si è arrivati alla radice dell'albero
+        if (myTurn && tmpHead.getPadre().getAlpha() < maxTmp)                                   // Se è il mio turno e ...
+          tmpHead.getPadre().setAlpha(maxTmp);      											// Si aggiorna il valore alpha del padre
+        else if (tmpHead.getPadre().getBeta() < maxTmp)                                         // Altrimenti se è un turno avversario
+           tmpHead.getPadre().setBeta(maxTmp);        											// Si aggiorna beta di in_primoFiglio
         tmpHead.getPadre().setVal(maxTmp);
       }
 
-    //}
-    // fine else
 	}
   // fine bigSolve
 

@@ -8,9 +8,8 @@ public class Stampa {
 
     protected static void printInfo (TreeNode in_node, int in_level) {
   		System.out.println ("------------------------------------------");
-  		if (in_node.getMNKBoard().gameState() != MNKGameState.OPEN) {
+  		if (in_node.getMNKBoard().gameState() != MNKGameState.OPEN)
   			System.out.println ("WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER_WINNER");
-  		}
   		System.out.println ("LIVELLO: " + in_level);
   		System.out.println ("NIQ: " + in_node);
   		in_node.printNodeInfo();
@@ -28,8 +27,10 @@ public class Stampa {
   		if (in_padre != null) {												// Se si passa un nodo
   			if (in_onlyLeaf) {													// Se si vuole stampare solo le foglie
   				while (in_padre != null) {								// Per ogni fratello (e padre compreso) si richiama la funzione
-  					if (in_padre.getPrimoFiglio() == null) printInfo (in_padre, in_level); // Se è una foglia fa la stampa
-  					if (in_padre.getPrimoFiglio() != null) printTree (in_padre.getPrimoFiglio(), true, in_level + 1, -1);	// Si richiama
+  					if (in_padre.getPrimoFiglio() == null)				// Se è una foglia fa la stampa
+  						printInfo (in_padre, in_level); 
+  					if (in_padre.getPrimoFiglio() != null)				// Altrimenti si richiama
+  						printTree (in_padre.getPrimoFiglio(), true, in_level + 1, -1);	
   					in_padre = in_padre.getNext();
   				}
   			}
@@ -38,13 +39,15 @@ public class Stampa {
   				if (in_limit >= 1) {		// Caso in cui si  vuole stampare solo fino ad un certo livello in_limit
   					while (in_padre != null) {
   						printInfo (in_padre, in_level);
-  						if (in_padre.getPrimoFiglio() != null) printTree (in_padre.getPrimoFiglio(), false, in_level + 1, in_limit - 1);
+  						if (in_padre.getPrimoFiglio() != null)
+  							printTree (in_padre.getPrimoFiglio(), false, in_level + 1, in_limit - 1);
   						in_padre = in_padre.getNext();
   					}
   				} else {								// Se in_limit <= 0 (ovvero se si vuole stamapre tutto l'albero)
   					while (in_padre != null) {
   						printInfo (in_padre, in_level);
-  						if (in_padre.getPrimoFiglio() != null) printTree (in_padre.getPrimoFiglio(), false, in_level + 1, -1);
+  						if (in_padre.getPrimoFiglio() != null)
+  							printTree (in_padre.getPrimoFiglio(), false, in_level + 1, -1);
   						in_padre = in_padre.getNext();
   					}
   				}
@@ -64,7 +67,8 @@ public class Stampa {
   					//in_padre.printNodeInfo();
   				}
   				
-  				if (in_padre.getPrimoFiglio() != null) printMoleColor (in_padre.getPrimoFiglio());		// Se ha dei figli si scende
+  				if (in_padre.getPrimoFiglio() != null)
+  					printMoleColor (in_padre.getPrimoFiglio());		// Se ha dei figli si scende
   				in_padre = in_padre.getNext();
   			}
   		}

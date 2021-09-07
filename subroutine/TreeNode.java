@@ -81,9 +81,8 @@ public class TreeNode {
   protected void printMCInfo () {
     MNKCell[] MC = this.B.getMarkedCells();
     System.out.println ("CELLE MARCATE + STATO");
-    for (int pos = 0; pos < MC.length; pos++) {
+    for (int pos = 0; pos < MC.length; pos++)
       System.out.println ("(" + MC[pos].i + "," + MC[pos].j + ") : " + MC[pos].state);
-    }
   }
 
   protected MNKBoard getMNKBoard () { return this.B; }
