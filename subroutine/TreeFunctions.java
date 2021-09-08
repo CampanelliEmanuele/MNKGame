@@ -21,10 +21,14 @@ public class TreeFunctions {
 	
 	private static final int D_length = 10;             // Array contenente le principali variabili della funzione assegnaValoreABFoglia
 	
+	// Indici delle variabili dell'array
+	private static final int i_righe = 0;                // RIGHE    (i = M - 1)
+	private static final int j_colonne = 1;              // COLONNE  (j = N - 1)
+	private static final int k = 2;						// Valore K della board
 	private static final int ec_counter = 5;			// Conta quante celle dello stesso tipo si susseguono, si resetta dopo due AB_freeCell consecutive (ha 1 AB_freeCell di margine perchè si fa un controllo per K-1 simboli)
 	private static final int fc_counter = 6;			// AB_freeCell che si susseguono
-	private static final int priority_i = 7;			// Coordinata (locale alla board del nodo) i della cella da difendere
-	private static final int priority_j = 8;			// Coordinata (locale alla board del nodo) j della cella da difendere
+	private static final int priority_i = 8;			// Coordinata (locale alla board del nodo) i della cella da difendere
+	private static final int priority_j = 9;			// Coordinata (locale alla board del nodo) j della cella da difendere
 
 	private static boolean checkDefense (TreeNode in_node) {
 		if (in_node.getPriority_i() >= 0 && in_node.getPriority_j() >= 0)
@@ -309,9 +313,6 @@ public class TreeFunctions {
 
 	private static final int AB_length = 15;             // Array contenenti le principali variabili (intere) della funzione assegnaValoreABFoglia
 	// Indici delle variabili nell'array
-	private static final int i_righe = 0;                // RIGHE    (i = M - 1)
-	private static final int j_colonne = 1;              // COLONNE  (j = N - 1)
-	private static final int k = 2;                      // SERIE
 	private static final int tmp = 5;
 	private static final int alpha = 6;
 	private static final int beta = 7;
