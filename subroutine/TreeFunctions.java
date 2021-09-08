@@ -9,19 +9,23 @@ public class TreeFunctions {
 
 	protected TreeFunctions () {}
 	
-	// Per memorizzare i sottoalberi si utilizzata una struttura dati dinamica omogena lineare
+	/**
+	 * La funzioni principali di codesto file sono defenseCell ed assegnaValoreABFoglia, le quali fanno uso
+	 * di un array contenente le principali variabili.
+	 * 
+	 * Per memorizzare i sottoalberi si utilizza una struttura dati dinamica omogena lineare.
+	 */
 
-	  
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final int D_length =10;              // Array contenenti le principali variabili (intere) della funzione assegnaValoreABFoglia
+	private static final int D_length = 10;             // Array contenente le principali variabili della funzione assegnaValoreABFoglia
 	
 	private static final int ec_counter = 5;			// Conta quante celle dello stesso tipo si susseguono, si resetta dopo due AB_freeCell consecutive (ha 1 AB_freeCell di margine perchè si fa un controllo per K-1 simboli)
-	private static final int fc_counter = 6;			// Tiene conto delle AB_freeCell che si susseguono
-	private static final int priority_i = 7;				// Coordinata i della cella da difendere (locale)
-	private static final int priority_j = 8;				// Coordinata j della cella da difendere (locale)
+	private static final int fc_counter = 6;			// AB_freeCell che si susseguono
+	private static final int priority_i = 7;			// Coordinata (locale alla board del nodo) i della cella da difendere
+	private static final int priority_j = 8;			// Coordinata (locale alla board del nodo) j della cella da difendere
 
-	private static boolean shutdown (TreeNode in_node) {
+	private static boolean checkDefense (TreeNode in_node) {
 		if (in_node.getPriority_i() >= 0 && in_node.getPriority_j() >= 0)
 			return true;
 		else
@@ -29,7 +33,11 @@ public class TreeFunctions {
 	}
 	
 	private static void D_editVar (int[] in_D_vars) {
-		// Ad ogni nuovo controllo, bisogna resettare tali variabili per:
+		/**
+		 * Invocazione (defenseCell): Alla fine del controllo di un set.
+		 * 
+		 * Funzione: Ad ogni nuovo controllo su una nuova board, bisogna resettare tali variabili per:
+		 */
 		in_D_vars[ec_counter] = 0;	// Tenere il conto dei simboli nel nuovo set in analisi
 		in_D_vars[fc_counter] = 0;
 		in_D_vars[priority_i] = -1;	// Si resettano le coordinate locali della cella da difendere
@@ -37,30 +45,51 @@ public class TreeFunctions {
 	}
 	
 	private static void D_enemyCell (int[] in_D_vars, TreeNode in_nodo) {
+		/**
+		 * Invocazione (defenseCell): Quando si incombe in una cella nemica a
+		 * 							  Slow_Unmade durante il controllo di un set.
+		 * 
+		 * Funzione: Modifica delle variabili dell'array.
+		 */
 		in_D_vars[ec_counter]++;															// Si aumenta il conteggio delle celle (del player in analisi) in serie
-		if (in_D_vars[ec_counter] >= in_D_vars[k]) in_D_vars[ec_counter] = 1;				// Se ec_counter ha valori "sballati" si pone a 1
-		if (in_D_vars[ec_counter] == in_D_vars[k] - 1 && in_D_vars[priority_i] >= 0) 		// Controllo per vedere è stata trovata la cella da difendere
-			in_nodo.setPriorityCell (in_D_vars[priority_i], in_D_vars[priority_j]);
+		if (in_D_vars[ec_counter] >= in_D_vars[k]) in_D_vars[ec_counter] = 1;				// Se ec_counter ha valori "sballati" (ovvero maggiori di k) si pone a 1
+		if (in_D_vars[ec_counter] == in_D_vars[k] - 1 && in_D_vars[priority_i] >= 0) 		// Controllo per vedere se è stata trovata la cella da difendere
+			in_nodo.setPriorityCell(in_D_vars[priority_i], in_D_vars[priority_j]);
 		in_D_vars[fc_counter] = 0;															// Reset del counter delle AB_freeCell
 	}
 	
 	private static void D_freeCell (int[] in_D_vars, TreeNode in_node, int in_i, int in_j) {
+		/**
+		 * Invocazione (defenseCell): Quando si incombe in una cella libera durante il
+		 * 			  				  controllo di un set.
+		 * 
+		 * Funzione: Modifica delle variabili dell'array.
+		 */
 		in_D_vars[fc_counter]++;
 		if (in_D_vars[fc_counter] > 1)								// Se vi sono 2 o più celle libere affiancate
 			in_D_vars[ec_counter] = 0;								// Si resetta ec_counter
 		
-		in_D_vars[priority_i] = in_i;								// Si salvano localmente le coordinate della cella in questione
+		in_D_vars[priority_i] = in_i;								// Si salvano localmente le coordinate della cella in questione,
+																	// qualora ci sarò necessità di difendere
 		in_D_vars[priority_j] = in_j;
 		
 		if (in_D_vars[ec_counter] == in_D_vars[k] - 1) {			// Controllo per capire se è una cella da difendere
 			in_node.setPriorityCell(in_D_vars[priority_i], in_D_vars[priority_j]);
-			in_D_vars[ec_counter] = 0;								// Una volta salvato nel nodo le coordinate da difendere, si resetta ec_counter
+			in_D_vars[ec_counter] = 0;								// Si resetta ec_counter
 		}
 	}
 	
 	protected void defenseCell (TreeNode in_foglia, MNKCellState in_botState) {
-		MNKBoard board = in_foglia.getMNKBoard();     					// Essendo la variabile MNKCellState[][] protetta, dovrebbe essere accessibile da questo programma
-		MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();        // Nelle posizioni 0,2,4,... vi sono le mosse del P1, nelle posizioni 1,3,5,... vi sono le mosse del P2
+		/**
+		 * Invocazione: Prima del metodo che decreta la cella più conveniente
+		 * 				da marcare.
+		 * 
+		 * Funzione: Controlla tramite i set, se vi sono celle da marcare
+		 * 			 per evitare l'imminente vittoria avversaria.
+		 */
+		MNKBoard board = in_foglia.getMNKBoard();
+		MNKCell[] MC = in_foglia.getMNKBoard().getMarkedCells();        // Nelle posizioni 0,2,4,... vi sono le mosse del P1,
+																		// nelle posizioni 1,3,5,... vi quelle del P2
 		int[] D_vars = new int[D_length]; for (int i = 3; i < D_length; i++) D_vars[i] = 0;
 		D_vars[i_righe] = board.M - 1;
 		D_vars[j_colonne] = board.N - 1;
@@ -68,24 +97,20 @@ public class TreeFunctions {
 		D_vars[priority_i] = -1;
 		D_vars[priority_j] = -1;
 		
-		int start = -1; MNKCellState enemyState;
+		int start = 0; MNKCellState enemyState = MNKCellState.P1;
 		
 		if (in_botState == MNKCellState.P1) {
 			start = 1;
 			enemyState = MNKCellState.P2;
-		}
-		else {
-			start = 0;
-			enemyState = MNKCellState.P1;
 		}
 		
 		for (int pos = start; pos < MC.length; pos += 2) {
 			int i_MC = MC[pos].i;   								// Coordinata i (riga) della cella in analisi
 			int j_MC = MC[pos].j;   								// Coordinata j (colonna) della cella in analisi
 			
-			// Controllo set orizzontale
+			// CONTROLLO: set orizzontale
 			for (int c = 0; c <= D_vars[j_colonne]; c++) {     		// Controllo della i-esima riga (da sx verso dx)
-				if (shutdown(in_foglia)) return;
+				if (checkDefense(in_foglia)) return;
 				else {
 					if (board.cellState(i_MC, c) == enemyState)
 						D_enemyCell (D_vars, in_foglia);
@@ -100,9 +125,9 @@ public class TreeFunctions {
 			D_editVar (D_vars);
 			
 			
-			// Controllo riga in verticale
+			// CONTROLLO: riga in verticale
 			for (int r = 0; r <= D_vars[i_righe]; r++) {     			// Controllo della j-esima colonna (dall'alto verso il basso)
-				if (shutdown(in_foglia)) return;
+				if (checkDefense(in_foglia)) return;
 				else {
 					if (board.cellState(r, j_MC) == enemyState)
 						D_enemyCell (D_vars, in_foglia);
@@ -116,26 +141,29 @@ public class TreeFunctions {
 			}
 			D_editVar (D_vars);
 			
-			// Controllo diagonale
-			if (D_vars[i_righe] + 1 >= D_vars[k] && D_vars[j_colonne] + 1 >= D_vars[k]) {   // Se la mappa percmette la creazione di set diagonali
-				int move = 0;     															// Variabile per lo scorrimento verso la posizione di partenza dei set diagonali
+			// CONTROLLO: diagonale
+			if (D_vars[i_righe] + 1 >= D_vars[k] && D_vars[j_colonne] + 1 >= D_vars[k]) {   // Se la mappa permette la creazione di set diagonali
+				int move = 0;     										// Variabile per lo scorrimento verso la posizione di partenza dei set diagonali
 			
-				// Scorrimento verso in alto a sx
-				while (i_MC - move > 0 && j_MC - move > 0) { move++; }      				// Si incrementa move fino a quando sottratto alle coordinate i e j non ci si ritrova in (i - move, j - move = 0)
+				// SCORRIMENTO: Verso in alto a sx
+				while (i_MC - move > 0 && j_MC - move > 0) { move++; }	// Si incrementa move fino a quando sottratto alle coordinate i e j
+																		// non ci si ritrova in (i - move, j - move = 0)
 				int start_i = i_MC - move;
 				int start_j = j_MC - move;
 			
-				// Data la posizione più in alto a sx possibile (rispetto alla cella in analisi), controlla è in una posizione tale per cui vi sia almeno un set di lunghezza vars[k]
+				// Data la posizione più in alto a sx possibile (rispetto alla cella in analisi), controlla è in una posizione tale per cui
+				// vi sia almeno un set di lunghezza vars[k]
 				if (start_i + D_vars[k] - 1 <= D_vars[i_righe] && start_j + D_vars[k] - 1 <= D_vars[j_colonne]) {
-					// Da in alto a sx fino in basso a dx
+					// CONTROLLO: da in alto a sx fino in basso a dx
 					for (move = 0; start_i + move < start_i + D_vars[k] && start_j + move < start_j + D_vars[k]; move++) {
-						if (shutdown(in_foglia)) return;
+						if (checkDefense(in_foglia)) return;
 						else {
 							if (board.cellState(start_i + move, start_j + move) == enemyState)
 								D_enemyCell (D_vars, in_foglia);
 							else if (board.cellState(start_i + move, start_j + move) == MNKCellState.FREE)
 								D_freeCell(D_vars, in_foglia, start_i + move, start_j + move);
-							else if (board.cellState(start_i + move, start_j + move) != enemyState && board.cellState(start_i + move, start_j + move) != MNKCellState.FREE)
+							else if (board.cellState(start_i + move, start_j + move) != enemyState &&
+									 board.cellState(start_i + move, start_j + move) != MNKCellState.FREE)
 								D_editVar (D_vars);
 							else
 								System.out.println ("ERRORE - FUNZIONE: PriorityCell - DOVE: Controllo diagonale: alto sx --> basso dx");
@@ -144,21 +172,23 @@ public class TreeFunctions {
 					D_editVar (D_vars);	
 				}
 			
-				// Scorrimento verso in alto a dx
+				// SCORRIMENTO: Verso in alto a dx
 				for (move = 0; i_MC - move > 0 && j_MC + move < D_vars[j_colonne]; move++) {}
+
 				start_i = i_MC - move;
 				start_j = j_MC + move;
 				
 				if (start_i + D_vars[k] - 1 <= D_vars[i_righe] && start_j - D_vars[k] + 1 >= 0) {
-					// Da in alto a dx fino in basso a sx
+					// CONTROLLO: Da in alto a dx fino in basso a sx
 					for (move = 0; start_i + move < start_i + D_vars[k] && start_j - move >= 0; move++) {
-						if (shutdown(in_foglia)) return;
+						if (checkDefense(in_foglia)) return;
 						else {
 							if (board.cellState(start_i + move, start_j - move) == enemyState)
 								D_enemyCell (D_vars, in_foglia);
 							else if (board.cellState(start_i + move, start_j - move) == MNKCellState.FREE)
 								D_freeCell (D_vars, in_foglia, start_i + move, start_j - move);
-							else if (board.cellState(start_i + move, start_j - move) != enemyState && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE)
+							else if (board.cellState(start_i + move, start_j - move) != enemyState &&
+									 board.cellState(start_i + move, start_j - move) != MNKCellState.FREE)
 								D_editVar (D_vars);
 							else
 								System.out.println ("ERRORE - FUNZIONE: PriorityCell - DOVE: Controllo diagonale: alto dx --> basso sx");
@@ -170,12 +200,9 @@ public class TreeFunctions {
 			// end if - controllo diagonale
 			else   							 // Se il controllo diagonale non può essere eseguito a causa dei valori di M,N e K
 				System.out.println("NO DIAGONAL SET - FUNZIONE: PriorityCell - Valori MNK non consoni per set diagonali.");
-			// end if - else controllo diagonale
 		}
 		// fine for scorrimento delle MC
-			
 	}
-	// Fine funzione defenseCell
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -201,7 +228,6 @@ public class TreeFunctions {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// 5
 	protected void createTree (TreeNode in_padre, int in_depthLimit, boolean in_first) {
 		if (in_depthLimit > 1) {
 			if (in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {					// Se in_depthLimit > 1 --> Si crea un'altro livello
