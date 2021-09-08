@@ -11,7 +11,8 @@ public class TreeFunctions {
 	
 	/**
 	 * La funzioni principali di codesto file sono defenseCell ed assegnaValoreABFoglia, le quali fanno uso
-	 * di un array contenente le principali variabili.
+	 * di un array contenente le principali variabili. Il resto dei metodi della classe vertono sulla
+	 * modifiche di quest'ultime.
 	 * 
 	 * Per memorizzare i sottoalberi si utilizza una struttura dati dinamica omogena lineare.
 	 */
@@ -124,8 +125,7 @@ public class TreeFunctions {
 			}
 			D_editVar (D_vars);
 			
-			
-			// CONTROLLO: riga in verticale
+			// CONTROLLO: set verticale
 			for (int r = 0; r <= D_vars[i_righe]; r++) {     			// Controllo della j-esima colonna (dall'alto verso il basso)
 				if (checkDefense(in_foglia)) return;
 				else {
@@ -141,7 +141,7 @@ public class TreeFunctions {
 			}
 			D_editVar (D_vars);
 			
-			// CONTROLLO: diagonale
+			// CONTROLLO: set diagonale
 			if (D_vars[i_righe] + 1 >= D_vars[k] && D_vars[j_colonne] + 1 >= D_vars[k]) {   // Se la mappa permette la creazione di set diagonali
 				int move = 0;     										// Variabile per lo scorrimento verso la posizione di partenza dei set diagonali
 			
@@ -229,77 +229,81 @@ public class TreeFunctions {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	protected void createTree (TreeNode in_padre, int in_depthLimit, boolean in_first) {
-		if (in_depthLimit > 1) {
-			if (in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {					// Se in_depthLimit > 1 --> Si crea un'altro livello
+		/**
+		 * Invocazione: ???
+		 * 
+		 * Funzione: Crea in_depthLimit livelli di un albero avente come nodi dei TreeNode.
+		 * 			 L'albero è implementato tramite puntatori ai nodi primoFiglio e fratelli.
+		 */
+		if (in_depthLimit > 1) {													// Se in_depthLimit > 1 --> Si crea un'altro livello
+			if (in_padre.getMNKBoard().gameState() == MNKGameState.OPEN) {
 				MNKCell[] FC = in_padre.getMNKBoard().getFreeCells();
 				MNKCell[] MC = in_padre.getMNKBoard().getMarkedCells();
 				int M = in_padre.getMNKBoard().M;
 				int N = in_padre.getMNKBoard().N;
 				int K = in_padre.getMNKBoard().K;
-				MNKBoard tmpB = new MNKBoard (M,N,K);
+				MNKBoard tmpB = new MNKBoard(M,N,K);
 				for (int e = 0; e < MC.length; e++)
 					tmpB.markCell (MC[e].i, MC[e].j);
 				
-				while (in_padre != null) {													// Per ogni fratello (e padre compreso) si crea il sottoalbero
+				while (in_padre != null) {												// Per ogni fratello (e padre compreso) si crea il sottoalbero
 					tmpB.markCell (FC[0].i, FC[0].j);		  								// Temporaneo marcamento della prima cella
-					TreeNode primoFiglio = new TreeNode (tmpB, in_padre, true, null);		// Si crea il primo figlio
+					TreeNode primoFiglio = new TreeNode(tmpB, in_padre, true, null);		// Si crea il primo figlio
 					in_padre.setPrimoFiglio(primoFiglio);									// Si setta il primo figlio del nodo padre
 
 					createTree (primoFiglio, in_depthLimit - 1, in_first);
 					TreeNode prev = primoFiglio;											// Prev creato uguale al primoFiglio
 
 					for (int e = 1; e < FC.length; e++) {									// Ciclo per la creazione dei nodi di un livello
-						MNKBoard tmp2B = new MNKBoard (M,N,K);								// Crea una nuova board per ogni nodo del livello in questione
+						MNKBoard tmp2B = new MNKBoard (M,N,K);									// Crea una nuova board per ogni nodo del livello in questione
 						for (int el = 0; el < MC.length; el++)
 							tmp2B.markCell (MC[el].i, MC[el].j);
 
-						tmp2B.markCell (FC[e].i, FC[e].j);									// Temporaneo marcamento della cella
+						tmp2B.markCell (FC[e].i, FC[e].j);										// Temporaneo marcamento della cella
 						TreeNode figlio = new TreeNode (tmp2B, in_padre, false, prev);
-						prev.setNext (figlio);												// Il fratello prev è ora collegato al suo nuovo fratello
+						prev.setNext (figlio);													// Il fratello prev è ora collegato al suo nuovo fratello
 
-						prev = figlio;														// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
+						prev = figlio;															// Il nuovo figlio è ora il prev (ovvero l'ultimo figlio creato)
 						createTree (figlio, in_depthLimit - 1, in_first);
 					}
 					in_padre = in_padre.getNext();
 				}
-			}
-			// Fine if
-			else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP1) {
+			} else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP1) {
 				if (in_first)
 					in_padre.setColor(Colors.GREEN);
 				else
 					in_padre.setColor(Colors.RED);
-			}
-			else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP2) {
+			} else if (in_padre.getMNKBoard().gameState() == MNKGameState.WINP2) {
 				if (in_first)
 					in_padre.setColor(Colors.RED);
 				else
 					in_padre.setColor(Colors.GREEN);
-			}
-			//else in_padre.setColor(Colors.GREY);
-			else
+			} else
 				in_padre.setColor(Colors.RED);
 		}
-
 	}
  
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  	// 2
-  	// Funzione che va alle foglie dell'albero (e ne assegna il valore tramite un'altra funzione) + il relativo codice di invocazione
-  	protected void vaiAlleFoglie (TreeNode in_primoFiglio, MNKCellState in_botState) {     	// Preso il padre, visiterà l'albero (in qualsiasi modo) fino ad arrivare alle foglie ed attribuire ad esse un valore che sarà utilizzato dall'algoritmo alpha beta pruning
-  		while (in_primoFiglio != null) {                                                  	// Per ogni figlio del nodo padre a cui è stata apllicata la funzione
-  			if (in_primoFiglio.getPrimoFiglio() == null)                                    // Se è una foglia
-  				assegnaValoreABFoglia (in_primoFiglio, in_botState);                        // Assegna i valori alpha e beta
-  			else                                                                            // Se non è una foglia
-  				vaiAlleFoglie (in_primoFiglio.getPrimoFiglio(), in_botState);               // Si applica la funzione nei sotto-alberi
+  	protected void vaiAlleFoglie (TreeNode in_primoFiglio, MNKCellState in_botState) {
+  		/**
+		 * Invocazione: ???
+		 * 
+		 * Funzione: Va alle foglie dell'albero passato e ne decreta i valori alpha e
+		 * 			 beta tramite un'altra funzione
+		 */
+		while (in_primoFiglio != null) {									// Per ogni figlio del nodo padre a cui è stata apllicata la funzione
+  			if (in_primoFiglio.getPrimoFiglio() == null)                       	// Se è una foglia
+  				assegnaValoreABFoglia (in_primoFiglio, in_botState);               	// Assegna i valori alpha e beta
+  			else                                                                // Altrimenti
+  				vaiAlleFoglie (in_primoFiglio.getPrimoFiglio(), in_botState);        // Chiamata ricorsiva sui sotto-alberi
   			in_primoFiglio = in_primoFiglio.getNext();
   		}
   	}
   	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// 3
 	// Da spostare a livelli più globali, magari agli inizi della partita questo valore sarà più alto in modo tale da considerare come vincenti più situazioni, poi con l'avanzare della partita essa verrà incrementata per esserr più selettivi nelle condizioni di vittoria (ad esempio aumentando il valore di n ogni tot livelli dell'albero)
 	private static int preWinLimit;   // Limite per decretare quando un strike si può reputare una situazione prossima alla vittoria
 
@@ -536,4 +540,3 @@ public class TreeFunctions {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 }
-// Fine class TreeFunctions
