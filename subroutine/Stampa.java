@@ -64,7 +64,6 @@ public class Stampa {
   					System.out.println("Vittoria: " + in_padre.getMNKBoard().gameState());
   					System.out.println("Nodo: " + in_padre);
   					System.out.println("Colore: " + in_padre.getColor());
-  					//in_padre.printNodeInfo();
   				}
   				
   				if (in_padre.getPrimoFiglio() != null)

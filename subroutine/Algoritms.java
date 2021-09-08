@@ -179,7 +179,6 @@ public class Algoritms {
           tmpHead.getPadre().setAlpha(maxTmp);      											// Si aggiorna il valore alpha del padre
         else if (tmpHead.getPadre().getBeta() < maxTmp)                                         // Altrimenti se è un turno avversario
            tmpHead.getPadre().setBeta(maxTmp);        											// Si aggiorna beta di in_primoFiglio
-        tmpHead.getPadre().setVal(maxTmp);
       }
 
 	}
