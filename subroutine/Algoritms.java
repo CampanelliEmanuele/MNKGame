@@ -8,7 +8,7 @@ public class Algoritms {
 
 	protected Algoritms (boolean in_first) { this.first = in_first; }
   
-	TreeFunctions treeFunctions = new TreeFunctions();
+	Functions Functions = new Functions();
   
 	/*
 	 * MAX:  BT == S -> RED
@@ -112,14 +112,14 @@ public class Algoritms {
 			}
       
 			// Se non ha trovato nodi di colore verde
-			TreeFunctions tmpTreeFunctions = new TreeFunctions();
+			Functions tmpFunctions = new Functions();
 			
 			primoFiglio = in_padre.getPrimoFiglio();
 			while (primoFiglio != null) {
-				tmpTreeFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
+				tmpFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
 				primoFiglio = primoFiglio.getNext();
 			}
-			tmpTreeFunctions.defenseCell(in_padre, in_botState);
+			tmpFunctions.defenseCell(in_padre, in_botState);
 			
 			if (in_padre.getPriority_i() < 0)
 				return sceltaPercorso (in_padre, true, in_botState);
