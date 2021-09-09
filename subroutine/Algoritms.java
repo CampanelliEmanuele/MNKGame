@@ -8,7 +8,7 @@ public class Algoritms {
 
 	protected Algoritms (boolean in_first) { this.first = in_first; }
   
-	TreeFunctions treeFunctions = new TreeFunctions();
+	Tree tree = new Tree();
 	DefenseLogistics defenseFunctions = new DefenseLogistics();
 	AttackLogistics attackFunctions = new AttackLogistics();
   
@@ -114,7 +114,7 @@ public class Algoritms {
 			}
       
 			// Se non ha trovato nodi di colore verde
-			TreeFunctions treeFunctions = new TreeFunctions();
+			Tree tree = new Tree();
 			
 			primoFiglio = in_padre.getPrimoFiglio();
 			while (primoFiglio != null) {

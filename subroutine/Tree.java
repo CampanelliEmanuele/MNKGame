@@ -5,9 +5,9 @@ import mnkgame.MNKCell;
 import mnkgame.MNKCellState;
 import mnkgame.MNKGameState;
 
-public class TreeFunctions {
+public class Tree {
 
-	protected TreeFunctions () {}
+	protected Tree () {}
 	
 	/**
 	 * La funzioni principali di codesto file sono defenseCell ed assegnaValoreABFoglia, le quali fanno uso
