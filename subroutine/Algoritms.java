@@ -5,9 +5,7 @@ import subroutine.TreeFunctions.*;
 
 public class Algoritms {
 
-	private boolean first;
-
-	protected Algoritms (boolean in_first) { this.first = in_first; }
+	protected Algoritms ( ) {}
   
 	Tree tree = new Tree();
 	DefenseLogistics defenseFunctions = new DefenseLogistics();
@@ -18,7 +16,8 @@ public class Algoritms {
 	 * min:  BT != S -> GREEN
 	 */
 	// Non si parte dalla radice ma dal primoFiglio dell'albero
-	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodos
+	// Se ultimo nodo è GREEN -> Corretto
+	// Se ultimo nodo è RED   -> assegna WHITE all'ultimo nodos
 	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
 		/*
 		if (in_foglia.getColor() == Colors.WHITE) {
@@ -53,22 +52,6 @@ public class Algoritms {
 		}
 	}
 
-	
-	
-	
-	
-	/*
-	public TreeNode minMax_v2 (TreeNode in_node, MNKCellState in_botState, ) {
-		int eval = 0;
-		if (in_node.getPrimoFiglio() == null) {
-			if (in_node.getMNKBoard().gameState() == MNKGameState.WINP1 && in_botState == MNKCellState.P1) eval = 1;
-			else if (in_node.getMNKBoard().gameState() == MNKGameState.WINP2 && in_botState == MNKCellState.P2) eval = 1;
-			else eval = -1;
-		}
-	
-	}
-	*/
-	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Ritorna il nodo migliore tra i nodi del livello sottostante a quello del padre
@@ -105,9 +88,7 @@ public class Algoritms {
 				primoFiglio = primoFiglio.getNext();
 			}
 			return winNode;
-		}
-		
-		else { //fai minimax
+		} else {
 			while (primoFiglio != null) {
 				if (primoFiglio.getColor() == Colors.GREEN)
 					return primoFiglio;
@@ -115,8 +96,6 @@ public class Algoritms {
 			}
       
 			// Se non ha trovato nodi di colore verde
-			Tree tree = new Tree();
-			
 			primoFiglio = in_padre.getPrimoFiglio();
 			while (primoFiglio != null) {
 				attackFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
@@ -130,9 +109,7 @@ public class Algoritms {
 				in_padre.getMNKBoard().markCell(in_padre.getPriority_i(), in_padre.getPriority_j());
 				return in_padre;
 			}
-			
 		}
-		
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,8 +118,8 @@ public class Algoritms {
 
 	protected void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
 	 	/*
-    if (in_primoFiglio.getPrimoFiglio() != null) {              // Se il nodo in questione ha dei figli
-      bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
+		if (in_primoFiglio.getPrimoFiglio() != null) {              // Se il nodo in questione ha dei figli
+			bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
 		}
     */
     //else {                                                      // Se il nodo in questione non ha dei figli
@@ -185,6 +162,5 @@ public class Algoritms {
       }
 
 	}
-  // fine bigSolve
 
 }
