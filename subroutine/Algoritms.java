@@ -1,6 +1,7 @@
 package subroutine;
 
-import mnkgame.*;
+import mnkgame.MNKCellState;
+import subroutine.TreeFunctions.*;
 
 public class Algoritms {
 

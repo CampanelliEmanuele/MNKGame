@@ -1,14 +1,15 @@
-package subroutine;
+package subroutine.TreeFunctions;
 
-import mnkgame.*;
+import mnkgame.MNKBoard;
 import mnkgame.MNKCell;
 import mnkgame.MNKCellState;
+import mnkgame.MNKGameState;
 
 public class AttackLogistics {
     
 	public AttackLogistics () {}
 
-    protected void vaiAlleFoglie (TreeNode in_primoFiglio, MNKCellState in_botState) {
+    public void vaiAlleFoglie (TreeNode in_primoFiglio, MNKCellState in_botState) {
         /**
        * Invocazione: ???
        * 
@@ -84,7 +85,7 @@ public class AttackLogistics {
       in_AB_vars[strike] = 0;
   }
   
-  protected void assegnaValoreABFoglia (TreeNode in_foglia, MNKCellState in_botState) {
+  public void assegnaValoreABFoglia (TreeNode in_foglia, MNKCellState in_botState) {
       /* 
        * set: È quel "pezzo" di celle lungo tutta la linea (orizzontale, verticale o diagonale) che viene analizzato di votla in volta
        * 
@@ -258,6 +259,5 @@ public class AttackLogistics {
       
   }
   // Fine funzione assegnaValoreABFoglia
-
 
 }

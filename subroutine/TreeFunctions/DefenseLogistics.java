@@ -1,6 +1,6 @@
-package subroutine;
+package subroutine.TreeFunctions;
 
-import mnkgame.*;
+import mnkgame.MNKBoard;
 import mnkgame.MNKCell;
 import mnkgame.MNKCellState;
 
@@ -73,7 +73,7 @@ public class DefenseLogistics {
 		}
 	}
 	
-	protected void defenseCell (TreeNode in_foglia, MNKCellState in_botState) {
+	public void defenseCell (TreeNode in_foglia, MNKCellState in_botState) {
 		/**
 		 * Invocazione: Prima del metodo che decreta la cella più conveniente
 		 * 				da marcare.

@@ -1,13 +1,12 @@
-package subroutine;
+package subroutine.TreeFunctions;
 
-import mnkgame.*;
+import mnkgame.MNKBoard;
 import mnkgame.MNKCell;
-import mnkgame.MNKCellState;
 import mnkgame.MNKGameState;
 
 public class Tree {
 
-	protected Tree () {}
+	public Tree () {}
 	
 	/**
 	 * La funzioni principali di codesto file sono defenseCell ed assegnaValoreABFoglia, le quali fanno uso
@@ -43,7 +42,7 @@ public class Tree {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	protected void createTree (TreeNode in_padre, int in_depthLimit, boolean in_first) {
+	public void createTree (TreeNode in_padre, int in_depthLimit, boolean in_first) {
 		/**
 		 * Invocazione: ???
 		 * 

@@ -1,4 +1,4 @@
-package subroutine;
+package subroutine.TreeFunctions;
 
 public enum Colors {
   WHITE,
