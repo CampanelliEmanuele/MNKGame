@@ -43,7 +43,9 @@ public class GroupPlayer implements MNKPlayer {
 	 * Deve ritornare la cella da marcare
 	 */
 	public MNKCell selectCell (MNKCell[] FC, MNKCell[] MC) {
-		Functions tmpFunctions = new Functions();				// Creazione dell'oggetto per l'uso delle funzioni
+		TreeFunctions treeFunctions = new TreeFunctions();				// Creazione dell'oggetto per l'uso delle funzioni
+		DefenseLogistics defenseFunctions = new DefenseLogistics();
+		AttackLogistics attackFunctions = new AttackLogistics();
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
 		Stampa stampa = new Stampa();
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
@@ -92,8 +94,8 @@ public class GroupPlayer implements MNKPlayer {
 			// ////////////////////////
 			
 			if (FC.length <= -10) {
-				// DA TESTARE //tmpFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
-				tmpFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
+				// DA TESTARE //treeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
+				treeFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
 				
 				// Modifica i colori dell'albero sottostante
 				if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
@@ -117,19 +119,19 @@ public class GroupPlayer implements MNKPlayer {
 				
 			}
 			else {
-				tmpFunctions.createTree(radice, 2, first);								// Crea il nodo sottostante
-				tmpFunctions.vaiAlleFoglie(radice, botState);							// Assegna i valori AB
+				treeFunctions.createTree(radice, 2, first);								// Crea il nodo sottostante
+				attackFunctions.vaiAlleFoglie(radice, botState);							// Assegna i valori AB
 				TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 				
 				if (winCell.getBeta() == Integer.MAX_VALUE) 								// Se c'è una vittoria imminente
 					return tmpMC[tmpMC.length - 1]; 										// Marca la cella vincente
 				else {																	// Se non c'è una vittoria imminente
-					tmpFunctions.defenseCell(radice, botState);
+					defenseFunctions.defenseCell(radice, botState);
 					if (radice.getPriority_i() >= 0) 										// Se c'è una cella da difendere
 						return new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState); // Marca la cella da difendere
 					else {														    		// Se non c'è una ella da difendere
-						tmpFunctions.quickMark (radice, first);
+						//treeFunctions.quickMark (radice, first);
 						if (radice.getPriority_i() >= 0) 									// Se c'è un marcamento veloce possibile
 							return new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState); // Fa il marcamento rapido
 						else															// Se non c'è un marcamento rapido possibile
@@ -142,9 +144,9 @@ public class GroupPlayer implements MNKPlayer {
 				
 				
 				/*
-				tmpFunctions.defenseCell(radice, botState);
-				tmpFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
-				tmpFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
+				treeFunctions.defenseCell(radice, botState);
+				treeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
+				treeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
 				TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 				
 				if (winCell.getBeta() == Integer.MAX_VALUE || radice.getPriority_i() < 0) {
@@ -175,7 +177,7 @@ public class GroupPlayer implements MNKPlayer {
 
 	/*
 	public static void main (String[] args) {
-		Functions tmpFunctions = new Functions();				// Creazione dell'oggetto per l'uso delle funzioni
+		Functions treeFunctions = new Functions();				// Creazione dell'oggetto per l'uso delle funzioni
 		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
 		Stampa stampa = new Stampa();
 
@@ -228,8 +230,8 @@ public class GroupPlayer implements MNKPlayer {
 		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
 		
 		if (FC.length <= -10) {
-			// DA TESTARE //tmpFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
-			tmpFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
+			// DA TESTARE //treeFunctions.createTree(radice, 18, first);		// Crea il nodo sottostante
+			treeFunctions.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
 			
 			// Modifica i colori dell'albero sottostante
 			if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
@@ -254,9 +256,9 @@ public class GroupPlayer implements MNKPlayer {
 			
 		}
 		else {
-			tmpFunctions.defenseCell(radice, botState);
-			tmpFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
-			tmpFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
+			treeFunctions.defenseCell(radice, botState);
+			treeFunctions.createTree(radice, 2, first);		// Crea il nodo sottostante
+			treeFunctions.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
 			TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
 			
 			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getPriority_i() < 0) {
