@@ -1,6 +1,7 @@
 package subroutine;
 
-import mnkgame.*;
+import mnkgame.MNKCellState;
+import subroutine.TreeFunctions.*;
 
 public class Algoritms {
 
@@ -8,7 +9,9 @@ public class Algoritms {
 
 	protected Algoritms (boolean in_first) { this.first = in_first; }
   
-	TreeFunctions treeFunctions = new TreeFunctions();
+	Tree tree = new Tree();
+	DefenseLogistics defenseFunctions = new DefenseLogistics();
+	AttackLogistics attackFunctions = new AttackLogistics();
   
 	/*
 	 * MAX:  BT == S -> RED
@@ -112,14 +115,14 @@ public class Algoritms {
 			}
       
 			// Se non ha trovato nodi di colore verde
-			TreeFunctions tmpTreeFunctions = new TreeFunctions();
+			Tree tree = new Tree();
 			
 			primoFiglio = in_padre.getPrimoFiglio();
 			while (primoFiglio != null) {
-				tmpTreeFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
+				attackFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
 				primoFiglio = primoFiglio.getNext();
 			}
-			tmpTreeFunctions.defenseCell(in_padre, in_botState);
+			defenseFunctions.defenseCell(in_padre, in_botState);
 			
 			if (in_padre.getPriority_i() < 0)
 				return sceltaPercorso (in_padre, true, in_botState);

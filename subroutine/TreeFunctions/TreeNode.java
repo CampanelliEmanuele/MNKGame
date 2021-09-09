@@ -1,4 +1,4 @@
-package subroutine;
+package subroutine.TreeFunctions;
 
 import mnkgame.MNKBoard;
 import mnkgame.MNKCell;
@@ -20,7 +20,7 @@ public class TreeNode {
   private int priority_j;
   
   // Costruttore per il nodo padre, la radice dell'albero
-  protected TreeNode (MNKBoard in_B) {
+  public TreeNode (MNKBoard in_B) {
     this.B = in_B;
     this.padre = null;
     this.primoFiglio = null;
@@ -35,7 +35,7 @@ public class TreeNode {
   }
 
   // Costruttore di un figlio
-  protected TreeNode (MNKBoard in_B, TreeNode in_padre, boolean in_primoFiglio, TreeNode in_prev) {
+  public TreeNode (MNKBoard in_B, TreeNode in_padre, boolean in_primoFiglio, TreeNode in_prev) {
     this.B = in_B;
     this.padre = in_padre;
     this.primoFiglio = null;    // Nodo primoFiglio che SI USA SOLO PER IL PADRE !!!
@@ -54,7 +54,7 @@ public class TreeNode {
     this.priority_j = -1;
   }
 
-  protected void printNodeInfo () {
+  public void printNodeInfo () {
     System.out.println ("------------------------------------------");
     System.out.println ("Padre: " + this.padre);
     System.out.println ("Board: " + this.B);
@@ -72,47 +72,47 @@ public class TreeNode {
     System.out.println ("------------------------------------------");
   }
 
-  protected void printMCInfo () {
+  public void printMCInfo () {
     MNKCell[] MC = this.B.getMarkedCells();
     System.out.println ("CELLE MARCATE + STATO");
     for (int pos = 0; pos < MC.length; pos++)
       System.out.println ("(" + MC[pos].i + "," + MC[pos].j + ") : " + MC[pos].state);
   }
 
-  protected MNKBoard getMNKBoard () { return this.B; }
-  protected void setMNKBoard (MNKBoard in_MNKBoard) { this.B = in_MNKBoard; }
+  public MNKBoard getMNKBoard () { return this.B; }
+  public void setMNKBoard (MNKBoard in_MNKBoard) { this.B = in_MNKBoard; }
 
-  protected TreeNode getPadre () { return this.padre; }
-  protected void setPadre (TreeNode in_padre) { this.padre = in_padre; }
+  public TreeNode getPadre () { return this.padre; }
+  public void setPadre (TreeNode in_padre) { this.padre = in_padre; }
 
-  protected TreeNode getPrimoFiglio () { return this.primoFiglio; }
-  protected void setPrimoFiglio (TreeNode in_primoFiglio) { this. primoFiglio = in_primoFiglio; }
+  public TreeNode getPrimoFiglio () { return this.primoFiglio; }
+  public void setPrimoFiglio (TreeNode in_primoFiglio) { this. primoFiglio = in_primoFiglio; }
 
-  protected TreeNode getNext () { return this.next; }
-  protected void setNext (TreeNode in_next) { this.next = in_next; }
+  public TreeNode getNext () { return this.next; }
+  public void setNext (TreeNode in_next) { this.next = in_next; }
 
-  protected TreeNode getPrev () { return this.prev; }
-  protected void setPrev (TreeNode in_prev) { this.prev = in_prev; }
+  public TreeNode getPrev () { return this.prev; }
+  public void setPrev (TreeNode in_prev) { this.prev = in_prev; }
 
-  protected int getListPosition () { return this.listPosition; }
-  protected void setListPosition (int in_listPosition) { this.listPosition = in_listPosition; }
+  public int getListPosition () { return this.listPosition; }
+  public void setListPosition (int in_listPosition) { this.listPosition = in_listPosition; }
 
-  protected float getAlpha () { return this.alpha; }
-  protected void setAlpha (float in_alpha) { this.alpha = in_alpha; }
+  public float getAlpha () { return this.alpha; }
+  public void setAlpha (float in_alpha) { this.alpha = in_alpha; }
 
-  protected float getBeta () { return this.beta; }
-  protected void setBeta (float in_beta) { this.beta = in_beta; }
+  public float getBeta () { return this.beta; }
+  public void setBeta (float in_beta) { this.beta = in_beta; }
 
-  protected Colors getColor () { return this.color; }
-  protected void setColor (Colors in_color) { this.color = in_color; }
+  public Colors getColor () { return this.color; }
+  public void setColor (Colors in_color) { this.color = in_color; }
 
-  protected int getPriority_i () { return this.priority_i; }
-  protected void setPriority_i (int in_defense_i) { this.priority_i = in_defense_i; }
+  public int getPriority_i () { return this.priority_i; }
+  public void setPriority_i (int in_defense_i) { this.priority_i = in_defense_i; }
 
-  protected int getPriority_j () { return this.priority_j; }
-  protected void setPriority_j (int in_defense_j) { this.priority_j = in_defense_j; }
+  public int getPriority_j () { return this.priority_j; }
+  public void setPriority_j (int in_defense_j) { this.priority_j = in_defense_j; }
   
-  protected void setPriorityCell (int in_i, int in_j) {
+  public void setPriorityCell (int in_i, int in_j) {
 	  this.priority_i = in_i;
 	  this.priority_j = in_j;
   }

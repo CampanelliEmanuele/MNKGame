@@ -1,6 +1,8 @@
 package subroutine;
 
 import mnkgame.MNKGameState;
+import subroutine.TreeFunctions.TreeNode;
+import subroutine.TreeFunctions.Colors;
 
 public class Stampa {
 
