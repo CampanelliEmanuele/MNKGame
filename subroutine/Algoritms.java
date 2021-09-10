@@ -34,80 +34,42 @@ public class Algoritms {
 			else in_foglia.setColor(Colors.RED);
 		}
 		*/
-		while (in_foglia != null) {
-			if (in_foglia.getPrimoFiglio() != null) {
+		while (in_foglia != null) {													// Per ogni nodo di un livello
+			if (in_foglia.getPrimoFiglio() != null) {									// Se non è una foglia si scende di livello cambiando stato
 				if (in_S == MNKCellState.P1)
 					minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P2);			
 				else if (in_S == MNKCellState.P2)
 					minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);
-			} 
-			if (in_foglia.getNext() != null) {			
-				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN)
-					in_foglia.getPadre().setColor(in_foglia.getColor());	
-				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED)
-					in_foglia.getPadre().setColor(in_foglia.getColor());
-			} 
-			else if (in_foglia.getNext() == null && in_foglia.getPadre().getColor() == Colors.WHITE)
-				in_foglia.getPadre().setColor(in_foglia.getColor());
+			}
+			// Colorazione dell'albero secondo i criteri del minMax
+			if (in_foglia.getNext() != null) {											// Se ha dei un almeno un fratello minore
+				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN)					// Se lo stato di Slow_Unmade è diverso da quello del livello e la foglia è verde
+					in_foglia.getPadre().setColor(in_foglia.getColor());						// Si colora il padre di verde
+				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED)				// Altrimenti, se lo stato di Slow_Unmade è uguale a quello del livello e la foglia è rossa
+					in_foglia.getPadre().setColor(in_foglia.getColor());						// Si colora il padre di rosso
+			} else if (in_foglia.getNext() == null &&									// Altrimeti, se è l'ultimo figlio
+					   in_foglia.getPadre().getColor() == Colors.WHITE)					// e il padre è sprovvisto di colori
+				in_foglia.getPadre().setColor(in_foglia.getColor());						// Si il padre avrà lo stesso colore del suo ultimo figlio
 			in_foglia = in_foglia.getNext();
 		}
 	}
 
-	
-	
-	
-	
-	/*
-	public TreeNode minMax_v2 (TreeNode in_node, MNKCellState in_botState, ) {
-		int eval = 0;
-		if (in_node.getPrimoFiglio() == null) {
-			if (in_node.getMNKBoard().gameState() == MNKGameState.WINP1 && in_botState == MNKCellState.P1) eval = 1;
-			else if (in_node.getMNKBoard().gameState() == MNKGameState.WINP2 && in_botState == MNKCellState.P2) eval = 1;
-			else eval = -1;
-		}
-	
-	}
-	*/
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// Ritorna il nodo migliore tra i nodi del livello sottostante a quello del padre
-	/*
-	protected TreeNode sceltaPercorso_1LV (TreeNode in_padre) {
-		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
-		TreeNode winNode = primoFiglio;												// Nodo ritornato
-		int maxBeta = Integer.MIN_VALUE;
-
-		while (primoFiglio != null) {								// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
-			if (primoFiglio.getBeta() > maxBeta) {
-				maxBeta = primoFiglio.getBeta();
-				winNode = primoFiglio;
-			} else if (primoFiglio.getBeta() == maxBeta) {
-				if (primoFiglio.getAlpha() > winNode.getAlpha()) winNode = primoFiglio;
-			}
-			primoFiglio = primoFiglio.getNext();
-		}
-		return winNode;
-	}
-	*/
 	protected TreeNode sceltaPercorso (TreeNode in_padre, boolean in_takeMaxBeta, MNKCellState in_botState) {
 		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
-		TreeNode winNode = primoFiglio;								// Nodo ritornato
+		TreeNode winNode = primoFiglio;								// Nodo da ritornare
 		
 		if (in_takeMaxBeta) {
 			float maxBeta = Float.MIN_VALUE;
-			while (primoFiglio != null) {								// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
-				if (primoFiglio.getBeta() > maxBeta) {
+			while (primoFiglio != null) {												// Scorre tutti i figli e tira fuori quello col beta maggiore di tutti (winNode)
+				if (primoFiglio.getBeta() > maxBeta) {									// Se un nuovo maxBeta si aggiorna il nodo vincente
 					maxBeta = primoFiglio.getBeta();
 					winNode = primoFiglio;
-				} else if (primoFiglio.getBeta() == maxBeta)
-					if (primoFiglio.getAlpha() > winNode.getAlpha()) winNode = primoFiglio;
+				} else if (primoFiglio.getBeta() == maxBeta)							// Se si hanno valori identici di maxBeta
+					if (primoFiglio.getAlpha() > winNode.getAlpha()) winNode = primoFiglio;	// Si sceglie il nodo con l'alpha minore
 				primoFiglio = primoFiglio.getNext();
 			}
 			return winNode;
-		}
-		
-		else { //fai minimax
+		} else {
 			while (primoFiglio != null) {
 				if (primoFiglio.getColor() == Colors.GREEN)
 					return primoFiglio;
@@ -115,8 +77,6 @@ public class Algoritms {
 			}
       
 			// Se non ha trovato nodi di colore verde
-			Tree tree = new Tree();
-			
 			primoFiglio = in_padre.getPrimoFiglio();
 			while (primoFiglio != null) {
 				attackFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
@@ -139,8 +99,9 @@ public class Algoritms {
 	
 	// BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
 
+	// Funzione inutilizzata
 	protected void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
-	 	/*
+	/*
     if (in_primoFiglio.getPrimoFiglio() != null) {              // Se il nodo in questione ha dei figli
       bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
 		}
