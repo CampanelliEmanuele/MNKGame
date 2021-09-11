@@ -30,7 +30,6 @@ public class Algoritms {
 				if (in_BT == MNKCellState.P1) in_foglia.setColor(Colors.RED);
 				else in_foglia.setColor(Colors.GREEN);
 			}
-			//else in_padre.setColor(Colors.GREY);
 			else in_foglia.setColor(Colors.RED);
 		}
 		*/
@@ -97,12 +96,8 @@ public class Algoritms {
 				in_padre.getMNKBoard().markCell(in_padre.getPriority_i(), in_padre.getPriority_j());
 				return in_padre;
 			}
-			
 		}
-		
 	}
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
 
@@ -153,6 +148,5 @@ public class Algoritms {
       }
 
 	}
-  // fine bigSolve
 
 }

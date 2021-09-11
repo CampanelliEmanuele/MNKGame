@@ -8,43 +8,9 @@ public class Tree {
 
 	public Tree () {}
 	
-	/**
-	 * La funzioni principali di codesto file sono defenseCell ed assegnaValoreABFoglia, le quali fanno uso
-	 * di un array contenente le principali variabili. Il resto dei metodi della classe vertono sulla
-	 * modifiche di quest'ultime.
-	 * 
-	 * Per memorizzare i sottoalberi si utilizza una struttura dati dinamica omogena lineare.
-	 */
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/*
-	protected void quickMark (TreeNode in_radice, boolean in_first) {
-		int start = 1; if (in_first) start = 0;
-		MNKCell[] MC = in_radice.getMNKBoard().getMarkedCells();
-		
-		// Si scorrono le celle marcate fino a quando non se ne trova una con k spazi liberi
-		for (int pos = start; pos < MC.length; pos += 2) {
-			int i_MC = MC[pos].i;
-			int j_MC = MC[pos].j;
-			int M = in_radice.getMNKBoard().M;
-			int N = in_radice.getMNKBoard().N;
-			int K = in_radice.getMNKBoard().K;
-			int strike = 0;
-			
-			for (int c = 0; c <= N - 1; c++) {     	// Controllo della i-esima riga (da sx verso dx)
-				
-			}
-		}
-	
-	}
-	*/
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	public void createTree (TreeNode in_padre, int in_depthLimit, boolean in_first) {
 		/**
-		 * Invocazione: ???
+		 * Invocazione: Quando si è oltre il secondo turno, è la prima azione svolta dal bot.
 		 * 
 		 * Funzione: Crea in_depthLimit livelli di un albero avente come nodi dei TreeNode.
 		 * 			 L'albero è implementato tramite puntatori ai nodi primoFiglio e fratelli.
