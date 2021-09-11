@@ -43,7 +43,6 @@ public class AttackLogistics {
     private static final int maxStrike = 11;              // Massimo valore di strike registrato durante l'analisi della riga/colonna/diagonale in questione
     private static final int localWinSituations = 12;     // Situazioni vicine alla vittoria nella riga/colonna/diagonale in analisi
     private static final int globalWinSituations = 13;    // Situazione vicine alla vittoria nella tabella di gioco in questione
-    
     // Funzione richiamata una volta finito di controllare un set
     private static void AB_editVar (int[] in_AB_vars, boolean in_noEnemy) {
         /**
@@ -52,6 +51,7 @@ public class AttackLogistics {
 		 * Funzione: Ad ogni nuovo controllo su una nuova board, si fanno dei
          *           controlli per modificare i punteggi.
 		 */
+        
         if (in_noEnemy)
             in_AB_vars[tmp] += 1;
         if (in_AB_vars[localWinSituations] == 0 &&              // Se non vi sono registrate situazioni prossime alla vittoria
@@ -129,12 +129,13 @@ public class AttackLogistics {
     
             // Si esegue la valutazione per attribuire un valore ad entrambi i simboli alpha e beta di ogni giocatore
             for (int alphaBeta = 0; alphaBeta < 2; alphaBeta++) {
-    
+                
                 for (int pos = alphaBeta; pos < MC.length; pos += 2) {		// La prima volta scorre le pos del P1: 0,2,4,..., la seconda volta le posizioni del P2: 1,3,5,...
                     boolean noEnemy = true;                       	        // Variabile che tiene conto della presenza di nemici in un set
                     int i_MC = MC[pos].i;   								// Coordinata i (riga) della cella in analisi
                     int j_MC = MC[pos].j;   								// Coordinata j (colonna) della cella in analisi
-    
+                    long start = System.currentTimeMillis();
+                    
                     // Controllo set orizzontale
                     for (int c = 0; c <= AB_vars[j_colonne]; c++) {     	// Controllo della i-esima riga (da sx verso dx)
                         if (board.cellState(i_MC, c) == currentPlayer)
@@ -149,7 +150,13 @@ public class AttackLogistics {
                     }
                     AB_editVar (AB_vars, noEnemy);
                     noEnemy = true;
-    
+                    if ((System.currentTimeMillis()-start)/1000.0 > 10000*(99.0/100.0)) {
+                        MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
+                        in_foglia.setPriority_i(FC[0].i);
+                        in_foglia.setPriority_j(FC[0].j);
+                        return;
+                    }
+
                     // Controllo riga in verticale
                     for (int r = 0; r <= AB_vars[i_righe]; r++) {     			// Controllo della j-esima colonna (dall'alto verso il basso)
                         if (board.cellState(r, j_MC) == currentPlayer)
@@ -164,6 +171,12 @@ public class AttackLogistics {
                     }
                     AB_editVar (AB_vars, noEnemy);
                     noEnemy = true;
+                    if ((System.currentTimeMillis()-start)/1000.0 > 10000*(99.0/100.0)) {
+                        MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
+                        in_foglia.setPriority_i(FC[0].i);
+                        in_foglia.setPriority_j(FC[0].j);
+                        return;
+                    }
     
                     // Controllo diagonale
                     if (AB_vars[i_righe] + 1 >= AB_vars[k] && AB_vars[j_colonne] + 1 >= AB_vars[k]) {   // Se la mappa percmette la creazione di set diagonali
@@ -191,6 +204,12 @@ public class AttackLogistics {
                             }
                             AB_editVar (AB_vars, noEnemy);
                             noEnemy = true;
+                            if ((System.currentTimeMillis()-start)/1000.0 > 10000*(99.0/100.0)) {
+                                MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
+                                in_foglia.setPriority_i(FC[0].i);
+                                in_foglia.setPriority_j(FC[0].j);
+                                return;
+                            }
                         }
     
                         // Scorrimento verso in alto a dx
@@ -213,6 +232,12 @@ public class AttackLogistics {
                             }
                             AB_editVar (AB_vars, noEnemy);
                             noEnemy = true;
+                            if ((System.currentTimeMillis()-start)/1000.0 > 10*(99.0/100.0)) {
+                                MNKCell[] FC = in_foglia.getMNKBoard().getFreeCells();
+                                in_foglia.setPriority_i(FC[0].i);
+                                in_foglia.setPriority_j(FC[0].j);
+                                return;
+                            }
                         }
                     } //else   	    						// Se il controllo diagonale non può essere eseguito a causa dei valori di M,N e K
                         //System.out.println("NO DIAGONAL SET - FUNZIONE: assegnaValoreABFoglia - Valori MNK non consoni per set diagonali.");
@@ -246,6 +271,63 @@ public class AttackLogistics {
                 //System.out.println("winState: " + winState + " ; in_botState: " + in_botState);
                 in_foglia.setAlpha(Integer.MAX_VALUE);
             }
+        }
+    }
+
+    public void basicMarking (MNKBoard in_B, MNKCellState botState) {
+        int start = 0;
+        if (botState == MNKCellState.P2) start = 1;
+        MNKCell[] MC = in_B.getMarkedCells();
+        int rows = in_B.M - 1;
+        int columns = in_B.N - 1;
+
+        System.out.println("Marcamento rapido");
+
+
+        for (int el = start; el < MC.length; el += 2) {
+            int i_MC = MC[el].i;                        // Coordinata i (riga) della cella in analisi
+            int j_MC = MC[el].j;   						// Coordinata j (colonna) della cella in analisi
+
+            if (botState == MNKCellState.P1) {
+                if (i_MC - 1 >= 0 &&
+                in_B.cellState(i_MC - 1, j_MC) == MNKCellState.FREE) {       // ALTO
+                    in_B.markCell(i_MC - 1, j_MC);
+                    return;
+                } else if (i_MC - 1 >= 0 && j_MC + 1 <= columns &&
+                    in_B.cellState(i_MC - 1, j_MC + 1) == MNKCellState.FREE) {   // ALTO DX
+                    in_B.markCell(i_MC - 1, j_MC + 1);
+                    return;
+                } else if (j_MC + 1 <= columns &&
+                    in_B.cellState(i_MC, j_MC + 1) == MNKCellState.FREE) {       // DX
+                    in_B.markCell(i_MC, j_MC + 1);
+                    return;
+                } else if (i_MC + 1 <= rows && j_MC + 1 <= columns &&
+                    in_B.cellState(i_MC + 1, j_MC + 1) == MNKCellState.FREE){   // BASSO DX
+                    in_B.markCell(i_MC + 1, j_MC + 1);
+                    return;
+                } else if (i_MC + 1 <= rows &&
+                    in_B.cellState(i_MC + 1, j_MC) == MNKCellState.FREE) {       // BASSO
+                    in_B.markCell(i_MC + 1, j_MC);
+                    return;
+                } else if (i_MC + 1 <= rows && j_MC - 1 >= 0 &&
+                    in_B.cellState(i_MC + 1, j_MC - 1) == MNKCellState.FREE) {   // BASSO SX
+                    in_B.markCell(i_MC + 1, j_MC - 1);
+                    return;
+                } else if (j_MC - 1 >= 0 && 
+                    in_B.cellState(i_MC, j_MC - 1) == MNKCellState.FREE) {       // SX
+                    in_B.markCell(i_MC, j_MC - 1);
+                    return;
+                } else if (j_MC - 1 >= 0 && i_MC - 1 >= 0 && 
+                    in_B.cellState(i_MC - 1, j_MC - 1) == MNKCellState.FREE) {   // ALTO SX
+                    in_B.markCell(i_MC - 1, j_MC - 1);
+                    return;
+                } else {
+                    MNKCell[] FC = in_B.getFreeCells();
+                    in_B.markCell(FC[0].i, FC[0].j);
+                }
+
+            }
+
         }
     }
 
