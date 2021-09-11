@@ -1,23 +1,13 @@
 package subroutine;
 
-//import java.lang.Math;
-import java.util.Random;
-
 import mnkgame.MNKBoard;
 import mnkgame.MNKCell;
 import mnkgame.MNKCellState;
-import mnkgame.MNKGameState;
 import mnkgame.MNKPlayer;
 import subroutine.TreeFunctions.AttackLogistics;
 import subroutine.TreeFunctions.DefenseLogistics;
 import subroutine.TreeFunctions.Tree;
 import subroutine.TreeFunctions.TreeNode;
-
-// javac -cp ".." *.java
-// java -cp ".." mnkgame.MNKGame 3 3 3 subroutine.GroupPlayer
-// rm -r *.class
-
-// set: È quel "pezzo" di celle lungo tutta la linea (orizzontale, verticale o diagonale) che viene analizzato di votla in volta
 
 public class GroupPlayer implements MNKPlayer {
 
