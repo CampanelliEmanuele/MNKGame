@@ -5,54 +5,12 @@ import subroutine.TreeFunctions.*;
 
 public class Algoritms {
 
-	private boolean first;
-
-	protected Algoritms (boolean in_first) { this.first = in_first; }
+	protected Algoritms () {}
   
 	Tree tree = new Tree();
 	DefenseLogistics defenseFunctions = new DefenseLogistics();
 	AttackLogistics attackFunctions = new AttackLogistics();
   
-	/*
-	 * MAX:  BT == S -> RED
-	 * min:  BT != S -> GREEN
-	 */
-	// Non si parte dalla radice ma dal primoFiglio dell'albero
-	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodo
-	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
-		/*
-		if (in_foglia.getColor() == Colors.WHITE) {
-			if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP1) {
-				if (in_BT == MNKCellState.P1) in_foglia.setColor(Colors.GREEN);
-				else in_foglia.setColor(Colors.RED);
-			}
-			else if (in_foglia.getMNKBoard().gameState() == MNKGameState.WINP2) {
-				if (in_BT == MNKCellState.P1) in_foglia.setColor(Colors.RED);
-				else in_foglia.setColor(Colors.GREEN);
-			}
-			else in_foglia.setColor(Colors.RED);
-		}
-		*/
-		while (in_foglia != null) {													// Per ogni nodo di un livello
-			if (in_foglia.getPrimoFiglio() != null) {									// Se non è una foglia si scende di livello cambiando stato
-				if (in_S == MNKCellState.P1)
-					minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P2);			
-				else if (in_S == MNKCellState.P2)
-					minMax (in_foglia.getPrimoFiglio(), in_BT, MNKCellState.P1);
-			}
-			// Colorazione dell'albero secondo i criteri del minMax
-			if (in_foglia.getNext() != null) {											// Se ha dei un almeno un fratello minore
-				if (in_BT != in_S && in_foglia.getColor() == Colors.GREEN)					// Se lo stato di Slow_Unmade è diverso da quello del livello e la foglia è verde
-					in_foglia.getPadre().setColor(in_foglia.getColor());						// Si colora il padre di verde
-				else if (in_BT == in_S && in_foglia.getColor() == Colors.RED)				// Altrimenti, se lo stato di Slow_Unmade è uguale a quello del livello e la foglia è rossa
-					in_foglia.getPadre().setColor(in_foglia.getColor());						// Si colora il padre di rosso
-			} else if (in_foglia.getNext() == null &&									// Altrimeti, se è l'ultimo figlio
-					   in_foglia.getPadre().getColor() == Colors.WHITE)					// e il padre è sprovvisto di colori
-				in_foglia.getPadre().setColor(in_foglia.getColor());						// Si il padre avrà lo stesso colore del suo ultimo figlio
-			in_foglia = in_foglia.getNext();
-		}
-	}
-
 	protected TreeNode sceltaPercorso (TreeNode in_padre, boolean in_takeMaxBeta, MNKCellState in_botState) {
 		/**
 		 * Invocazione: Dopo aver creato l'albero, è usata per decretare il nodo contente la mossa migliore.
@@ -60,7 +18,6 @@ public class Algoritms {
 		 * Funzione: Prende in input il nodo padre, un booleano per capire se bisogna prenere il massimo
 		 * 			 valore di beta o meno, ed un altro booleano che indica lo stato di Slow_Unmade.
 		 */
-		
 		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
 		TreeNode winNode = primoFiglio;								// Nodo da ritornare
 		
@@ -99,54 +56,6 @@ public class Algoritms {
 		}
 	}
 	
-	// BIG SOLVE SI APPLICA SOLO ALLE FOGLIE DEL PRIMO FIGLIO !!!
-
-	// Funzione inutilizzata
-	protected void bigSolve2 (TreeNode in_primoFiglio, boolean myTurn) {
-	/*
-    if (in_primoFiglio.getPrimoFiglio() != null) {              // Se il nodo in questione ha dei figli
-      bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
-		}
-    */
-    //else {                                                    // Se il nodo in questione non ha dei figli
-      TreeNode tmpHead = in_primoFiglio;
-      float maxTmp = Float.MIN_VALUE;
-      if (myTurn) {                                             // Se è il mio turno, dovrò passare al padre il miglior valore di alpha (in quanto il padre rappresenta la scelta per l'avversaio)
-        System.out.println("CASE: myTurn");
-        while (in_primoFiglio != null) {                        // Per ogni fratello della foglia
-          System.out.println("A: " + in_primoFiglio.getAlpha() + " ; B: " + in_primoFiglio.getBeta());
-          //if (in_primoFiglio.getBeta() <= in_primoFiglio.getAlpha()) {  //cutoff
-          if (in_primoFiglio.getAlpha() < in_primoFiglio.getBeta()) {  //cutoff
-            System.out.println("NODO: B: " + in_primoFiglio.getBeta() + " ; A" + in_primoFiglio.getAlpha());
-            if (in_primoFiglio.getPrimoFiglio() != null)
-            	bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);
-            if (in_primoFiglio.getAlpha() > maxTmp)
-            	maxTmp = in_primoFiglio.getAlpha();
-          }
-          in_primoFiglio = in_primoFiglio.getNext();
-        }
-      } else {    //turno dell'avversario, si guarda alpha <= beta perchè ci si mette nei panni dell'altro giocatore
-      System.out.println("CASE: not myTurn");
-        while (in_primoFiglio != null) {
-          System.out.println("NODO: B: " + in_primoFiglio.getBeta() + " ; A" + in_primoFiglio.getAlpha());
-          //if (in_primoFiglio.getAlpha() <= in_primoFiglio.getBeta()) {   //cutoff
-          if (in_primoFiglio.getBeta() < in_primoFiglio.getAlpha()) {  //cutoff
-            if (in_primoFiglio.getPrimoFiglio() != null)
-            	bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);
-            if (in_primoFiglio.getBeta() > maxTmp)
-            	maxTmp = in_primoFiglio.getBeta();
-          }
-          in_primoFiglio = in_primoFiglio.getNext();
-        }
-      }
-
-	  if (tmpHead.getPadre() != null) {                                                         // Se non si è arrivati alla radice dell'albero
-        if (myTurn && tmpHead.getPadre().getAlpha() < maxTmp)                                   // Se è il mio turno e ...
-          tmpHead.getPadre().setAlpha(maxTmp);      											// Si aggiorna il valore alpha del padre
-        else if (tmpHead.getPadre().getBeta() < maxTmp)                                         // Altrimenti se è un turno avversario
-           tmpHead.getPadre().setBeta(maxTmp);        											// Si aggiorna beta di in_primoFiglio
-      }
-
-	}
+	
 
 }
