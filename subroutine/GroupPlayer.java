@@ -72,19 +72,19 @@ public class GroupPlayer implements MNKPlayer {
 				//System.out.println("Marcamento rapido - i: " + B.getMarkedCells()[B.getMarkedCells().length - 1].i + " ; j: " + B.getMarkedCells()[B.getMarkedCells().length - 1].j);
 				return B.getMarkedCells()[B.getMarkedCells().length - 1];
 			} else {
-				System.out.print("Inizio creazione albero - ");
+				//System.out.print("Inizio creazione albero - ");
 				tree.createTree(radice, 2, first);												// Crea il livello sottostante
-				System.out.print("Albero creato\nAssegnamento valori AB - ");
+				//System.out.print("Albero creato\nAssegnamento valori AB - ");
 	
 				attackFunctions.vaiAlleFoglie(radice, botState);								// Assegna i valori AB
 				if (radice.getPriority_i() >= 0) { 												// Se c'è una cella da difendere
-                    System.out.println("Limite di tempo scaduto - Marcamento randomico");
+                    //System.out.println("Limite di tempo scaduto - Marcamento randomico");
 					return new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState);
 				}	
-				System.out.print("Valori AB assegnati\nInizio scelta percorso - ");
+				//System.out.print("Valori AB assegnati\nInizio scelta percorso - ");
 	
 				TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);			// Nodo con la mossa da ritornare
-				System.out.println("Scelta percorso terminata\n");
+				//System.out.println("Scelta percorso terminata\n");
 				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
 						
 				if (winCell.getBeta() == Integer.MAX_VALUE) 									// Se c'è una vittoria imminente per Slow_Unmade
