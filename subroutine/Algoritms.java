@@ -18,7 +18,7 @@ public class Algoritms {
 	 * min:  BT != S -> GREEN
 	 */
 	// Non si parte dalla radice ma dal primoFiglio dell'albero
-	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodos
+	// Se ultimo nodo è GREEN -> Corretto; se ultimo nodo è RED -> assegna WHITE all'ultimo nodo
 	public void minMax (TreeNode in_foglia, MNKCellState in_BT, MNKCellState in_S) {
 		/*
 		if (in_foglia.getColor() == Colors.WHITE) {
@@ -55,6 +55,13 @@ public class Algoritms {
 	}
 
 	protected TreeNode sceltaPercorso (TreeNode in_padre, boolean in_takeMaxBeta, MNKCellState in_botState) {
+		/**
+		 * Invocazione: Dopo aver creato l'albero, è usata per decretare il nodo contente la mossa migliore.
+		 * 
+		 * Funzione: Prende in input il nodo padre, un booleano per capire se bisogna prenere il massimo
+		 * 			 valore di beta o meno, ed un altro booleano che indica lo stato di Slow_Unmade.
+		 */
+		
 		TreeNode primoFiglio = in_padre.getPrimoFiglio();			// Serve per lo scorrimento dei fratelli
 		TreeNode winNode = primoFiglio;								// Nodo da ritornare
 		
@@ -69,23 +76,23 @@ public class Algoritms {
 				primoFiglio = primoFiglio.getNext();
 			}
 			return winNode;
-		} else {
-			while (primoFiglio != null) {
-				if (primoFiglio.getColor() == Colors.GREEN)
-					return primoFiglio;
+		} else {																	// Se non bisogna ritornare il nodo col beta maggiore
+			while (primoFiglio != null) {												// Si scorre il livello
+				if (primoFiglio.getColor() == Colors.GREEN)									// Se c'è un nodo vincente 
+					return primoFiglio;															// Lo si ritorna
 				primoFiglio = primoFiglio.getNext();
 			}
       
 			// Se non ha trovato nodi di colore verde
 			primoFiglio = in_padre.getPrimoFiglio();
 			while (primoFiglio != null) {
-				attackFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);
+				attackFunctions.assegnaValoreABFoglia(primoFiglio, in_botState);		// Si assegnagno i valori alpha e beta ai nodi del livello
 				primoFiglio = primoFiglio.getNext();
 			}
-			defenseFunctions.defenseCell(in_padre, in_botState);
+			defenseFunctions.defenseCell(in_padre, in_botState);						// Si cerca una possibile cella da difendere
 			
-			if (in_padre.getPriority_i() < 0)
-				return sceltaPercorso (in_padre, true, in_botState);
+			if (in_padre.getPriority_i() < 0)											// Se non ci sono celle da difendere
+				return sceltaPercorso (in_padre, true, in_botState);						// Si fa la chiamata ricorsiva abilitando la ricerca del maxBeta
 			else {
 				in_padre.getMNKBoard().markCell(in_padre.getPriority_i(), in_padre.getPriority_j());
 				return in_padre;
@@ -106,7 +113,7 @@ public class Algoritms {
       bigSolve2 (in_primoFiglio.getPrimoFiglio(), !myTurn);     // Si applica bigSolve al livello sottostante
 		}
     */
-    //else {                                                      // Se il nodo in questione non ha dei figli
+    //else {                                                    // Se il nodo in questione non ha dei figli
       TreeNode tmpHead = in_primoFiglio;
       float maxTmp = Float.MIN_VALUE;
       if (myTurn) {                                             // Se è il mio turno, dovrò passare al padre il miglior valore di alpha (in quanto il padre rappresenta la scelta per l'avversaio)
