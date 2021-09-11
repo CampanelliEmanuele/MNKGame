@@ -17,6 +17,8 @@ import subroutine.TreeFunctions.TreeNode;
 // java -cp ".." mnkgame.MNKGame 3 3 3 subroutine.GroupPlayer
 // rm -r *.class
 
+// set: È quel "pezzo" di celle lungo tutta la linea (orizzontale, verticale o diagonale) che viene analizzato di votla in volta
+
 public class GroupPlayer implements MNKPlayer {
 
 	private static MNKBoard B;

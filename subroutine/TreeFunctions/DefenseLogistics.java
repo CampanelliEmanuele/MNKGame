@@ -8,18 +8,23 @@ public class DefenseLogistics {
 
 	public DefenseLogistics () {}
     
-    private static final int D_length = 10;             // Array contenente le principali variabili della funzione assegnaValoreABFoglia
+    private static final int D_length = 10;              // Array contenente le principali variabili della funzione assegnaValoreABFoglia
 	
 	// Indici delle variabili dell'array
 	private static final int i_righe = 0;                // RIGHE    (i = M - 1)
 	private static final int j_colonne = 1;              // COLONNE  (j = N - 1)
-	private static final int k = 2;						// Valore K della board
-	private static final int ec_counter = 5;			// Conta quante celle dello stesso tipo si susseguono, si resetta dopo due AB_freeCell consecutive (ha 1 AB_freeCell di margine perchè si fa un controllo per K-1 simboli)
-	private static final int fc_counter = 6;			// AB_freeCell che si susseguono
-	private static final int priority_i = 8;			// Coordinata (locale alla board del nodo) i della cella da difendere
-	private static final int priority_j = 9;			// Coordinata (locale alla board del nodo) j della cella da difendere
+	private static final int k = 2;						 // Valore K della board
+	private static final int ec_counter = 5;			 // Conta quante celle dello stesso tipo si susseguono, si resetta dopo due AB_freeCell consecutive (ha 1 AB_freeCell di margine perchè si fa un controllo per K-1 simboli)
+	private static final int fc_counter = 6;		 	 // AB_freeCell che si susseguono
+	private static final int priority_i = 8;			 // Coordinata (locale alla board del nodo) i della cella da difendere
+	private static final int priority_j = 9;			 // Coordinata (locale alla board del nodo) j della cella da difendere
 
 	private static boolean checkDefense (TreeNode in_node) {
+		/**
+		 * Invocazione: Controllo per interruzione di altri funzioni.
+		 * 
+		 * Funzione: Ritorna true se il nodo ha una cella da difendere, false altrimenti,
+		 */
 		if (in_node.getPriority_i() >= 0 && in_node.getPriority_j() >= 0)
 			return true;
 		else
@@ -28,9 +33,9 @@ public class DefenseLogistics {
 	
 	private static void D_editVar (int[] in_D_vars) {
 		/**
-		 * Invocazione (defenseCell): Alla fine del controllo di un set.
+		 * Invocazione: Durante il controllo di un set.
 		 * 
-		 * Funzione: Ad ogni nuovo controllo su una nuova board, bisogna resettare tali variabili per:
+		 * Funzione: Ad ogni nuovo controllo su una nuova board, resetta tali variabili per:
 		 */
 		in_D_vars[ec_counter] = 0;	// Tenere il conto dei simboli nel nuovo set in analisi
 		in_D_vars[fc_counter] = 0;
@@ -40,8 +45,7 @@ public class DefenseLogistics {
 	
 	private static void D_enemyCell (int[] in_D_vars, TreeNode in_nodo) {
 		/**
-		 * Invocazione (defenseCell): Quando si incombe in una cella nemica a
-		 * 							  Slow_Unmade durante il controllo di un set.
+		 * Invocazione: Quando si incombe in una cella nemica durante il controllo di un set.
 		 * 
 		 * Funzione: Modifica delle variabili dell'array.
 		 */
@@ -54,8 +58,7 @@ public class DefenseLogistics {
 	
 	private static void D_freeCell (int[] in_D_vars, TreeNode in_node, int in_i, int in_j) {
 		/**
-		 * Invocazione (defenseCell): Quando si incombe in una cella libera durante il
-		 * 			  				  controllo di un set.
+		 * Invocazione: Quando si incombe in una cella libera durante il controllo di un set.
 		 * 
 		 * Funzione: Modifica delle variabili dell'array.
 		 */
@@ -75,8 +78,8 @@ public class DefenseLogistics {
 	
 	public void defenseCell (TreeNode in_foglia, MNKCellState in_botState) {
 		/**
-		 * Invocazione: Prima del metodo che decreta la cella più conveniente
-		 * 				da marcare.
+		 * Invocazione: Per controllare se un nodo ha una board con una cella da marcare
+		 * 				onde evitare la sconfitta.
 		 * 
 		 * Funzione: Controlla tramite i set, se vi sono celle da marcare
 		 * 			 per evitare l'imminente vittoria avversaria.
@@ -190,11 +193,9 @@ public class DefenseLogistics {
 					D_editVar (D_vars);	
 				}
 			}
-			// end if - controllo diagonale
-			else   							 // Se il controllo diagonale non può essere eseguito a causa dei valori di M,N e K
-				System.out.println("NO DIAGONAL SET - FUNZIONE: PriorityCell - Valori MNK non consoni per set diagonali.");
+			//else   							 // Se il controllo diagonale non può essere eseguito a causa dei valori di M,N e K
+				//System.out.println("NO DIAGONAL SET - FUNZIONE: PriorityCell - Valori MNK non consoni per set diagonali.");
 		}
-		// fine for scorrimento delle MC
 	}
 
 }
