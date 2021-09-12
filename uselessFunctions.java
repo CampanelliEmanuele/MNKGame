@@ -5,6 +5,115 @@ import subroutine.TreeFunctions.*;
 public class uselessFunctions {
     
     /*
+	public static void main (String[] args) {
+		Functions tree = new Functions();				// Creazione dell'oggetto per l'uso delle funzioni
+		Algoritms algoritms = new Algoritms(first);							// Creazione dell'oggetto per l'uso delle funzioni
+		Stampa stampa = new Stampa();
+
+		System.out.println("È partito!");
+
+		// K piccolo: + tempo assegnaValoreABFoglia (controlli diagonali)
+		//						- tempo creazione albero
+		// K grande:  - ...
+		// 						+ ...
+		// Preferenza del K piccolo
+
+		M = 5;											// Parte da rimuovere in futuro
+		N = 5;											// Parte da rimuovere in futuro
+		K = 4;											// Parte da rimuovere in futuro
+		B = new MNKBoard (M,N,K);
+
+		MNKCell[] FC = B.getFreeCells();				// Parte da rimuovere in futuro
+		
+		//B.markCell (FC[0].i, FC[0].j);	// 11
+		//B.markCell (FC[1].i, FC[1].j);	// 21
+		//B.markCell (FC[2].i, FC[2].j);	// 01
+		//B.markCell (FC[3].i, FC[3].j);	// 12
+		
+		//B.markCell (FC[4].i, FC[4].j);	// 20
+		
+		//B.markCell (FC[5].i, FC[5].j);	// 10
+		//B.markCell (FC[6].i, FC[6].j);	// 22
+		B.markCell(2, 3);
+		B.markCell(0, 3);
+		
+		B.markCell(4, 0);
+		B.markCell(1, 1);
+		
+		B.markCell(2, 2);
+		B.markCell(1, 4);
+		
+		B.markCell(3, 4);
+		B.markCell(3, 0);
+		
+		B.markCell(2, 0);
+		//B.markCell(2, 4);
+		
+		//B.markCell(2, 1); \\ enemy win
+		
+		// ___________________________________________________________________________________________
+		// Codice del selectCell
+		
+		TreeNode radice = new TreeNode (B);					// Nodo contenente la stituzione di gioco attuale
+		first = false;
+		MNKCellState botState = MNKCellState.P2; if (first) botState = MNKCellState.P1;
+		
+		if (FC.length <= -10) {
+			// DA TESTARE //tree.createTree(radice, 18, first);		// Crea il nodo sottostante
+			tree.createTree(radice, FC.length + 1, first);			// Crea il nodo sottostante
+			
+			// Modifica i colori dell'albero sottostante
+			if (botState == MNKCellState.P1) algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P2);
+			else algoritms.minMax(radice.getPrimoFiglio(), botState, MNKCellState.P1);
+			
+			TreeNode primoFiglio = radice.getPrimoFiglio();
+			while (primoFiglio != null) {
+				System.out.println("pos: " + primoFiglio.getListPosition() + " Color: " + primoFiglio.getColor());
+				primoFiglio = primoFiglio.getNext();
+			}
+
+			stampa.printMoleColor (radice);
+			
+			TreeNode winCell = algoritms.sceltaPercorso(radice, false, botState);
+			MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+			MNKCell tmp = tmpMC[tmpMC.length - 1];
+			System.out.println("minMax");
+			System.out.println("BotState: " + botState + " ; Colore radice: " + radice.getColor());
+			//System.out.println("NODO VINCENTE ##########################################################");
+			winCell.printNodeInfo();// System.out.println("minMax - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+			//return tmp;
+			
+		}
+		else {
+			tree.defenseCell(radice, botState);
+			tree.createTree(radice, 2, first);		// Crea il nodo sottostante
+			tree.vaiAlleFoglie(radice, botState);	// Assegna i valori AB
+			TreeNode winCell = algoritms.sceltaPercorso(radice, true, botState);
+			
+			if (winCell.getBeta() == Integer.MAX_VALUE || radice.getPriority_i() < 0) {
+				MNKCell[] tmpMC = winCell.getMNKBoard().getMarkedCells();
+				MNKCell tmp = tmpMC[tmpMC.length - 1];
+				System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
+				//System.out.println("NODO VINCENTE ##########################################################"); winCell.printNodeInfo(); System.out.println("AB - Cella vincente: " + "(" + tmp.i + "," + tmp.j + ")");
+				//return tmp;
+			} else {
+				MNKCell[] tmpMC = radice.getMNKBoard().getMarkedCells();
+				MNKCell tmp = new MNKCell (radice.getPriority_i(), radice.getPriority_j(), botState);
+				System.out.println(winCell.getMNKBoard().gameState() + " ; " + tmp.toString());
+				//System.out.println("NODO VINCENTE ##########################################################"); radice.printNodeInfo(); System.out.println("Difesa: " + "(" + tmp.i + "," + tmp.j + ")");
+				//return tmp;
+			}
+			
+		}
+		
+		// //////////////////
+		
+
+	}
+	// fine main
+	*/
+
+    /*
 	 * MAX:  BT == S -> RED
 	 * min:  BT != S -> GREEN
 	 */
