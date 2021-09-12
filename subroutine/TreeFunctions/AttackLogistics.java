@@ -111,12 +111,10 @@ public class AttackLogistics {
          * 			 beta tramite la funzione assegnaValoreABFoglia.
          */
         while (in_primoFiglio != null) {									// Per ogni figlio del nodo padre a cui è stata apllicata la funzione
-            long start = System.currentTimeMillis();
             if (in_primoFiglio.getPrimoFiglio() == null)                       	// Se è una foglia
                 assegnaValoreABFoglia (in_primoFiglio, in_botState);               	// Assegna i valori alpha e beta
             else                                                                // Altrimenti
                 vaiAlleFoglie (in_primoFiglio.getPrimoFiglio(), in_botState);        // Chiamata ricorsiva sui sotto-alberi
-            if (checkTime (in_primoFiglio, start)) return;
             in_primoFiglio = in_primoFiglio.getNext();
         }
     }
