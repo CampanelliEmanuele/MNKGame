@@ -162,7 +162,6 @@ public class AttackLogistics {
                             noEnemy = false;
                         } //else
                             //System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo orizzontale");
-                        //if (checkTime (in_foglia, start)) return;
                     }
                     if (checkTime (in_foglia, start)) return;
                     AB_editVar (AB_vars, noEnemy);
@@ -179,7 +178,6 @@ public class AttackLogistics {
                             noEnemy = false;
                         } //else
                             //System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo verticale");
-                        //if (checkTime (in_foglia, start)) return;
                     }
                     if (checkTime (in_foglia, start)) return;
                     AB_editVar (AB_vars, noEnemy);
@@ -209,7 +207,6 @@ public class AttackLogistics {
                                     noEnemy = false;
                                 } //else
                                     //System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx");
-                                //if (checkTime (in_foglia, start)) return;
                             }
                             if (checkTime (in_foglia, start)) return;
                             AB_editVar (AB_vars, noEnemy);
@@ -233,7 +230,6 @@ public class AttackLogistics {
                                     noEnemy = false;
                                 } //else
                                     //System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto dx --> basso sx");
-                                //if (checkTime (in_foglia, start)) return;
                             }
                             if (checkTime (in_foglia, start)) return;
                             AB_editVar (AB_vars, noEnemy);

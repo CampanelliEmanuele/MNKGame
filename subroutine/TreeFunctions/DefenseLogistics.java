@@ -100,7 +100,6 @@ public class DefenseLogistics {
 			start = 1;
 			enemyState = MNKCellState.P2;
 		}
-		
 		for (int pos = start; pos < MC.length; pos += 2) {
 			int i_MC = MC[pos].i;   								// Coordinata i (riga) della cella in analisi
 			int j_MC = MC[pos].j;   								// Coordinata j (colonna) della cella in analisi

@@ -75,7 +75,7 @@ public class GroupPlayer implements MNKPlayer {
 				//System.out.print("Inizio creazione albero - ");
 				tree.createTree(radice, 2, first);												// Crea il livello sottostante
 				//System.out.print("Albero creato\nAssegnamento valori AB - ");
-	
+				
 				attackFunctions.vaiAlleFoglie(radice, botState);								// Assegna i valori AB
 				if (radice.getPriority_i() >= 0) { 												// Se c'è una cella da difendere
                     //System.out.println("Limite di tempo scaduto - Marcamento randomico");
