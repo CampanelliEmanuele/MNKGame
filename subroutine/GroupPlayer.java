@@ -58,7 +58,6 @@ public class GroupPlayer implements MNKPlayer {
 					return new MNKCell ((int) M/2, (int) N/2, MNKCellState.FREE);						// Allora noi marchiam un angolo
 			}
 		} else {																				// Se si è oltre il secondo turno
-			//System.out.println("FC: " + FC.length);
 			if (FC.length == 1) return FC[0];
 
 			MNKCell[] tmpMC_ = B.getMarkedCells();

@@ -192,8 +192,6 @@ public class DefenseLogistics {
 					D_editVar (D_vars);	
 				}
 			}
-			//else   							 // Se il controllo diagonale non può essere eseguito a causa dei valori di M,N e K
-				//System.out.println("NO DIAGONAL SET - FUNZIONE: PriorityCell - Valori MNK non consoni per set diagonali.");
 		}
 	}
 
