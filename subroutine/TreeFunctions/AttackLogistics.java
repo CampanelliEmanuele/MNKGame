@@ -28,22 +28,6 @@ public class AttackLogistics {
     
     public AttackLogistics () {}
 
-    public void vaiAlleFoglie (TreeNode in_primoFiglio, MNKCellState in_botState) {
-        /**
-         * Invocazione: Subito dopo aver creato l'albero.
-         * 
-         * Funzione: Va alle foglie dell'albero passato e ne decreta i valori alpha e
-         * 			 beta tramite la funzione assegnaValoreABFoglia.
-         */
-        while (in_primoFiglio != null) {									// Per ogni figlio del nodo padre a cui è stata apllicata la funzione
-            if (in_primoFiglio.getPrimoFiglio() == null)                       	// Se è una foglia
-                assegnaValoreABFoglia (in_primoFiglio, in_botState);               	// Assegna i valori alpha e beta
-            else                                                                // Altrimenti
-                vaiAlleFoglie (in_primoFiglio.getPrimoFiglio(), in_botState);        // Chiamata ricorsiva sui sotto-alberi
-            in_primoFiglio = in_primoFiglio.getNext();
-        }
-    }
-
     private static void AB_editVar (int[] in_AB_vars, boolean in_noEnemy) {
         /**
 		 * Invocazione: Durante il controllo di un set.
@@ -119,6 +103,24 @@ public class AttackLogistics {
             return false;
     }
     
+    public void vaiAlleFoglie (TreeNode in_primoFiglio, MNKCellState in_botState) {
+        /**
+         * Invocazione: Subito dopo aver creato l'albero.
+         * 
+         * Funzione: Va alle foglie dell'albero passato e ne decreta i valori alpha e
+         * 			 beta tramite la funzione assegnaValoreABFoglia.
+         */
+        while (in_primoFiglio != null) {									// Per ogni figlio del nodo padre a cui è stata apllicata la funzione
+            long start = System.currentTimeMillis();
+            if (in_primoFiglio.getPrimoFiglio() == null)                       	// Se è una foglia
+                assegnaValoreABFoglia (in_primoFiglio, in_botState);               	// Assegna i valori alpha e beta
+            else                                                                // Altrimenti
+                vaiAlleFoglie (in_primoFiglio.getPrimoFiglio(), in_botState);        // Chiamata ricorsiva sui sotto-alberi
+            if (checkTime (in_primoFiglio, start)) return;
+            in_primoFiglio = in_primoFiglio.getNext();
+        }
+    }
+
     public void assegnaValoreABFoglia (TreeNode in_foglia, MNKCellState in_botState) {
         /**
 		 * Invocazione: Dopo la creazione dell'albero, viene invocata dalla funzione vaiAlleFoglie.
@@ -160,8 +162,7 @@ public class AttackLogistics {
                         else if (board.cellState(i_MC, c) != currentPlayer && board.cellState(i_MC, c) != MNKCellState.FREE) {
                             AB_enemyCell (AB_vars);
                             noEnemy = false;
-                        } //else
-                            //System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo orizzontale");
+                        }
                     }
                     if (checkTime (in_foglia, start)) return;
                     AB_editVar (AB_vars, noEnemy);
@@ -176,8 +177,7 @@ public class AttackLogistics {
                         else if (board.cellState(r, j_MC) != currentPlayer && board.cellState(r, j_MC) != MNKCellState.FREE) {
                             AB_enemyCell (AB_vars);
                             noEnemy = false;
-                        } //else
-                            //System.out.println ("ERRORE - Funzione: assegnaValoreABFoglia - DOVE: Controllo verticale");
+                        }
                     }
                     if (checkTime (in_foglia, start)) return;
                     AB_editVar (AB_vars, noEnemy);
@@ -205,8 +205,7 @@ public class AttackLogistics {
                                 else if (board.cellState(start_i + move, start_j + move) != currentPlayer && board.cellState (start_i + move, start_j + move) != MNKCellState.FREE) {
                                     AB_enemyCell (AB_vars);
                                     noEnemy = false;
-                                } //else
-                                    //System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto sx --> basso dx");
+                                }
                             }
                             if (checkTime (in_foglia, start)) return;
                             AB_editVar (AB_vars, noEnemy);
@@ -228,16 +227,13 @@ public class AttackLogistics {
                                 else if (board.cellState(start_i + move, start_j - move) != currentPlayer && board.cellState(start_i + move, start_j - move) != MNKCellState.FREE) {
                                     AB_enemyCell (AB_vars); 
                                     noEnemy = false;
-                                } //else
-                                    //System.out.println ("ERRORE - FUNZIONE: assegnaValoreABFoglia - DOVE: Controllo diagonale: alto dx --> basso sx");
+                                }
                             }
                             if (checkTime (in_foglia, start)) return;
                             AB_editVar (AB_vars, noEnemy);
                             noEnemy = true;
                         }
-                    } //else   	    						// Se il controllo diagonale non può essere eseguito a causa dei valori di M,N e K
-                        //System.out.println("NO DIAGONAL SET - FUNZIONE: assegnaValoreABFoglia - Valori MNK non consoni per set diagonali.");
-                    
+                    }
                     if (checkTime (in_foglia, start)) return;
                 }
                 if (primoControllo) {                                        // Se si stanno analizzando le celle del P1 (primo controllo, 0,2,4,...)
@@ -258,7 +254,6 @@ public class AttackLogistics {
             in_foglia.setAlpha(AB_vars[alpha]);
             in_foglia.setBeta(AB_vars[beta]);
         } else {
-            //if (checkTime (in_foglia, start)) return;
             MNKGameState winState = in_foglia.getMNKBoard().gameState();
             if ((winState == MNKGameState.WINP1 && in_botState == MNKCellState.P1) ||
                 (winState == MNKGameState.WINP2 && in_botState == MNKCellState.P2)) {      		// VITTORIA
