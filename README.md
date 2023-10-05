@@ -2,31 +2,49 @@
 
 Project of the course of algorithms of data structures.
 
-- Clone the project
-- Command-line compile:
-    cd mnkgame
-    javac -cp ".." *.java
-    cd ..
-    cd subroutine
-    javac -cp ".." *.java
-    
-- U can run: In the mnkgame/ folder:
-  - Legend:
-    - M,N,K are natural numbers
-    - P = P1 or P2 or P3
-    - P1 = mnkgame.RandomPlayer
-    - P2 = mnkgame.QuasiRandomPlayer
-    - P3 = subroutine.GroupPlayer
-  - Human vs Computer:
-      java -cp ".." mnkgame.MNKGame M N K *P*
-  - Computer vs Computer:
-      java -cp ".." mnkgame.MNKGame M N K *P* *P*
-  - MNKPlayerTester application:
-    - Output score only:
-      java -cp ".." mnkgame.MNKPlayerTester M N K *P* *P*
-    - Verbose output:
-      java -cp ".." mnkgame.MNKPlayerTester M N K *P* *P* -v
-    - Verbose output and customized timeout (1 sec) and number of game repetitions (10 rounds):
-      java -cp ".." mnkgame.MNKPlayerTester M N K *P* *P* -v -t 1 -r 10
+## Compilation
 
-      P.S: U can customize the use of -v, -t *number*, -r *number*
+1. Clone the repository
+
+2. Command line compilation:
+    ```
+    cd MNKGame/mnkgame
+    javac -cp ".." *.java
+    cd ../subroutine/
+    javac -cp ".." *.java
+    ```
+## Execution
+
+Go to the path: `MNKGame/mnkgame/`
+
+### Legend
+  - `M` is the number of the rows;
+  - `N` is the number of the columns;
+  - `K` is the number of the symbols to juxtapose;
+  - `P` can be one of `mnkgame.RandomPlayer`, `mnkgame.QuasiRandomPlayer` or `subroutine.GroupPlayer`.
+### Game modes
+- Human vs Computer (where `P` is the bot player):
+
+  `java -cp ".." mnkgame.MNKGame M N K P`
+
+- Computer vs Computer:
+
+  `java -cp ".." mnkgame.MNKGame M N K P P`
+
+### Other
+#### MNKPlayerTester application:
+  - Output score only:
+
+    `java -cp ".." mnkgame.MNKPlayerTester M N K P P`
+    
+  - Verbose output:
+      
+    `java -cp ".." mnkgame.MNKPlayerTester M N K P P -v`
+    
+  - Verbose output and customized timeout (1 sec) and number of game repetitions (10 rounds):
+    
+    `java -cp ".." mnkgame.MNKPlayerTester M N K P P -v -t 1 -r 10`
+    
+  - Note that you can customize the use of:
+    
+    `-v`, `-t`, `number`, `-r`, `number`
