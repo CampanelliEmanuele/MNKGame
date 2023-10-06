@@ -6,6 +6,9 @@
     - [Utils](#utils)
       - [MNKPlayerTester application](#mnkplayertester-application)
   - [Instances examples](#instances-examples)
+    - [`java -cp ".." mnkgame.MNKGame 20 20 20 mnkgame.QuasiRandomPlayer subroutine.GroupPlayer`](#java--cp--mnkgamemnkgame-20-20-20-mnkgamequasirandomplayer-subroutinegroupplayer)
+      - [First moves](#first-moves)
+      - [Final result](#final-result)
 
 # MNKGame
 
@@ -32,7 +35,10 @@ Go to the path: `MNKGame/mnkgame/`
 - `M` is the number of the rows;
 - `N` is the number of the columns;
 - `K` is the number of the symbols to juxtapose;
-- `P` can be one of `mnkgame.RandomPlayer`, `mnkgame.QuasiRandomPlayer` or `subroutine.GroupPlayer`
+- `P` can be one of:
+  - `mnkgame.RandomPlayer` (a weak bot developed by the professor)
+  - `mnkgame.QuasiRandomPlayer` (a strong bot developed by the professor)
+  - `subroutine.GroupPlayer` (the bot developed by us)
 
 ### Game modes
 
@@ -63,3 +69,13 @@ Go to the path: `MNKGame/mnkgame/`
   `-v`, `-t`, `number`, `-r`, `number`
 
 ## Instances examples
+
+### `java -cp ".." mnkgame.MNKGame 20 20 20 mnkgame.QuasiRandomPlayer subroutine.GroupPlayer`
+
+#### First moves
+
+<img title="20 20 20 start" alt="20 20 20 start" src="./images/20-20-20-start.PNG" height=450>
+
+#### Final result
+
+<img title="20 20 20 result" alt="20 20 20 stresultart" src="./images/20-20-20-result.PNG" height=450>
